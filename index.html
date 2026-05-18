@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>* ANTIFAZ 2 *</title>
+<title>* ANTIFAZ 1 *</title>
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -26,18 +26,18 @@
         padding: 0;
         display: flex;
         justify-content: center;
-        align-items: flex-start; /* Aligns to top to optimize scroll mechanics */
+        align-items: flex-start; /* Aligns to top to optimize vertical scrolling */
         min-height: 100vh;
         background-color: #000;
         font-family: Arial, sans-serif;
         padding-top: 20px;
-        padding-bottom: 80px; /* Ample breathing room at the bottom of the map */
+        padding-bottom: 80px; 
         box-sizing: border-box;
     }
 
     .link-map-container {
         position: relative; 
-        max-width: 1400px; /* Pushed up to force massive scale and explicit vertical scrolling */
+        max-width: 1400px; /* Forces massive scale so users scroll downward */
         width: 95%; 
         overflow: visible; 
     }
@@ -52,43 +52,74 @@
         cursor: pointer;
     }
 
-    /* Frantic Punk Pop & Shake Tooltip Animation */
+    /* Frantic Punk Pop & Shake Animation */
     @keyframes punkPop {
         0% {
             opacity: 0;
-            transform: translate(-50%, -130%) scale(0.4) rotate(-8deg);
+            transform: translate(-50%, -145%) scale(0.4) rotate(-8deg);
         }
         50% {
-            transform: translate(-50%, -130%) scale(1.1) rotate(4deg);
+            transform: translate(-50%, -145%) scale(1.1) rotate(4deg);
         }
         75% {
-            transform: translate(-50%, -130%) scale(0.95) rotate(-2deg);
+            transform: translate(-50%, -145%) scale(0.95) rotate(-2deg);
         }
         100% {
             opacity: 1;
-            transform: translate(-50%, -130%) scale(1) rotate(0deg);
+            transform: translate(-50%, -145%) scale(1) rotate(0deg);
         }
     }
 
+    /* Comic Book Speech Bubble Tooltip */
     .custom-tooltip {
         position: absolute;
         background-color: #000;      
         color: #ff0000;             
         border: 2px solid #fff;     
-        border-radius: 15px;        
-        padding: 6px 14px;
-        font-size: 0.9rem; /* Marginally bumped for better visibility on massive monitors */
+        border-radius: 12px; /* Slightly reduced border radius for a classic boxy comic look */       
+        padding: 8px 16px;
+        font-size: 0.95rem; 
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
         pointer-events: none;       
         opacity: 0;
-        transform: translate(-50%, -130%) scale(0.5);
+        /* Re-centered slightly higher to account for the bubble tail height */
+        transform: translate(-50%, -145%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
+        box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3); /* Pop-art flat drop shadow */
     }
 
-    /* Triggers the high-energy entrance animation on hover */
+    /* The Speech Bubble Tail Outline (White Wrapper) */
+    .custom-tooltip::before {
+        content: "";
+        position: absolute;
+        bottom: -12px; /* Pulls triangle below border line */
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 12px 10px 0; /* Creates sharp comic point triangle */
+        border-style: solid;
+        border-color: #fff transparent;
+        display: block;
+        width: 0;
+    }
+
+    /* The Speech Bubble Tail Fill (Black Inner Layer) */
+    .custom-tooltip::after {
+        content: "";
+        position: absolute;
+        bottom: -9px; 
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 10px 8px 0;
+        border-style: solid;
+        border-color: #000 transparent;
+        display: block;
+        width: 0;
+    }
+
+    /* Triggers animation state on hover */
     .custom-tooltip.visible {
         opacity: 1;
         animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -131,9 +162,9 @@
         areas.forEach(area => {
             area.addEventListener('mouseenter', () => {
                 tooltip.textContent = area.getAttribute('data-tooltip');
-                // Remove the class first to restart the CSS keyframe animation cycle cleanly
+                // Clears class and forces a layout reflow to restart the animation timeline fresh on every hover
                 tooltip.classList.remove('visible');
-                void tooltip.offsetWidth; // Forces layout reflow to restart animation memory
+                void tooltip.offsetWidth; 
                 tooltip.classList.add('visible');
             });
 
