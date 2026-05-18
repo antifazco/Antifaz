@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANTIFAZ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>* ANTIFAZ *</title>
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -33,12 +33,14 @@
         padding-top: 20px;
         padding-bottom: 80px; 
         box-sizing: border-box;
+        /* STRICT SAFENEG: Allows normal down scrolling, absolutely blocks side scrolling */
+        overflow-x: hidden; 
     }
 
     .link-map-container {
         position: relative; 
         max-width: 1400px; 
-        width: 95%; 
+        width: 95%; /* Perfect vertical-centric scaling on desktops */
         overflow: visible; 
     }
 
@@ -50,11 +52,18 @@
 
     area {
         cursor: pointer;
-        /* Disables default mobile highlight box on tap */
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Frantic Punk Pop & Shake Animation (Tightened Vertical Offset) */
+    /* MOBILE OPTIMIZATION: Max wide layout without any side-bleed */
+    @media (max-width: 767px) {
+        .link-map-container {
+            width: 100% !important; /* Spans the maximum safe width of the phone frame */
+            padding: 0;
+        }
+    }
+
+    /* Frantic Punk Pop & Shake Animation */
     @keyframes punkPop {
         0% {
             opacity: 0;
@@ -86,7 +95,6 @@
         text-transform: uppercase;
         pointer-events: none;       
         opacity: 0;
-        /* Adjusted from -145% to -122% to sit tight against the objects */
         transform: translate(-50%, -122%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
@@ -199,11 +207,9 @@
 
                         if (shape === 'circle') {
                             centerX = coords[0];
-                            // Dropped from coords[1] - coords[2] to sit tighter right above the touch boundary
                             centerY = coords[1] - (coords[2] * 0.9); 
                         } else if (shape === 'rect') {
                             centerX = (coords[0] + coords[2]) / 2;
-                            // Added a small pixel addition to tighten the gap above rectangular layouts
                             centerY = coords[1] + 10; 
                         }
 
