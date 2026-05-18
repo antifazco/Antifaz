@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>* ANTIFAZ1 *</title>
+<title>* ANTIFAZ 2 *</title>
 <style>
-    /* Custom Scrollbar to match the layout aesthetic */
+    /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 10px;
     }
     ::-webkit-scrollbar-track {
         background: #000;
     }
     ::-webkit-scrollbar-thumb {
         background: #ff0000;
+        border: 2px solid #000;
         border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
@@ -25,19 +26,19 @@
         padding: 0;
         display: flex;
         justify-content: center;
-        align-items: flex-start; /* Aligns to top so scrolling feels natural */
+        align-items: flex-start; /* Aligns to top to optimize scroll mechanics */
         min-height: 100vh;
         background-color: #000;
         font-family: Arial, sans-serif;
-        padding-top: 40px;
-        padding-bottom: 60px; /* Gives nice breathing room after scrolling to the bottom */
+        padding-top: 20px;
+        padding-bottom: 80px; /* Ample breathing room at the bottom of the map */
         box-sizing: border-box;
     }
 
     .link-map-container {
         position: relative; 
-        max-width: 750px; /* Increased from 600px to force a natural downward scroll on desktops */
-        width: 92%; /* Great padding on mobile devices */
+        max-width: 1400px; /* Pushed up to force massive scale and explicit vertical scrolling */
+        width: 95%; 
         overflow: visible; 
     }
 
@@ -45,29 +46,28 @@
         display: block;
         width: 100%;
         height: auto;
-        border-radius: 4px;
     }
 
     area {
         cursor: pointer;
     }
 
-    /* Dynamic Hover Ring Overlay */
-    .hover-indicator {
-        position: absolute;
-        border: 3px dashed #ff0000;
-        box-sizing: border-box;
-        pointer-events: none; /* Prevents the overlay from blocking click registers */
-        opacity: 0;
-        transform: scale(0.8);
-        transition: opacity 0.15s ease-out, transform 0.15s ease-out;
-        z-index: 1000;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-    }
-    
-    .hover-indicator.visible {
-        opacity: 1;
-        transform: scale(1.05); /* Slight expansion pulse on hover */
+    /* Frantic Punk Pop & Shake Tooltip Animation */
+    @keyframes punkPop {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -130%) scale(0.4) rotate(-8deg);
+        }
+        50% {
+            transform: translate(-50%, -130%) scale(1.1) rotate(4deg);
+        }
+        75% {
+            transform: translate(-50%, -130%) scale(0.95) rotate(-2deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translate(-50%, -130%) scale(1) rotate(0deg);
+        }
     }
 
     .custom-tooltip {
@@ -77,21 +77,21 @@
         border: 2px solid #fff;     
         border-radius: 15px;        
         padding: 6px 14px;
-        font-size: 0.85rem;
+        font-size: 0.9rem; /* Marginally bumped for better visibility on massive monitors */
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
         pointer-events: none;       
         opacity: 0;
-        transform: translate(-50%, -130%) scale(0.95);
-        transition: opacity 0.08s ease-out, transform 0.08s ease-out;
+        transform: translate(-50%, -130%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
     }
 
+    /* Triggers the high-energy entrance animation on hover */
     .custom-tooltip.visible {
         opacity: 1;
-        transform: translate(-50%, -130%) scale(1);
+        animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
 </style>
 </head>
@@ -99,8 +99,6 @@
 
     <div class="link-map-container" id="container">
         <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
-
-        <div id="hover-ring" class="hover-indicator"></div>
 
         <map name="antifaz-links">
             <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="Biografia" target="_blank">
@@ -128,36 +126,15 @@
     <script>
         const tooltip = document.getElementById('tooltip');
         const container = document.getElementById('container');
-        const hoverRing = document.getElementById('hover-ring');
         const areas = document.querySelectorAll('area');
 
         areas.forEach(area => {
-            area.addEventListener('mouseenter', (e) => {
-                // Update Tooltip content
+            area.addEventListener('mouseenter', () => {
                 tooltip.textContent = area.getAttribute('data-tooltip');
+                // Remove the class first to restart the CSS keyframe animation cycle cleanly
+                tooltip.classList.remove('visible');
+                void tooltip.offsetWidth; // Forces layout reflow to restart animation memory
                 tooltip.classList.add('visible');
-
-                // Read real-time scaled coordinates directly from the active map layout
-                const currentCoords = area.coords.split(',').map(Number);
-                const shape = area.getAttribute('shape');
-
-                if (shape === 'circle') {
-                    const [x, y, r] = currentCoords;
-                    hoverRing.style.borderRadius = '50%';
-                    hoverRing.style.width = `${r * 2}px`;
-                    hoverRing.style.height = `${r * 2}px`;
-                    hoverRing.style.left = `${x - r}px`;
-                    hoverRing.style.top = `${y - r}px`;
-                    hoverRing.classList.add('visible');
-                } else if (shape === 'rect') {
-                    const [x1, y1, x2, y2] = currentCoords;
-                    hoverRing.style.borderRadius = '8px';
-                    hoverRing.style.width = `${x2 - x1}px`;
-                    hoverRing.style.height = `${y2 - y1}px`;
-                    hoverRing.style.left = `${x1}px`;
-                    hoverRing.style.top = `${y1}px`;
-                    hoverRing.classList.add('visible');
-                }
             });
 
             area.addEventListener('mousemove', (e) => {
@@ -171,7 +148,6 @@
 
             area.addEventListener('mouseleave', () => {
                 tooltip.classList.remove('visible');
-                hoverRing.classList.remove('visible');
             });
         });
 
