@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>* ANTIFAZ *</title>
+<title>ANTIFAZ</title>
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -54,21 +54,21 @@
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Frantic Punk Pop & Shake Animation */
+    /* Frantic Punk Pop & Shake Animation (Tightened Vertical Offset) */
     @keyframes punkPop {
         0% {
             opacity: 0;
-            transform: translate(-50%, -145%) scale(0.4) rotate(-8deg);
+            transform: translate(-50%, -122%) scale(0.4) rotate(-8deg);
         }
         50% {
-            transform: translate(-50%, -145%) scale(1.1) rotate(4deg);
+            transform: translate(-50%, -122%) scale(1.1) rotate(4deg);
         }
         75% {
-            transform: translate(-50%, -145%) scale(0.95) rotate(-2deg);
+            transform: translate(-50%, -122%) scale(0.95) rotate(-2deg);
         }
         100% {
             opacity: 1;
-            transform: translate(-50%, -145%) scale(1) rotate(0deg);
+            transform: translate(-50%, -122%) scale(1) rotate(0deg);
         }
     }
 
@@ -86,7 +86,8 @@
         text-transform: uppercase;
         pointer-events: none;       
         opacity: 0;
-        transform: translate(-50%, -145%) scale(0.5);
+        /* Adjusted from -145% to -122% to sit tight against the objects */
+        transform: translate(-50%, -122%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
@@ -159,12 +160,12 @@
         const container = document.getElementById('container');
         const areas = document.querySelectorAll('area');
         
-        let activeArea = null; // Tracks which element is currently open on mobile
+        let activeArea = null; 
 
         areas.forEach(area => {
             // DESKTOP HOVER LOGIC
             area.addEventListener('mouseenter', (e) => {
-                if (window.matchMedia("(pointer: coarse)").matches) return; // Ignore on touchscreen devices
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
                 
                 showTooltip(area);
             });
@@ -185,25 +186,25 @@
 
             // SMART MOBILE CLICK / TOUCH INTERACTION
             area.addEventListener('click', (e) => {
-                // Check if the user is operating on a touchscreen
                 if (window.matchMedia("(pointer: coarse)").matches) {
                     if (activeArea !== area) {
-                        e.preventDefault(); // Lock the redirect link on first touch
+                        e.preventDefault(); 
                         activeArea = area;
                         
                         showTooltip(area);
                         
-                        // Center the bubble automatically on the layout hotspot shape coordinates
                         const coords = area.coords.split(',').map(Number);
                         const shape = area.getAttribute('shape');
                         let centerX, centerY;
 
                         if (shape === 'circle') {
                             centerX = coords[0];
-                            centerY = coords[1] - coords[2]; // Positions bubble right at the top edge of the circle
+                            // Dropped from coords[1] - coords[2] to sit tighter right above the touch boundary
+                            centerY = coords[1] - (coords[2] * 0.9); 
                         } else if (shape === 'rect') {
                             centerX = (coords[0] + coords[2]) / 2;
-                            centerY = coords[1]; // Positions bubble right above the top line of the block
+                            // Added a small pixel addition to tighten the gap above rectangular layouts
+                            centerY = coords[1] + 10; 
                         }
 
                         positionTooltip(centerX, centerY);
@@ -212,7 +213,6 @@
             });
         });
 
-        // Tap background to dismiss open bubble
         document.body.addEventListener('click', (e) => {
             if (e.target.tagName !== 'AREA') {
                 activeArea = null;
@@ -220,7 +220,6 @@
             }
         });
 
-        // CORE HELPER UTILITIES
         function showTooltip(element) {
             tooltip.textContent = element.getAttribute('data-tooltip');
             tooltip.classList.remove('visible');
@@ -237,7 +236,6 @@
             tooltip.classList.remove('visible');
         }
 
-        // MAP COORD RESPONSIVE RESIZER ENGINE
         function resizeMap() {
             const img = document.getElementById('map-image');
             const map = document.getElementsByName('antifaz-links')[0];
@@ -270,7 +268,6 @@
                 mapAreas[i].coords = scaled.join(',');
             }
             
-            // Auto hide any active mobile bubble during phone flips to prevent scaling errors
             if (activeArea) {
                 activeArea = null;
                 hideTooltip();
