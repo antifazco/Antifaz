@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>* ANTIFAZ 1 *</title>
+<title>* ANTIFAZ *</title>
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -26,7 +26,7 @@
         padding: 0;
         display: flex;
         justify-content: center;
-        align-items: flex-start; /* Aligns to top to optimize vertical scrolling */
+        align-items: flex-start;
         min-height: 100vh;
         background-color: #000;
         font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
 
     .link-map-container {
         position: relative; 
-        max-width: 1400px; /* Forces massive scale so users scroll downward */
+        max-width: 1400px; 
         width: 95%; 
         overflow: visible; 
     }
@@ -50,6 +50,8 @@
 
     area {
         cursor: pointer;
+        /* Disables default mobile highlight box on tap */
+        -webkit-tap-highlight-color: transparent;
     }
 
     /* Frantic Punk Pop & Shake Animation */
@@ -76,7 +78,7 @@
         background-color: #000;      
         color: #ff0000;             
         border: 2px solid #fff;     
-        border-radius: 12px; /* Slightly reduced border radius for a classic boxy comic look */       
+        border-radius: 12px;       
         padding: 8px 16px;
         font-size: 0.95rem; 
         font-weight: bold;
@@ -84,28 +86,27 @@
         text-transform: uppercase;
         pointer-events: none;       
         opacity: 0;
-        /* Re-centered slightly higher to account for the bubble tail height */
         transform: translate(-50%, -145%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
-        box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3); /* Pop-art flat drop shadow */
+        box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
     }
 
-    /* The Speech Bubble Tail Outline (White Wrapper) */
+    /* Speech Bubble Tail Outline */
     .custom-tooltip::before {
         content: "";
         position: absolute;
-        bottom: -12px; /* Pulls triangle below border line */
+        bottom: -12px; 
         left: 50%;
         transform: translateX(-50%);
-        border-width: 12px 10px 0; /* Creates sharp comic point triangle */
+        border-width: 12px 10px 0; 
         border-style: solid;
         border-color: #fff transparent;
         display: block;
         width: 0;
     }
 
-    /* The Speech Bubble Tail Fill (Black Inner Layer) */
+    /* Speech Bubble Tail Fill */
     .custom-tooltip::after {
         content: "";
         position: absolute;
@@ -119,7 +120,6 @@
         width: 0;
     }
 
-    /* Triggers animation state on hover */
     .custom-tooltip.visible {
         opacity: 1;
         animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -158,30 +158,86 @@
         const tooltip = document.getElementById('tooltip');
         const container = document.getElementById('container');
         const areas = document.querySelectorAll('area');
+        
+        let activeArea = null; // Tracks which element is currently open on mobile
 
         areas.forEach(area => {
-            area.addEventListener('mouseenter', () => {
-                tooltip.textContent = area.getAttribute('data-tooltip');
-                // Clears class and forces a layout reflow to restart the animation timeline fresh on every hover
-                tooltip.classList.remove('visible');
-                void tooltip.offsetWidth; 
-                tooltip.classList.add('visible');
+            // DESKTOP HOVER LOGIC
+            area.addEventListener('mouseenter', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; // Ignore on touchscreen devices
+                
+                showTooltip(area);
             });
 
             area.addEventListener('mousemove', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+
                 const rect = container.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-
-                tooltip.style.left = `${x}px`;
-                tooltip.style.top = `${y}px`;
+                positionTooltip(x, y);
             });
 
             area.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('visible');
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                hideTooltip();
+            });
+
+            // SMART MOBILE CLICK / TOUCH INTERACTION
+            area.addEventListener('click', (e) => {
+                // Check if the user is operating on a touchscreen
+                if (window.matchMedia("(pointer: coarse)").matches) {
+                    if (activeArea !== area) {
+                        e.preventDefault(); // Lock the redirect link on first touch
+                        activeArea = area;
+                        
+                        showTooltip(area);
+                        
+                        // Center the bubble automatically on the layout hotspot shape coordinates
+                        const coords = area.coords.split(',').map(Number);
+                        const shape = area.getAttribute('shape');
+                        let centerX, centerY;
+
+                        if (shape === 'circle') {
+                            centerX = coords[0];
+                            centerY = coords[1] - coords[2]; // Positions bubble right at the top edge of the circle
+                        } else if (shape === 'rect') {
+                            centerX = (coords[0] + coords[2]) / 2;
+                            centerY = coords[1]; // Positions bubble right above the top line of the block
+                        }
+
+                        positionTooltip(centerX, centerY);
+                    }
+                }
             });
         });
 
+        // Tap background to dismiss open bubble
+        document.body.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'AREA') {
+                activeArea = null;
+                hideTooltip();
+            }
+        });
+
+        // CORE HELPER UTILITIES
+        function showTooltip(element) {
+            tooltip.textContent = element.getAttribute('data-tooltip');
+            tooltip.classList.remove('visible');
+            void tooltip.offsetWidth; 
+            tooltip.classList.add('visible');
+        }
+
+        function positionTooltip(x, y) {
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        // MAP COORD RESPONSIVE RESIZER ENGINE
         function resizeMap() {
             const img = document.getElementById('map-image');
             const map = document.getElementsByName('antifaz-links')[0];
@@ -212,6 +268,12 @@
             for (let i = 0; i < mapAreas.length; i++) {
                 const scaled = originalCoords[i].map(coord => Math.round(coord * scale));
                 mapAreas[i].coords = scaled.join(',');
+            }
+            
+            // Auto hide any active mobile bubble during phone flips to prevent scaling errors
+            if (activeArea) {
+                activeArea = null;
+                hideTooltip();
             }
         }
 
