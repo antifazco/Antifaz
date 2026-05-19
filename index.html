@@ -3,61 +3,573 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #000; }
-    ::-webkit-scrollbar-thumb { background: #ff0000; border: 2px solid #000; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #b30000; }
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #ff0000;
+        border: 2px solid #000;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b30000;
+    }
 
-    body { margin: 0; padding: 0; background-color: #000; font-family: Arial, sans-serif; box-sizing: border-box; overflow-x: hidden; color: #fff; }
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        font-family: Arial, sans-serif;
+        box-sizing: border-box;
+        overflow-x: hidden; 
+        color: #fff;
+    }
 
-    /* SPA PAGE WRAPPERS */
-    .page-view { display: none; width: 100%; opacity: 0; transition: opacity 0.25s ease-out; }
-    .page-view.active { display: flex; flex-direction: column; align-items: center; opacity: 1; }
-    #home-page { padding-top: 20px; padding-bottom: 40px; height: auto; min-height: 0; }
-
-    .link-map-container { position: relative; max-width: 1400px; width: 95%; overflow: visible; }
-    .link-map-container img { display: block; width: 100%; height: auto; }
-    area { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-
-    /* Tooltips */
-    .custom-tooltip { position: absolute; background-color: #000; color: #ff0000; border: 2px solid #fff; border-radius: 12px; padding: 8px 16px; font-size: 0.95rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; opacity: 0; transform: translate(-50%, -122%) scale(0.5); z-index: 2000; white-space: nowrap; box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3); pointer-events: none; transition: opacity 0.1s; }
-    .custom-tooltip.visible { opacity: 1; animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-    @keyframes punkPop { 0% { transform: translate(-50%, -122%) scale(0.4) rotate(-8deg); } 100% { transform: translate(-50%, -122%) scale(1) rotate(0deg); } }
-
-    /* Store */
-    #store-page { background-image: url('storebkgr.jpg'); background-size: 100% auto; background-position: center top; background-repeat: no-repeat; background-color: #000; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .store-container { max-width: 950px; width: 62vw; min-width: 500px; box-sizing: border-box; padding-top: 31vw; padding-bottom: 40px; }
-    .store-footer-content { max-width: 950px; width: 62vw; min-width: 500px; margin-top: 20px; padding-bottom: 12vw; display: flex; flex-direction: column; align-items: center; gap: 25px; }
+    /* SPA PAGE WRAPPERS & TRANSITIONS */
+    .page-view {
+        display: none; /* Keeps pages fully excluded from document height when hidden */
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.25s ease-out;
+    }
     
-    .checkout-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; margin-top: 10px; }
-    .whatsapp-checkout-btn { width: 100%; background-color: #ff0000; color: #000; border: 2px solid #fff; padding: 10px 5px; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; border-radius: 8px; box-shadow: 4px 4px 0px #fff; }
-    .back-btn { background-color: #000; color: #fff; border: 2px solid #fff; padding: 10px 24px; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 8px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.95); }
-    
-    .product-card { background-color: rgba(0, 0, 0, 0.88); border: 2px solid #fff; border-radius: 12px; padding: 12px 2.5%; display: flex; flex-direction: row; gap: 4%; box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95); align-items: center; margin-bottom: 35px; }
-    .product-media-col { width: 360px; max-width: 45%; flex-shrink: 0; }
-    .carousel-wrapper { position: relative; width: 100%; aspect-ratio: 4 / 3; border: 2px solid #fff; border-radius: 8px; background-color: #111; overflow: hidden; box-shadow: 4px 4px 0px #ffffff; }
-    .carousel-slides { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
-    .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.2s; display: flex; justify-content: center; align-items: center; }
-    .carousel-slide.active { opacity: 1; }
-    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .store-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.92); z-index: 9999; display: none; justify-content: center; align-items: center; }
-    .store-modal-overlay.active { display: flex; }
-    .modal-carousel-container { width: 70vw; max-height: 80vh; aspect-ratio: 4 / 3; position: relative; background-color: #000; border: 3px solid #fff; border-radius: 12px; }
-    .modal-slides-lane { width: 100%; height: 100%; position: relative; }
-    .modal-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.25s; display: flex; justify-content: center; align-items: center; }
-    .modal-slide.active { opacity: 1; z-index: 5; }
-    .modal-slide img { width: 100%; height: 100%; object-fit: contain; }
-    .modal-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #000; color: #ff0000; border: 2px solid #fff; width: 44px; height: 44px; font-weight: bold; cursor: pointer; z-index: 100; border-radius: 8px; box-shadow: 3px 3px 0px #ff0000; }
-    
+    .page-view.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 1;
+    }
+
+    #home-page {
+        padding-top: 20px;
+        padding-bottom: 40px; 
+        height: auto;
+        min-height: 0;
+    }
+
+    .link-map-container {
+        position: relative; 
+        max-width: 1400px; 
+        width: 95%; /* Perfect vertical-centric scaling on desktops */
+        overflow: visible; 
+    }
+
+    .link-map-container img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    area {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     @media (max-width: 767px) {
-        .checkout-grid { grid-template-columns: 1fr; }
-        .product-card { flex-direction: column-reverse; }
-        .product-media-col { width: 100%; max-width: 100%; }
+        .link-map-container {
+            width: 100% !important; 
+            padding: 0;
+        }
+    }
+
+    /* Frantic Punk Pop & Shake Animation */
+    @keyframes punkPop {
+        0% { opacity: 0; transform: translate(-50%, -122%) scale(0.4) rotate(-8deg); }
+        50% { transform: translate(-50%, -122%) scale(1.1) rotate(4deg); }
+        75% { transform: translate(-50%, -122%) scale(0.95) rotate(-2deg); }
+        100% { opacity: 1; transform: translate(-50%, -122%) scale(1) rotate(0deg); }
+    }
+
+    /* Comic Book Speech Bubble Tooltip */
+    .custom-tooltip {
+        position: absolute;
+        background-color: #000;      
+        color: #ff0000;             
+        border: 2px solid #fff;     
+        border-radius: 12px;       
+        padding: 8px 16px;
+        font-size: 0.95rem; 
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translate(-50%, -122%) scale(0.5);
+        z-index: 2000;
+        white-space: nowrap;
+        box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
+        pointer-events: auto; 
+        cursor: pointer;
+        transition: background-color 0.1s, opacity 0.1s, left 0.05s ease-out, top 0.05s ease-out;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .custom-tooltip:active {
+        background-color: #111;
+        box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5);
+    }
+
+    /* Speech Bubble Tail Outline */
+    .custom-tooltip::before {
+        content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+        border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; width: 0;
+    }
+
+    /* Speech Bubble Tail Fill */
+    .custom-tooltip::after {
+        content: ""; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+        border-width: 10px 8px 0; border-style: solid; border-color: #000 transparent; display: block; width: 0;
+    }
+
+    .custom-tooltip.visible {
+        opacity: 1;
+        animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    /* STORE FRONT ARCHITECTURE */
+    #store-page {
+        background-image: url('storebkgr.jpg');
+        background-size: 100% auto; 
+        background-position: center top;  
+        background-repeat: no-repeat;
+        background-color: #000; 
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .store-container {
+        max-width: 950px; 
+        width: 62vw; 
+        min-width: 500px; 
+        box-sizing: border-box;
+        padding-top: 31vw; 
+        padding-bottom: 40px;
+    }
+
+    .store-footer-content {
+        max-width: 950px; 
+        width: 62vw; 
+        min-width: 500px; 
+        box-sizing: border-box;
+        margin-top: 20px;
+        padding-bottom: 12vw; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .back-btn {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 10px 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.95);
+        transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .back-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 1);
+    }
+    .back-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.95);
+    }
+
+    /* Products Grid Stacked Rows */
+    .products-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+        width: 100%;
+    }
+
+    .product-card {
+        background-color: rgba(0, 0, 0, 0.88); 
+        border: 2px solid #fff;
+        border-radius: 12px;
+        padding: 12px 2.5%; 
+        display: flex;
+        flex-direction: row; 
+        gap: 4%; 
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95);
+        transition: transform 0.2s ease;
+        align-items: center; 
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Split Column Structure */
+    .product-details-col {
+        flex: 1.3; 
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; 
+        text-align: left;
+    }
+
+    .product-media-col {
+        width: 360px; 
+        max-width: 45%; 
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* IMAGE CAROUSEL ARCHITECTURE */
+    .carousel-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3; 
+        border: 2px solid #fff; 
+        border-radius: 8px;
+        background-color: #111;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* CHANGED: Swapped the red offset shadow for a clean white offset shadow */
+        box-shadow: 4px 4px 0px #ffffff; 
+    }
+
+    .carousel-slides {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        cursor: zoom-in; /* Indicates expansion capability smoothly */
+    }
+
+    .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Punk Navigation Controls */
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: #ff0000;
+        border: 2px solid #fff;
+        width: 28px; 
+        height: 28px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 2px 2px 0px #ff0000;
+        transition: background-color 0.1s;
+    }
+
+    .carousel-btn:hover { background: #ff0000; color: #000; }
+    .carousel-btn.prev { left: 6px; }
+    .carousel-btn.next { right: 6px; }
+
+    /* FULL SCREEN IMAGE OVERLAY MODAL SYSTEM */
+    .store-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.92);
+        z-index: 9999;
+        display: none; 
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+    }
+
+    .store-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .modal-carousel-container {
+        width: 70vw; /* Takes exactly 70% of the viewport width asset lanes */
+        max-height: 80vh;
+        aspect-ratio: 4 / 3;
+        position: relative;
+        background-color: #000;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.4);
+    }
+
+    .modal-slides-lane {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .modal-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    .modal-slide.active {
+        opacity: 1;
+        z-index: 5;
+    }
+
+    .modal-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Full containment ensures unclipped presentation */
+    }
+
+    /* Widescreen Modal Custom Buttons */
+    .modal-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: #ff0000;
+        border: 2px solid #fff;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 100;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 3px 3px 0px #ff0000;
+        transition: transform 0.1s, background-color 0.1s;
+    }
+
+    .modal-btn:hover { background: #ff0000; color: #000; }
+    .modal-btn:active { transform: translateY(-50%) scale(0.95); }
+    .modal-btn.prev { left: 16px; }
+    .modal-btn.next { right: 16px; }
+
+    /* TYPOGRAPHY & INTERACTIVE ASSETS */
+    .product-name {
+        font-size: calc(1rem + 0.2vw); 
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0 0 10px 0;
+        color: #fff;
+        letter-spacing: 1px;
+        line-height: 1.3;
+    }
+
+    .product-price {
+        font-size: calc(1.1rem + 0.2vw); 
+        font-weight: 900;
+        color: #ff0000;
+        margin-bottom: 15px;
+    }
+
+    .product-options {
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .option-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .option-label {
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #aaa;
+    }
+
+    .store-select {
+        background: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 6px;
+        font-weight: bold;
+        border-radius: 6px;
+        outline: none;
+        cursor: pointer;
+    }
+    
+    .qty-selector {
+        max-width: 60px !important;
+        text-align: center;
+        padding: 4px;
+    }
+    
+    .size-selector {
+        max-width: 80px !important;
+        padding: 4px;
+    }
+
+    /* CUSTOM DYNAMIC SHOPPING CART CONTAINER */
+    .cart-summary-box {
+        width: 100%;
+        background-color: #000;
+        border: 2px solid #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95);
+        text-align: left;
+    }
+
+    .cart-title {
+        font-size: 1.3rem;
+        font-weight: 900;
+        color: #ff0000;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        border-bottom: 2px dashed #ff0000;
+        padding-bottom: 8px;
+    }
+
+    .cart-items-list {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        color: #eee;
+    }
+
+    .cart-empty-msg {
+        color: #555;
+        font-style: italic;
+    }
+
+    .cart-total-row {
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .cart-total-price {
+        color: #ff0000;
+    }
+
+    .whatsapp-checkout-btn {
+        width: 100%;
+        background-color: #ff0000;
+        color: #000;
+        border: 2px solid #fff;
+        padding: 14px; 
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 4px 4px 0px #fff;
+        transition: transform 0.1s, box-shadow 0.1s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .whatsapp-checkout-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #fff;
+    }
+    .whatsapp-checkout-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #fff;
+    }
+
+    /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
+    @media (max-width: 767px) {
+        #store-page {
+            background-size: 100% auto; 
+        }
+
+        .store-container {
+            width: 92% !important;
+            min-width: 0 !important;
+            padding-top: 31vw; 
+            padding-bottom: 40px;
+        }
+        
+        .store-footer-content {
+            width: 92% !important;
+            min-width: 0 !important;
+            padding-bottom: 12vw;
+        }
+
+        .product-card {
+            flex-direction: column-reverse; 
+            gap: 20px;
+            padding: 16px;
+        }
+
+        .product-media-col {
+            width: 100%; 
+            max-width: 100%;
+        }
+        
+        .carousel-wrapper {
+            aspect-ratio: 1; 
+        }
+
+        .modal-carousel-container {
+            width: 90vw; 
+        }
     }
 </style>
 </head>
@@ -66,20 +578,28 @@
     <div id="home-page" class="page-view active">
         <div class="link-map-container" id="container">
             <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
+
             <map name="antifaz-links">
                 <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔" target="_blank">
+
                 <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="⚡ Spotify ➔" target="_blank">
                 <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
                 <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
+                
                 <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Tienda ➔">
+
                 <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
                 <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
                 <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
+
                 <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
                 <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
+
                 <area shape="rect" coords="265,735,335,795" href="mailto:antifaz.co@gmail.com" alt="Info" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔" target="_blank">
-                <area shape="circle" coords="300,870,35" href="http://www.skacomombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
+
+                <area shape="circle" coords="300,870,35" href="http://www.skacolombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
             </map>
+
             <div id="tooltip" class="custom-tooltip"></div>
         </div>
     </div>
@@ -91,88 +611,144 @@
                     <div class="product-details-col">
                         <h2 class="product-name">10" Vinyl Qué dolor!</h2>
                         <div class="product-price">$100.000 COP</div>
-                        <select class="store-select qty-selector" onchange="updateCartSummary()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Formato: Rojo Transparente</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
                             <div class="carousel-slides" onclick="openProductModal(this)">
-                                <div class="carousel-slide active"><img src="vinyl1.jpg"></div>
-                                <div class="carousel-slide"><img src="vinyl2.jpg"></div>
-                                <div class="carousel-slide"><img src="vinyl3.jpg"></div>
-                                <div class="carousel-slide"><img src="vinyl4.jpg"></div>
-                                <div class="carousel-slide"><img src="vinyl5.jpg"></div>
-                                <div class="carousel-slide"><img src="vinyl6.jpg"></div>
+                                <div class="carousel-slide active"><img src="vinyl1.jpg" alt="Vinyl view 1"></div>
+                                <div class="carousel-slide"><img src="vinyl2.jpg" alt="Vinyl view 2"></div>
+                                <div class="carousel-slide"><img src="vinyl3.jpg" alt="Vinyl view 3"></div>
+                                <div class="carousel-slide"><img src="vinyl4.jpg" alt="Vinyl view 4"></div>
+                                <div class="carousel-slide"><img src="vinyl5.jpg" alt="Vinyl view 5"></div>
+                                <div class="carousel-slide"><img src="vinyl6.jpg" alt="Vinyl view 6"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="product-card" data-id="cassette" data-name="Cassette Qué dolor!" data-price="40000">
                     <div class="product-details-col">
                         <h2 class="product-name">Cassette Qué dolor!</h2>
                         <div class="product-price">$40.000 COP</div>
-                        <select class="store-select qty-selector" onchange="updateCartSummary()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Color: Rojo Transparente</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
                             <div class="carousel-slides" onclick="openProductModal(this)">
-                                <div class="carousel-slide active"><img src="cassette1.jpg"></div>
-                                <div class="carousel-slide"><img src="cassette2.jpg"></div>
-                                <div class="carousel-slide"><img src="cassette3.jpg"></div>
+                                <div class="carousel-slide active"><img src="cassette1.jpg" alt="Cassette view 1"></div>
+                                <div class="carousel-slide"><img src="cassette2.jpg" alt="Cassette view 2"></div>
+                                <div class="carousel-slide"><img src="cassette3.jpg" alt="Cassette view 3"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="product-card" data-id="shirt" data-name="Camiseta Qué dolor!" data-price="60000">
                     <div class="product-details-col">
                         <h2 class="product-name">Camiseta Qué dolor!</h2>
                         <div class="product-price">$60.000 COP</div>
-                        <select class="store-select size-selector" onchange="updateCartSummary()"><option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option></select>
-                        <select class="store-select qty-selector" onchange="updateCartSummary()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Selecciona Talla:</span>
+                                <select class="store-select size-selector" onchange="updateCartSummary()">
+                                    <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
+                                </select>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
                             <div class="carousel-slides" onclick="openProductModal(this)">
-                                <div class="carousel-slide active"><img src="shirt1.jpg"></div>
-                                <div class="carousel-slide"><img src="shirt2.jpg"></div>
+                                <div class="carousel-slide active"><img src="shirt1.jpg" alt="Shirt front view"></div>
+                                <div class="carousel-slide"><img src="shirt2.jpg" alt="Shirt back view"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="product-card" data-id="hat" data-name="Gorra visera plana" data-price="40000">
                     <div class="product-details-col">
                         <h2 class="product-name">Gorra visera plana</h2>
                         <div class="product-price">$40.000 COP</div>
-                        <select class="store-select qty-selector" onchange="updateCartSummary()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Talla: Ajustable Unica</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
                             <div class="carousel-slides" onclick="openProductModal(this)">
-                                <div class="carousel-slide active"><img src="gorra1.jpg"></div>
-                                <div class="carousel-slide"><img src="gorra2.jpg"></div>
+                                <div class="carousel-slide active"><img src="gorra1.jpg" alt="Hat view 1"></div>
+                                <div class="carousel-slide"><img src="gorra2.jpg" alt="Hat view 2"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
+
                 <div class="product-card" data-id="picks" data-name="Guitar Picks (x4)" data-price="20000">
                     <div class="product-details-col">
                         <h2 class="product-name">Guitar Picks (x4)</h2>
                         <div class="product-price">$20.000 COP</div>
-                        <select class="store-select qty-selector" onchange="updateCartSummary()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
                             <div class="carousel-slides" onclick="openProductModal(this)">
-                                <div class="carousel-slide active"><img src="pick1.jpg"></div>
-                                <div class="carousel-slide"><img src="pick2.jpg"></div>
+                                <div class="carousel-slide active"><img src="pick1.jpg" alt="Picks view 1"></div>
+                                <div class="carousel-slide"><img src="pick2.jpg" alt="Picks view 2"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
@@ -184,14 +760,16 @@
         <div class="store-footer-content">
             <div class="cart-summary-box">
                 <h3 class="cart-title">🛒 Resumen de Orden</h3>
-                <div id="cart-items-container" class="cart-items-list"><span class="cart-empty-msg">Tu carrito está vacío.</span></div>
-                <div class="cart-total-row"><span>TOTAL:</span><span id="cart-total-price-display" class="cart-total-price">$0 COP</span></div>
-                <div class="checkout-grid">
-                    <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp('COL')">🇨🇴 COL</button>
-                    <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp('USA')">🇺🇸 USA</button>
-                    <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp('EUR')">🇪🇺 EUR</button>
+                <div id="cart-items-container" class="cart-items-list">
+                    <span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>
                 </div>
+                <div class="cart-total-row">
+                    <span>TOTAL:</span>
+                    <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
+                </div>
+                <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp()">💬 Enviar Pedido por WhatsApp</button>
             </div>
+
             <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
         </div>
     </div>
@@ -205,96 +783,338 @@
     </div>
 
     <script>
-        // TOOLTIP & STATE
-        const tooltip = document.getElementById('tooltip'); const container = document.getElementById('container');
-        document.addEventListener('mousemove', (e) => {
-            if (e.target.tagName === 'AREA') {
-                const rect = container.getBoundingClientRect();
-                tooltip.style.left = (e.clientX - rect.left) + 'px';
-                tooltip.style.top = (e.clientY - rect.top) + 'px';
-                tooltip.textContent = e.target.getAttribute('data-tooltip');
-                tooltip.classList.add('visible');
-            } else { tooltip.classList.remove('visible'); }
-        });
+        const tooltip = document.getElementById('tooltip');
+        const container = document.getElementById('container');
+        const areas = document.querySelectorAll('area');
+        
+        let activeArea = null; 
+        let currentHoveredArea = null; 
+        
+        // Modal State Memory Tracker
+        let currentActiveCardContext = null;
 
-        // CART & CHECKOUT
+        // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
         function updateCartSummary() {
-            const cards = document.querySelectorAll('.product-card'); const items = document.getElementById('cart-items-container');
-            const total = document.getElementById('cart-total-price-display'); let lines = [], price = 0;
-            cards.forEach(c => {
-                const qty = parseInt(c.querySelector('.qty-selector').value);
-                if (qty > 0) {
-                    let line = `${qty} x ${c.getAttribute('data-name')}`;
-                    if (c.getAttribute('data-id') === 'shirt') line += ` (Talla: ${c.querySelector('.size-selector').value})`;
-                    lines.push(line); price += (parseInt(c.getAttribute('data-price')) * qty);
+            const productCards = document.querySelectorAll('.product-card');
+            const itemsContainer = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price-display');
+            
+            let orderLines = [];
+            let aggregatePrice = 0;
+
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const price = parseInt(card.getAttribute('data-price'), 10);
+                const quantity = parseInt(card.querySelector('.qty-selector').value, 10);
+                const id = card.getAttribute('data-id');
+
+                if (quantity > 0) {
+                    let textLine = `${quantity} x ${name}`;
+                    if (id === 'shirt') {
+                        const size = card.querySelector('.size-selector').value;
+                        textLine += ` (Talla: ${size})`;
+                    }
+                    orderLines.push(textLine);
+                    aggregatePrice += (price * quantity);
                 }
             });
-            items.innerHTML = lines.length ? lines.map(l => `<div>• ${l}</div>`).join('') : '<span class="cart-empty-msg">Tu carrito está vacío.</span>';
-            total.textContent = `$${price.toLocaleString('es-CO')} COP`;
+
+            if (orderLines.length === 0) {
+                itemsContainer.innerHTML = '<span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>';
+            } else {
+                itemsContainer.innerHTML = orderLines.map(line => `<div>• ${line}</div>`).join('');
+            }
+
+            totalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
         }
 
-        function checkoutToWhatsApp(reg) {
-            const cards = document.querySelectorAll('.product-card'); let lines = [], price = 0;
-            cards.forEach(c => {
-                const qty = parseInt(c.querySelector('.qty-selector').value);
-                if (qty > 0) {
-                    let line = `${qty}x ${c.getAttribute('data-name')}`;
-                    if (c.getAttribute('data-id') === 'shirt') line += ` [Talla: ${c.querySelector('.size-selector').value}]`;
-                    lines.push(line); price += (parseInt(c.getAttribute('data-price')) * qty);
+        // WHATSAPP BILLING GENERATOR AND LINK BUILDER ROUTER
+        function checkoutToWhatsApp() {
+            const productCards = document.querySelectorAll('.product-card');
+            let orderLines = [];
+            let aggregatePrice = 0;
+
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const price = parseInt(card.getAttribute('data-price'), 10);
+                const quantity = parseInt(card.querySelector('.qty-selector').value, 10);
+                const id = card.getAttribute('data-id');
+
+                if (quantity > 0) {
+                    let detailStr = `${quantity}x ${name}`;
+                    if (id === 'shirt') {
+                        const size = card.querySelector('.size-selector').value;
+                        detailStr += ` [Talla: ${size}]`;
+                    }
+                    orderLines.push(detailStr);
+                    aggregatePrice += (price * quantity);
                 }
             });
-            if (!lines.length) { alert('Selecciona al menos 1 artículo.'); return; }
-            const cur = reg === 'COL' ? 'COP' : (reg === 'USA' ? 'USD' : 'EUR');
-            const msg = encodeURIComponent(`¡Qué más! Quiero armar un pedido (${reg}) de ANTIFAZ:\n\n${lines.join('\n')}\n\nTotal: ${price.toLocaleString()} ${cur}\n\n¿Tienen disponibilidad? 💥`);
-            window.open(`https://api.whatsapp.com/send?phone=573000000000&text=${msg}`, '_blank');
-        }
 
-        // NAVIGATION & CAROUSELS
-        function navigateTo(p) {
-            const h = document.getElementById('home-page'), s = document.getElementById('store-page');
-            if (p === 'store') { h.style.display = 'none'; s.style.display = 'flex'; h.classList.remove('active'); s.classList.add('active'); }
-            else { s.style.display = 'none'; h.style.display = 'flex'; s.classList.remove('active'); h.classList.add('active'); setTimeout(resizeMap, 50); }
-            window.scrollTo(0,0);
-        }
-        function moveSlide(btn, dir, e) {
-            if (e) e.stopPropagation();
-            const slides = btn.closest('.carousel-wrapper').querySelectorAll('.carousel-slide');
-            let idx = Array.from(slides).findIndex(s => s.classList.contains('active'));
-            slides[idx].classList.remove('active');
-            let next = (idx + dir + slides.length) % slides.length;
-            slides[next].classList.add('active');
-        }
+            if (orderLines.length === 0) {
+                alert('Por favor, selecciona al menos 1 artículo para enviar tu order.');
+                return;
+            }
 
-        // MODAL
-        let ctx = null;
-        function openProductModal(el) {
-            ctx = el.closest('.product-card');
-            const lane = document.getElementById('modal-slides-lane');
-            lane.innerHTML = '';
-            el.querySelectorAll('.carousel-slide').forEach((s, i) => {
-                const div = document.createElement('div');
-                div.className = `modal-slide ${s.classList.contains('active') ? 'active' : ''}`;
-                div.innerHTML = `<img src="${s.querySelector('img').src}">`;
-                lane.appendChild(div);
+            const businessNumber = "573000000000"; 
+            let textMessageBlueprint = `¡Qué más! Quiero armar un pedido desde la tienda web de ANTIFAZ:\n\n`;
+            orderLines.forEach(line => {
+                textMessageBlueprint += `• ${line}\n`;
             });
-            document.getElementById('global-store-modal').classList.add('active');
+            textMessageBlueprint += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP\n\n¿Tienen disponibilidad para coordinar la entrega? 💥`;
+
+            const parsedURI = encodeURIComponent(textMessageBlueprint);
+            window.open(`https://api.whatsapp.com/send?phone=${businessNumber}&text=${parsedURI}`, '_blank');
         }
-        function closeProductModal(e) { document.getElementById('global-store-modal').classList.remove('active'); }
-        function moveModalSlide(dir) {
-            const slides = document.querySelectorAll('.modal-slide');
-            let idx = Array.from(slides).findIndex(s => s.classList.contains('active'));
-            slides[idx].classList.remove('active');
-            let next = (idx + dir + slides.length) % slides.length;
-            slides[next].classList.add('active');
-            if (ctx) {
-                const cSlides = ctx.querySelectorAll('.carousel-slide');
-                cSlides.forEach(s => s.classList.remove('active'));
-                cSlides[next].classList.add('active');
+
+        // LIGHTWEIGHT CAROUSEL CONTROLLER LOGIC
+        function moveSlide(buttonElement, direction, event) {
+            if (event) event.stopPropagation(); 
+            const wrapper = buttonElement.closest('.carousel-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            let currentActiveIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            slides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= slides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = slides.length - 1;
+            }
+
+            slides[nextActiveIndex].classList.add('active');
+        }
+
+        // MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS
+        function openProductModal(slidesContainerElement) {
+            const productCard = slidesContainerElement.closest('.product-card');
+            currentActiveCardContext = productCard;
+            
+            const nativeSlides = slidesContainerElement.querySelectorAll('.carousel-slide img');
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalOverlay = document.getElementById('global-store-modal');
+            
+            let modalHTMLBuffer = '';
+            let targetActiveIndex = 0;
+            
+            slidesContainerElement.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+                const src = slide.querySelector('img').getAttribute('src');
+                const isActive = slide.classList.contains('active');
+                if (isActive) targetActiveIndex = index;
+                
+                modalHTMLBuffer += `
+                    <div class="modal-slide ${isActive ? 'active' : ''}">
+                        <img src="${src}" alt="Expanded view">
+                    </div>
+                `;
+            });
+            
+            modalLane.innerHTML = modalHTMLBuffer;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeProductModal(event) {
+            const modalOverlay = document.getElementById('global-store-modal');
+            modalOverlay.classList.remove('active');
+        }
+
+        function moveModalSlide(direction) {
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalSlides = modalLane.querySelectorAll('.modal-slide');
+            let currentActiveIndex = 0;
+
+            modalSlides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            modalSlides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= modalSlides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = modalSlides.length - 1;
+            }
+
+            modalSlides[nextActiveIndex].classList.add('active');
+
+            // SYNC STEP: Reflect modal slide position back onto native card carousel seamlessly
+            if (currentActiveCardContext) {
+                const cardSlides = currentActiveCardContext.querySelectorAll('.carousel-slide');
+                cardSlides.forEach(slide => slide.classList.remove('active'));
+                cardSlides[nextActiveIndex].classList.add('active');
             }
         }
-        function resizeMap() { /* ...logic... */ }
-        window.addEventListener('resize', resizeMap); document.getElementById('map-image').addEventListener('load', resizeMap);
-        window.onload = () => { resizeMap(); document.getElementById('store-page').style.display = 'none'; };
+
+        // SPA NAVIGATION ROUTER ENGINE
+        function navigateTo(pageId) {
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            
+            activeArea = null;
+            hideTooltip();
+
+            if (pageId === 'store') {
+                homePage.classList.remove('active');
+                homePage.style.display = 'none'; 
+                storePage.style.display = 'flex';
+                storePage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                storePage.classList.remove('active');
+                storePage.style.display = 'none'; 
+                homePage.style.display = 'flex';
+                homePage.classList.add('active');
+                window.scrollTo(0, 0); 
+                setTimeout(resizeMap, 50); 
+            }
+        }
+
+        areas.forEach(area => {
+            // DESKTOP HOVER LOGIC
+            area.addEventListener('mouseenter', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                if (currentHoveredArea !== area) {
+                    currentHoveredArea = area;
+                    showTooltip(area);
+                }
+            });
+
+            area.addEventListener('mousemove', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                positionTooltip(x, y);
+            });
+
+            area.addEventListener('mouseleave', () => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                currentHoveredArea = null;
+                hideTooltip();
+            });
+
+            // SMART MOBILE CLICK / TOUCH INTERACTION
+            area.addEventListener('click', (e) => {
+                const isMerchStore = (area.getAttribute('href') === '#store');
+                
+                if (window.matchMedia("(pointer: coarse)").matches) {
+                    if (activeArea !== area) {
+                        e.preventDefault(); 
+                        activeArea = area;
+                        showTooltip(area);
+                        
+                        const coords = area.coords.split(',').map(Number);
+                        const shape = area.getAttribute('shape');
+                        let centerX, centerY;
+
+                        if (shape === 'circle') {
+                            centerX = coords[0];
+                            centerY = coords[1] - (coords[2] * 0.9); 
+                        } else if (shape === 'rect') {
+                            centerX = (coords[0] + coords[2]) / 2;
+                            centerY = coords[1] + 10; 
+                        }
+                        positionTooltip(centerX, centerY);
+                    } else if (isMerchStore) {
+                        e.preventDefault();
+                        navigateTo('store');
+                    }
+                } else if (!window.matchMedia("(pointer: coarse)").matches && isMerchStore) {
+                    e.preventDefault();
+                    navigateTo('store');
+                }
+            });
+        });
+
+        // INTERACTIVE SPEECH BUBBLE TAP REGISTER
+        tooltip.addEventListener('click', () => {
+            if (activeArea) {
+                if (activeArea.getAttribute('href') === '#store') {
+                    navigateTo('store');
+                } else if (window.matchMedia("(pointer: coarse)").matches) {
+                    const destination = activeArea.getAttribute('href');
+                    const targetWindow = activeArea.getAttribute('target') || '_self';
+                    if (destination) window.open(destination, targetWindow);
+                }
+            }
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'AREA' && e.target !== tooltip) {
+                activeArea = null;
+                hideTooltip();
+            }
+        });
+
+        function showTooltip(element) {
+            tooltip.textContent = element.getAttribute('data-tooltip');
+            tooltip.classList.remove('visible');
+            void tooltip.offsetWidth; 
+            tooltip.classList.add('visible');
+        }
+
+        function positionTooltip(x, y) {
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        function resizeMap() {
+            const img = document.getElementById('map-image');
+            if (!img || img.clientWidth === 0) return;
+
+            const map = document.getElementsByName('antifaz-links')[0];
+            const mapAreas = map.getElementsByTagName('area');
+            const originalWidth = 600; 
+            const currentWidth = img.clientWidth;
+            const scale = currentWidth / originalWidth;
+
+            const originalCoords = [
+                [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
+                [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
+                [265,735,335,795], [300,870,35]   
+            ];
+
+            for (let i = 0; i < mapAreas.length; i++) {
+                const shape = mapAreas[i].getAttribute('shape');
+                let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
+                const verticalOffset = Math.round(15 * scale);
+                
+                if (shape === 'circle') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                } else if (shape === 'rect') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                    scaled[3] = scaled[3] + verticalOffset;
+                }
+                mapAreas[i].coords = scaled.join(',');
+            }
+        }
+
+        window.addEventListener('resize', resizeMap);
+        document.getElementById('map-image').addEventListener('load', resizeMap);
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(resizeMap, 300);
+            
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            homePage.style.display = 'flex';
+            storePage.style.display = 'none';
+            window.scrollTo(0, 0);
+        });
     </script>
+
 </body>
 </html>
