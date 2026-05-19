@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>--ANTIFAZ--</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -243,7 +243,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 4px 4px 0px #ff0000; 
+        /* CHANGED: Swapped the red offset shadow for a clean white offset shadow */
+        box-shadow: 4px 4px 0px #ffffff; 
     }
 
     .carousel-slides {
@@ -311,7 +312,7 @@
         height: 100vh;
         background-color: rgba(0, 0, 0, 0.92);
         z-index: 9999;
-        display: none; /* Controlled cleanly by script toggles */
+        display: none; 
         justify-content: center;
         align-items: center;
         opacity: 0;
@@ -391,18 +392,6 @@
     .modal-btn:active { transform: translateY(-50%) scale(0.95); }
     .modal-btn.prev { left: 16px; }
     .modal-btn.next { right: 16px; }
-
-    .modal-close-hint {
-        position: absolute;
-        top: 20px;
-        right: 25px;
-        color: #aaa;
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        pointer-events: none;
-    }
 
     /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
@@ -579,7 +568,7 @@
         }
 
         .modal-carousel-container {
-            width: 90vw; /* Widened slightly on small viewports for legibility */
+            width: 90vw; 
         }
     }
 </style>
@@ -786,7 +775,6 @@
     </div>
 
     <div id="global-store-modal" class="store-modal-overlay" onclick="closeProductModal(event)">
-        <span class="modal-close-hint">Click outside to close ×</span>
         <div class="modal-carousel-container" onclick="event.stopPropagation()">
             <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
             <div id="modal-slides-lane" class="modal-slides-lane"></div>
@@ -881,7 +869,7 @@
 
         // LIGHTWEIGHT CAROUSEL CONTROLLER LOGIC
         function moveSlide(buttonElement, direction, event) {
-            if (event) event.stopPropagation(); // Stops modal click sequence from launching instantly
+            if (event) event.stopPropagation(); 
             const wrapper = buttonElement.closest('.carousel-wrapper');
             const slides = wrapper.querySelectorAll('.carousel-slide');
             let currentActiveIndex = 0;
@@ -913,7 +901,6 @@
             const modalLane = document.getElementById('modal-slides-lane');
             const modalOverlay = document.getElementById('global-store-modal');
             
-            // Re-render matching node image wrappers into modal container dynamically
             let modalHTMLBuffer = '';
             let targetActiveIndex = 0;
             
