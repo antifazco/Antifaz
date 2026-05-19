@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>--ANTIFAZ--</title>
+<title>-ANTIFAZ-</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -144,26 +144,29 @@
     }
 
     .store-container {
-        max-width: 600px; /* MODIFIED: Narrowed down 20% from 750px */
+        max-width: 600px; /* Narrowed down 20% from 750px */
         width: 90%;
         /* Adjusted top padding globally for clean desktop breathing room */
         padding-top: 260px; 
         padding-bottom: 80px;
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .store-header {
+    .store-footer {
         display: flex;
-        justify-content: flex-end; /* Keeps title area clear for the image logo */
-        align-items: center;
-        margin-bottom: 30px;
+        justify-content: center;
+        width: 100%;
+        margin-top: 40px; /* Creates clean isolation below the grid rows */
     }
 
     .back-btn {
         background-color: #000;
         color: #fff;
         border: 2px solid #fff;
-        padding: 8px 18px;
+        padding: 10px 24px;
         font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
@@ -193,11 +196,12 @@
         background-color: rgba(0, 0, 0, 0.85); /* Slightly translucent to let texture breathe */
         border: 2px solid #fff;
         border-radius: 12px;
-        padding: 16px; /* MODIFIED: Compact inner footprint spacing */
+        padding: 16px; 
         display: flex;
         flex-direction: row; /* Horizontal layout framework */
         gap: 20px;
-        box-shadow: 6px 6px 0px rgba(255, 0, 0, 0.3);
+        /* CHANGED: Swapped custom red offset outline for a rich black shadow matrix */
+        box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95);
         transition: transform 0.2s ease;
         align-items: stretch;
     }
@@ -216,7 +220,7 @@
     }
 
     .product-media-col {
-        width: 208px; /* MODIFIED: Scaled down 20% from 260px */
+        width: 208px; 
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
@@ -271,7 +275,7 @@
         color: #555;
         font-weight: bold;
         text-transform: uppercase;
-        font-size: 0.75rem; /* MODIFIED: Slightly optimized text scale */
+        font-size: 0.75rem; 
         text-align: center;
         padding: 10px;
     }
@@ -284,7 +288,7 @@
         background: #000;
         color: #ff0000;
         border: 2px solid #fff;
-        width: 28px; /* MODIFIED: Sized down slightly for visual parity */
+        width: 28px; 
         height: 28px;
         font-size: 0.75rem;
         cursor: pointer;
@@ -307,7 +311,7 @@
 
     /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
-        font-size: 1.1rem; /* MODIFIED: Scaled down from 1.25rem */
+        font-size: 1.1rem; 
         font-weight: bold;
         text-transform: uppercase;
         margin: 0 0 10px 0;
@@ -317,7 +321,7 @@
     }
 
     .product-price {
-        font-size: 1.3rem; /* MODIFIED: Balanced scale matching */
+        font-size: 1.3rem; 
         font-weight: 900;
         color: #ff0000;
         margin-bottom: 15px;
@@ -331,6 +335,14 @@
         width: 100%;
     }
 
+    .option-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
     .option-label {
         font-size: 0.8rem;
         font-weight: bold;
@@ -338,7 +350,7 @@
         color: #aaa;
     }
 
-    .size-select {
+    .store-select {
         background: #000;
         color: #fff;
         border: 2px solid #fff;
@@ -355,7 +367,7 @@
         background-color: #ff0000;
         color: #000;
         border: 2px solid #fff;
-        padding: 10px 16px; /* MODIFIED: Tighter call to action button dimensions */
+        padding: 10px 16px; 
         font-weight: 900;
         text-transform: uppercase;
         font-size: 0.9rem;
@@ -433,9 +445,6 @@
 
     <div id="store-page" class="page-view">
         <div class="store-container">
-            <header class="store-header">
-                <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
-            </header>
 
             <div class="products-grid">
                 <div class="product-card">
@@ -443,7 +452,15 @@
                         <h2 class="product-name">10" Vinyl Qué dolor!</h2>
                         <div class="product-price">$100.000 COP</div>
                         <div class="product-options">
-                            <span class="option-label">Formato: Rojo Transparente</span>
+                            <div class="option-row">
+                                <span class="option-label">Formato: Rojo Transparente</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select">
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
@@ -464,7 +481,15 @@
                         <h2 class="product-name">Cassette Qué dolor!</h2>
                         <div class="product-price">$40.000 COP</div>
                         <div class="product-options">
-                            <span class="option-label">Color: Rojo Transparente</span>
+                            <div class="option-row">
+                                <span class="option-label">Color: Rojo Transparente</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select">
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
@@ -485,13 +510,18 @@
                         <h2 class="product-name">Camiseta Qué dolor!</h2>
                         <div class="product-price">$60.000 COP</div>
                         <div class="product-options">
-                            <span class="option-label">Selecciona Talla:</span>
-                            <select class="size-select">
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
-                            </select>
+                            <div class="option-row">
+                                <span class="option-label">Selecciona Talla:</span>
+                                <select class="store-select">
+                                    <option>S</option><option>M</option><option>L</option><option>XL</option>
+                                </select>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select">
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
@@ -512,7 +542,15 @@
                         <h2 class="product-name">Gorra visera plana</h2>
                         <div class="product-price">$40.000 COP</div>
                         <div class="product-options">
-                            <span class="option-label">Talla: Ajustable Unica</span>
+                            <div class="option-row">
+                                <span class="option-label">Talla: Ajustable Unica</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select">
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
@@ -533,7 +571,15 @@
                         <h2 class="product-name">Guitar Picks (x4)</h2>
                         <div class="product-price">$20.000 COP</div>
                         <div class="product-options">
-                            <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                            <div class="option-row">
+                                <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select">
+                                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
                         </div>
                         <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
@@ -549,6 +595,10 @@
                     </div>
                 </div>
             </div>
+
+            <footer class="store-footer">
+                <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
+            </footer>
         </div>
     </div>
 
