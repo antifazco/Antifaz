@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -144,10 +144,10 @@
     }
 
     .store-container {
-        max-width: 600px; /* Narrowed down 20% from 750px */
+        max-width: 720px; /* INCREASED: Widened canvas path to open grid line widths */
         width: 90%;
-        /* Adjusted top padding globally for clean desktop breathing room */
-        padding-top: 260px; 
+        /* INCREASED BUFFER: Extra cushion space guarantees full top image details look clear */
+        padding-top: 280px; 
         padding-bottom: 80px;
         box-sizing: border-box;
         display: flex;
@@ -205,6 +205,10 @@
         box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95);
         transition: transform 0.2s ease;
         align-items: center; /* Balanced centered vertical line tracking */
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
     }
 
     /* Split Column Structure */
@@ -351,7 +355,18 @@
         border-radius: 6px;
         outline: none;
         cursor: pointer;
-        max-width: 140px;
+    }
+    
+    /* SHRUNK: Dropdowns are perfectly framed for clean digit tracking lengths */
+    .qty-selector {
+        max-width: 60px !important;
+        text-align: center;
+        padding: 4px;
+    }
+    
+    .size-selector {
+        max-width: 80px !important;
+        padding: 4px;
     }
 
     /* CUSTOM DYNAMIC SHOPPING CART CONTAINER */
@@ -446,7 +461,7 @@
 
     @media (max-width: 767px) {
         .store-container {
-            padding-top: 180px; 
+            padding-top: 180px !important; /* Preserves mobile framework positioning constraints */
         }
     }
 </style>
@@ -549,7 +564,7 @@
                         <div class="product-options">
                             <div class="option-row">
                                 <span class="option-label">Selecciona Talla:</span>
-                                <select class="store-select size-selector">
+                                <select class="store-select size-selector" onchange="updateCartSummary()">
                                     <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
                                 </select>
                             </div>
@@ -644,7 +659,7 @@
                 </div>
 
                 <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
-            </footer>
+            </div>
         </div>
     </div>
 
@@ -719,7 +734,6 @@
                 return;
             }
 
-            // Build out clean punk-zine delivery text message blueprint string
             const businessNumber = "573000000000"; // Replace with your exact mobile delivery number string
             let textMessageBlueprint = `¡Qué más! Quiero armar un pedido desde la tienda web de ANTIFAZ:\n\n`;
             orderLines.forEach(line => {
