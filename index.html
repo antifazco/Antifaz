@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -303,7 +303,7 @@
                 <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
                 <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
                 
-                <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Store ➔">
+                <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Tienda ➔">
 
                 <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
                 <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
@@ -337,6 +337,19 @@
                         <span class="option-label">Formato:</span>
                         <select class="size-select">
                             <option>Vinilo Negro Estándar</option>
+                        </select>
+                    </div>
+                    <button class="buy-btn">Pedir por WhatsApp</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img-placeholder">[Foto: Cassette]</div>
+                    <h2 class="product-name">Cassette "¡Qué dolor!" (Edición Limitada)</h2>
+                    <div class="product-price">$35.000 COP</div>
+                    <div class="product-options">
+                        <span class="option-label">Color:</span>
+                        <select class="size-select">
+                            <option>Rojo Sólido Punk</option>
                         </select>
                     </div>
                     <button class="buy-btn">Pedir por WhatsApp</button>
@@ -418,8 +431,6 @@
             // DESKTOP HOVER LOGIC
             area.addEventListener('mouseenter', (e) => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
-                
-                // Only reset animation timeline if moving to a completely new canvas region
                 if (currentHoveredArea !== area) {
                     currentHoveredArea = area;
                     showTooltip(area);
