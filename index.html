@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ 5.0</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -224,9 +224,8 @@
     }
 
     .product-media-col {
-        flex: 1; 
-        max-width: 240px;
-        min-width: 160px;
+        width: 300px; /* CHANGED: Carousel frame widened from 240px to 300px */
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
     }
@@ -236,13 +235,14 @@
         position: relative;
         width: 100%;
         aspect-ratio: 1; 
-        border: 2px dashed #ff0000;
+        border: 2px solid #fff; /* Switched dashed outline to solid white framing for real assets */
         border-radius: 8px;
         background-color: #111;
         overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
+        box-shadow: 4px 4px 0px #ff0000; /* Injected old-school offset shadows onto photos */
     }
 
     .carousel-slides {
@@ -561,7 +561,6 @@
                                 <div class="carousel-slide active"><img src="cassette1.jpg" alt="Cassette view 1"></div>
                                 <div class="carousel-slide"><img src="cassette2.jpg" alt="Cassette view 2"></div>
                                 <div class="carousel-slide"><img src="cassette3.jpg" alt="Cassette view 3"></div>
-                                <div class="carousel-slide"><img src="cassette4.jpg" alt="Cassette view 4"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
@@ -591,8 +590,8 @@
                         <div class="carousel-wrapper">
                             <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
                             <div class="carousel-slides">
-                                <div class="carousel-slide active"><img src="camiseta1.jpg" alt="Shirt view 1"></div>
-                                <div class="carousel-slide"><img src="camiseta2.jpg" alt="Shirt view 2"></div>
+                                <div class="carousel-slide active"><img src="shirt1.jpg" alt="Shirt front view"></div>
+                                <div class="carousel-slide"><img src="shirt2.jpg" alt="Shirt back view"></div>
                             </div>
                             <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
