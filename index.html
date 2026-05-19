@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -143,23 +143,23 @@
         <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
 
         <map name="antifaz-links">
-            <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="Biografia" target="_blank">
+            <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔" target="_blank">
 
-            <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="Spotify" target="_blank">
-            <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="Instagram" target="_blank">
-            <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="YouTube" target="_blank">
-            <area shape="circle" coords="486,332,48" href="https://antifazco.bandcamp.com" alt="Merch" data-tooltip="Merch" target="_blank">
+            <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="⚡ Spotify ➔" target="_blank">
+            <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
+            <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
+            <area shape="circle" coords="486,332,48" href="https://antifazco.bandcamp.com" alt="Merch" data-tooltip="💥 Merch ➔" target="_blank">
 
-            <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="Santiago (Trombón)" target="_blank">
-            <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="Esteban (Batería)" target="_blank">
-            <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="Gabriel (Trompeta)" target="_blank">
+            <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
+            <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
+            <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
 
-            <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="Boris (Bajo)" target="_blank">
-            <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="Guillo (Voz/Guitarra)" target="_blank">
+            <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
+            <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
 
-            <area shape="rect" coords="265,735,335,795" href="https://www.reddit.com/user/GuilloMoji/comments/1qe1xps/desenmascarando_la_fiesta_de_m%C3%A1scaras_mojiganga/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" alt="Info" data-tooltip="Informacion" target="_blank">
+            <area shape="rect" coords="265,735,335,795" href="https://www.reddit.com/user/GuilloMoji/comments/1qe1xps/desenmascarando_la_fiesta_de_m%C3%A1scaras_mojiganga/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" alt="Info" data-tooltip="🗣️ Informacion ➔" target="_blank">
 
-            <area shape="circle" coords="300,870,35" href="mailto:antifaz.co@gmail.com" alt="Contact" data-tooltip="Email: Antifaz.co@gmail.com">
+            <area shape="circle" coords="300,870,35" href="mailto:antifaz.co@gmail.com" alt="Contact" data-tooltip="✉️ Email ➔">
         </map>
 
         <div id="tooltip" class="custom-tooltip"></div>
@@ -273,17 +273,16 @@
 
             for (let i = 0; i < mapAreas.length; i++) {
                 const shape = mapAreas[i].getAttribute('shape');
-                // Scale the original base coordinates normally based on layout window size
                 let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
                 
-                // GLOBAL CALIBRATION: Add +15px to all Y axis components to push hitboxes perfectly down
+                // GLOBAL CALIBRATION: Add +15px to all Y axis components to push hitboxes down
                 const verticalOffset = Math.round(15 * scale);
                 
                 if (shape === 'circle') {
-                    scaled[1] = scaled[1] + verticalOffset; // Shift center Y point downward
+                    scaled[1] = scaled[1] + verticalOffset;
                 } else if (shape === 'rect') {
-                    scaled[1] = scaled[1] + verticalOffset; // Shift top Y line downward
-                    scaled[3] = scaled[3] + verticalOffset; // Shift bottom Y line downward
+                    scaled[1] = scaled[1] + verticalOffset;
+                    scaled[3] = scaled[3] + verticalOffset;
                 }
                 
                 mapAreas[i].coords = scaled.join(',');
