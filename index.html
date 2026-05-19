@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
-<link rel="icon" type="image/png" sizes="96x96" href="favicon.png">
+<title>-ANTIFAZ-</title>
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -267,12 +267,25 @@
                 [467,510,58],  
                 [216,634,58],  
                 [384,634,58],  
-                [265,735,335,795], // Scaled mapping array updated to track the tiny info hitbox
+                [265,735,335,795], 
                 [300,870,35]   
             ];
 
             for (let i = 0; i < mapAreas.length; i++) {
-                const scaled = originalCoords[i].map(coord => Math.round(coord * scale));
+                const shape = mapAreas[i].getAttribute('shape');
+                // Scale the original base coordinates normally based on layout window size
+                let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
+                
+                // GLOBAL CALIBRATION: Add +15px to all Y axis components to push hitboxes perfectly down
+                const verticalOffset = Math.round(15 * scale);
+                
+                if (shape === 'circle') {
+                    scaled[1] = scaled[1] + verticalOffset; // Shift center Y point downward
+                } else if (shape === 'rect') {
+                    scaled[1] = scaled[1] + verticalOffset; // Shift top Y line downward
+                    scaled[3] = scaled[3] + verticalOffset; // Shift bottom Y line downward
+                }
+                
                 mapAreas[i].coords = scaled.join(',');
             }
             
