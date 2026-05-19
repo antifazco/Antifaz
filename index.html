@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>--ANTIFAZ--</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -115,6 +115,23 @@
         box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5);
     }
 
+    /* Speech Bubble Tail Outline */
+    .custom-tooltip::before {
+        content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+        border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; width: 0;
+    }
+
+    /* Speech Bubble Tail Fill */
+    .custom-tooltip::after {
+        content: ""; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+        border-width: 10px 8px 0; border-style: solid; border-color: #000 transparent; display: block; width: 0;
+    }
+
+    .custom-tooltip.visible {
+        opacity: 1;
+        animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
     /* STORE FRONT ARCHITECTURE */
     #store-page {
         background-image: url('storebkgr.jpg');
@@ -133,7 +150,6 @@
         width: 62vw; 
         min-width: 500px; 
         box-sizing: border-box;
-        /* Dynamic viewport width top padding fits the image layout precisely */
         padding-top: 31vw; 
         padding-bottom: 40px;
     }
@@ -144,7 +160,7 @@
         min-width: 500px; 
         box-sizing: border-box;
         margin-top: 20px;
-        padding-bottom: 12vw; /* Protects bottom banner details fluidly */
+        padding-bottom: 12vw; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -160,7 +176,6 @@
         text-transform: uppercase;
         cursor: pointer;
         border-radius: 8px;
-        /* CHANGED: Swapped red outline for a deep matte black layout shadow */
         box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.95);
         transition: transform 0.1s, box-shadow 0.1s;
     }
@@ -437,14 +452,12 @@
     /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
         #store-page {
-            /* CHANGED: Swapped unproportional cover mapping for fluid 1:1 image scaling */
             background-size: 100% auto; 
         }
 
         .store-container {
             width: 92% !important;
             min-width: 0 !important;
-            /* CHANGED: Realigned topMobile padding cushion to match the new image height map perfectly */
             padding-top: 31vw; 
             padding-bottom: 40px;
         }
@@ -492,7 +505,7 @@
 
                 <area shape="rect" coords="265,735,335,795" href="mailto:antifaz.co@gmail.com" alt="Info" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔" target="_blank">
 
-                <area shape="circle" coords="300,870,35" href="http://www.skacomombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
+                <area shape="circle" coords="300,870,35" href="http://www.skacolombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
             </map>
 
             <div id="tooltip" class="custom-tooltip"></div>
@@ -897,6 +910,7 @@
             const currentWidth = img.clientWidth;
             const scale = currentWidth / originalWidth;
 
+            // FIXED REFERENCE MATRIX CO-ORDINATES
             const originalCoords = [
                 [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
                 [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
