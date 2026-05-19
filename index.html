@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title> - ANTIFAZ - </title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -25,23 +25,38 @@
     body {
         margin: 0;
         padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
         min-height: 100vh;
         background-color: #000;
         font-family: Arial, sans-serif;
+        box-sizing: border-box;
+        overflow-x: hidden; 
+        color: #fff;
+    }
+
+    /* SPA PAGE WRAPPERS & TRANSITIONS */
+    .page-view {
+        display: none;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.25s ease-out;
+    }
+    
+    .page-view.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 1;
+    }
+
+    #home-page {
         padding-top: 20px;
         padding-bottom: 80px; 
-        box-sizing: border-box;
-        /* STRICT SAFENEG: Allows normal down scrolling, absolutely blocks side scrolling */
-        overflow-x: hidden; 
     }
 
     .link-map-container {
         position: relative; 
         max-width: 1400px; 
-        width: 95%; /* Perfect vertical-centric scaling on desktops */
+        width: 95%; 
         overflow: visible; 
     }
 
@@ -53,34 +68,22 @@
 
     area {
         cursor: pointer;
-        /* Disables default mobile highlight box on tap */
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* MOBILE OPTIMIZATION: Max wide layout without any side-bleed */
     @media (max-width: 767px) {
         .link-map-container {
-            width: 100% !important; /* Spans the maximum safe width of the phone frame */
+            width: 100% !important; 
             padding: 0;
         }
     }
 
     /* Frantic Punk Pop & Shake Animation */
     @keyframes punkPop {
-        0% {
-            opacity: 0;
-            transform: translate(-50%, -122%) scale(0.4) rotate(-8deg);
-        }
-        50% {
-            transform: translate(-50%, -122%) scale(1.1) rotate(4deg);
-        }
-        75% {
-            transform: translate(-50%, -122%) scale(0.95) rotate(-2deg);
-        }
-        100% {
-            opacity: 1;
-            transform: translate(-50%, -122%) scale(1) rotate(0deg);
-        }
+        0% { opacity: 0; transform: translate(-50%, -122%) scale(0.4) rotate(-8deg); }
+        50% { transform: translate(-50%, -122%) scale(1.1) rotate(4deg); }
+        75% { transform: translate(-50%, -122%) scale(0.95) rotate(-2deg); }
+        100% { opacity: 1; transform: translate(-50%, -122%) scale(1) rotate(0deg); }
     }
 
     /* Comic Book Speech Bubble Tooltip */
@@ -100,82 +103,267 @@
         z-index: 2000;
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
-        
-        /* MODIFIED: Enabled pointer events so the bubble can receive mobile click interactions */
         pointer-events: auto; 
         cursor: pointer;
-        
-        /* Dynamic transitional pacing for desktop cursor tracking paths */
         transition: background-color 0.1s, opacity 0.1s, left 0.05s ease-out, top 0.05s ease-out;
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Tactile Mobile Tap Feedback for the speech bubble */
     .custom-tooltip:active {
         background-color: #111;
         box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5);
     }
 
-    /* Speech Bubble Tail Outline */
     .custom-tooltip::before {
-        content: "";
-        position: absolute;
-        bottom: -12px; 
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 12px 10px 0; 
-        border-style: solid;
-        border-color: #fff transparent;
-        display: block;
-        width: 0;
+        content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+        border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; width: 0;
     }
 
-    /* Speech Bubble Tail Fill */
     .custom-tooltip::after {
-        content: "";
-        position: absolute;
-        bottom: -9px; 
-        left: 50%;
-        transform: translateX(-50%);
-        border-width: 10px 8px 0;
-        border-style: solid;
-        border-color: #000 transparent;
-        display: block;
-        width: 0;
+        content: ""; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+        border-width: 10px 8px 0; border-style: solid; border-color: #000 transparent; display: block; width: 0;
     }
 
     .custom-tooltip.visible {
         opacity: 1;
         animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
+
+    /* STORE FRONT ARCHITECTURE */
+    .store-container {
+        max-width: 1100px;
+        width: 90%;
+        padding: 40px 0;
+        box-sizing: border-box;
+    }
+
+    .store-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px dashed #fff;
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+    }
+
+    .store-title {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: #ff0000;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 0;
+        text-shadow: 3px 3px 0px #fff;
+    }
+
+    .back-btn {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 8px 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 4px 4px 0px #ff0000;
+        transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .back-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #ff0000;
+    }
+    .back-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #ff0000;
+    }
+
+    /* Products Grid Matrix */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 35px;
+    }
+
+    .product-card {
+        background-color: #000;
+        border: 2px solid #fff;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 6px 6px 0px rgba(255, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .product-img-placeholder {
+        width: 100%;
+        aspect-ratio: 1;
+        background-color: #111;
+        border: 2px dashed #ff0000;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #555;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        margin-bottom: 18px;
+    }
+
+    .product-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0 0 8px 0;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+
+    .product-price {
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: #ff0000;
+        margin-bottom: 15px;
+    }
+
+    .product-options {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .option-label {
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #aaa;
+    }
+
+    .size-select {
+        background: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 8px;
+        font-weight: bold;
+        border-radius: 6px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .buy-btn {
+        margin-top: auto;
+        background-color: #ff0000;
+        color: #000;
+        border: 2px solid #fff;
+        padding: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        box-shadow: 4px 4px 0px #fff;
+        transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .buy-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #fff;
+    }
+    .buy-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #fff;
+    }
 </style>
 </head>
 <body>
 
-    <div class="link-map-container" id="container">
-        <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
+    <div id="home-page" class="page-view active">
+        <div class="link-map-container" id="container">
+            <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
 
-        <map name="antifaz-links">
-            <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔" target="_blank">
+            <map name="antifaz-links">
+                <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔" target="_blank">
 
-            <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="⚡ Spotify ➔" target="_blank">
-            <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
-            <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
-            <area shape="circle" coords="486,332,48" href="https://antifazco.bandcamp.com" alt="Merch" data-tooltip="👕 Merch ➔" target="_blank">
+                <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="⚡ Spotify ➔" target="_blank">
+                <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
+                <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
+                
+                <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Store ➔">
 
-            <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
-            <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
-            <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
+                <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
+                <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
+                <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
 
-            <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
-            <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
+                <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
+                <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
 
-            <area shape="rect" coords="265,735,335,795" href="mailto:antifaz.co@gmail.com" alt="Info" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔" target="_blank">
+                <area shape="rect" coords="265,735,335,795" href="https://www.reddit.com/user/GuilloMoji/comments/1qe1xps/desenmascarando_la_fiesta_de_m%C3%A1scaras_mojiganga/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" alt="Info" data-tooltip="🗣️ Informacion ➔" target="_blank">
 
-            <area shape="circle" coords="300,870,35" href="https://www.skacolombia.com/public/antifaz" alt="Contact" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
-        </map>
+                <area shape="circle" coords="300,870,35" href="mailto:antifaz.co@gmail.com" alt="Contact" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔">
+            </map>
 
-        <div id="tooltip" class="custom-tooltip"></div>
+            <div id="tooltip" class="custom-tooltip"></div>
+        </div>
+    </div>
+
+    <div id="store-page" class="page-view">
+        <div class="store-container">
+            <header class="store-header">
+                <h1 class="store-title">💥 Antifaz Tienda</h1>
+                <button class="back-btn" onclick="navigateTo('home')">➔ Volver</button>
+            </header>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-img-placeholder">[Foto: Camiseta Oficial]</div>
+                    <h2 class="product-name">Camiseta "¡Qué dolor!"</h2>
+                    <div class="product-price">$60.000 COP</div>
+                    <div class="product-options">
+                        <span class="option-label">Talla:</span>
+                        <select class="size-select">
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                        </select>
+                    </div>
+                    <button class="buy-btn">Pedir por WhatsApp</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img-placeholder">[Foto: Vinilo 12"]</div>
+                    <h2 class="product-name">Álbum Debut 12" Vinyl (Limited Edition)</h2>
+                    <div class="product-price">$140.000 COP</div>
+                    <div class="product-options">
+                        <span class="option-label">Formato:</span>
+                        <select class="size-select">
+                            <option>Vinilo Negro Estándar</option>
+                        </select>
+                    </div>
+                    <button class="buy-btn">Pedir por WhatsApp</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img-placeholder">[Foto: Gorra Patch]</div>
+                    <h2 class="product-name">Gorra Trucker Antifaz</h2>
+                    <div class="product-price">$45.000 COP</div>
+                    <div class="product-options">
+                        <span class="option-label">Talla:</span>
+                        <select class="size-select">
+                            <option>Ajustable Unica</option>
+                        </select>
+                    </div>
+                    <button class="buy-btn">Pedir por WhatsApp</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -184,14 +372,32 @@
         const areas = document.querySelectorAll('area');
         
         let activeArea = null; 
-        let currentHoveredArea = null; // Guard flag to prevent redundant desktop refreshes
+        let currentHoveredArea = null; 
+
+        // SPA NAVIGATION ROUTER ENGINE
+        function navigateTo(pageId) {
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            
+            // Clean active elements before cross-fading views
+            activeArea = null;
+            hideTooltip();
+
+            if (pageId === 'store') {
+                homePage.classList.remove('active');
+                storePage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                storePage.classList.remove('active');
+                homePage.classList.add('active');
+                setTimeout(resizeMap, 50); // Recalculate maps placement on transition complete
+            }
+        }
 
         areas.forEach(area => {
             // DESKTOP HOVER LOGIC
             area.addEventListener('mouseenter', (e) => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
-                
-                // Only reset the animation timeline if moving to a completely new area
                 if (currentHoveredArea !== area) {
                     currentHoveredArea = area;
                     showTooltip(area);
@@ -200,7 +406,6 @@
 
             area.addEventListener('mousemove', (e) => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
-
                 const rect = container.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
@@ -215,11 +420,12 @@
 
             // SMART MOBILE CLICK / TOUCH INTERACTION
             area.addEventListener('click', (e) => {
+                const isMerchStore = (area.getAttribute('href') === '#store');
+                
                 if (window.matchMedia("(pointer: coarse)").matches) {
                     if (activeArea !== area) {
                         e.preventDefault(); 
                         activeArea = area;
-                        
                         showTooltip(area);
                         
                         const coords = area.coords.split(',').map(Number);
@@ -233,21 +439,28 @@
                             centerX = (coords[0] + coords[2]) / 2;
                             centerY = coords[1] + 10; 
                         }
-
                         positionTooltip(centerX, centerY);
+                    } else if (isMerchStore) {
+                        e.preventDefault();
+                        navigateTo('store');
                     }
+                } else if (!window.matchMedia("(pointer: coarse)").matches && isMerchStore) {
+                    // Instantly capture desktop click on merch area map bounds
+                    e.preventDefault();
+                    navigateTo('store');
                 }
             });
         });
 
         // INTERACTIVE SPEECH BUBBLE TAP REGISTER
         tooltip.addEventListener('click', () => {
-            if (window.matchMedia("(pointer: coarse)").matches && activeArea) {
-                const destination = activeArea.getAttribute('href');
-                const targetWindow = activeArea.getAttribute('target') || '_self';
-                
-                if (destination) {
-                    window.open(destination, targetWindow);
+            if (activeArea) {
+                if (activeArea.getAttribute('href') === '#store') {
+                    navigateTo('store');
+                } else if (window.matchMedia("(pointer: coarse)").matches) {
+                    const destination = activeArea.getAttribute('href');
+                    const targetWindow = activeArea.getAttribute('target') || '_self';
+                    if (destination) window.open(destination, targetWindow);
                 }
             }
         });
@@ -277,35 +490,23 @@
 
         function resizeMap() {
             const img = document.getElementById('map-image');
+            if (!img || img.clientWidth === 0) return;
+
             const map = document.getElementsByName('antifaz-links')[0];
             const mapAreas = map.getElementsByTagName('area');
-            
             const originalWidth = 600; 
             const currentWidth = img.clientWidth;
-            
-            if (currentWidth === 0) return;
-
             const scale = currentWidth / originalWidth;
 
             const originalCoords = [
-                [300,147,100], 
-                [120,332,48],  
-                [242,332,48],  
-                [364,332,48],  
-                [486,332,48],  
-                [133,510,58],  
-                [300,510,58],  
-                [467,510,58],  
-                [216,634,58],  
-                [384,634,58],  
-                [265,735,335,795], 
-                [300,870,35]   
+                [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
+                [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
+                [265,735,335,795], [300,870,35]   
             ];
 
             for (let i = 0; i < mapAreas.length; i++) {
                 const shape = mapAreas[i].getAttribute('shape');
                 let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
-                
                 const verticalOffset = Math.round(15 * scale);
                 
                 if (shape === 'circle') {
@@ -314,13 +515,7 @@
                     scaled[1] = scaled[1] + verticalOffset;
                     scaled[3] = scaled[3] + verticalOffset;
                 }
-                
                 mapAreas[i].coords = scaled.join(',');
-            }
-            
-            if (activeArea) {
-                activeArea = null;
-                hideTooltip();
             }
         }
 
