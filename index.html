@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>--ANTIFAZ--</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -144,7 +144,7 @@
     }
 
     .store-container {
-        max-width: 750px; /* Widened slightly to balance split design elements */
+        max-width: 600px; /* MODIFIED: Narrowed down 20% from 750px */
         width: 90%;
         /* Adjusted top padding globally for clean desktop breathing room */
         padding-top: 260px; 
@@ -193,10 +193,10 @@
         background-color: rgba(0, 0, 0, 0.85); /* Slightly translucent to let texture breathe */
         border: 2px solid #fff;
         border-radius: 12px;
-        padding: 24px;
+        padding: 16px; /* MODIFIED: Compact inner footprint spacing */
         display: flex;
         flex-direction: row; /* Horizontal layout framework */
-        gap: 24px;
+        gap: 20px;
         box-shadow: 6px 6px 0px rgba(255, 0, 0, 0.3);
         transition: transform 0.2s ease;
         align-items: stretch;
@@ -216,7 +216,7 @@
     }
 
     .product-media-col {
-        width: 260px; /* Clean proportional size for square layout display */
+        width: 208px; /* MODIFIED: Scaled down 20% from 260px */
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
@@ -271,7 +271,7 @@
         color: #555;
         font-weight: bold;
         text-transform: uppercase;
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* MODIFIED: Slightly optimized text scale */
         text-align: center;
         padding: 10px;
     }
@@ -284,9 +284,9 @@
         background: #000;
         color: #ff0000;
         border: 2px solid #fff;
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
+        width: 28px; /* MODIFIED: Sized down slightly for visual parity */
+        height: 28px;
+        font-size: 0.75rem;
         cursor: pointer;
         z-index: 10;
         border-radius: 6px;
@@ -302,12 +302,12 @@
         color: #000;
     }
 
-    .carousel-btn.prev { left: 8px; }
-    .carousel-btn.next { right: 8px; }
+    .carousel-btn.prev { left: 6px; }
+    .carousel-btn.next { right: 6px; }
 
     /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
-        font-size: 1.25rem;
+        font-size: 1.1rem; /* MODIFIED: Scaled down from 1.25rem */
         font-weight: bold;
         text-transform: uppercase;
         margin: 0 0 10px 0;
@@ -317,14 +317,14 @@
     }
 
     .product-price {
-        font-size: 1.4rem;
+        font-size: 1.3rem; /* MODIFIED: Balanced scale matching */
         font-weight: 900;
         color: #ff0000;
         margin-bottom: 15px;
     }
 
     .product-options {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -342,12 +342,12 @@
         background: #000;
         color: #fff;
         border: 2px solid #fff;
-        padding: 8px;
+        padding: 6px;
         font-weight: bold;
         border-radius: 6px;
         outline: none;
         cursor: pointer;
-        max-width: 160px;
+        max-width: 140px;
     }
 
     .buy-btn {
@@ -355,10 +355,10 @@
         background-color: #ff0000;
         color: #000;
         border: 2px solid #fff;
-        padding: 12px 20px;
+        padding: 10px 16px; /* MODIFIED: Tighter call to action button dimensions */
         font-weight: 900;
         text-transform: uppercase;
-        font-size: 1rem;
+        font-size: 0.9rem;
         cursor: pointer;
         border-radius: 8px;
         box-shadow: 4px 4px 0px #fff;
@@ -566,17 +566,14 @@
             const slides = wrapper.querySelectorAll('.carousel-slide');
             let currentActiveIndex = 0;
 
-            // Track down which frame layout contains the operational active flag
             slides.forEach((slide, index) => {
                 if (slide.classList.contains('active')) {
                     currentActiveIndex = index;
                 }
             });
 
-            // Strip current visible flags
             slides[currentActiveIndex].classList.remove('active');
 
-            // Apply routing boundaries matrix
             let nextActiveIndex = currentActiveIndex + direction;
             if (nextActiveIndex >= slides.length) {
                 nextActiveIndex = 0;
@@ -584,7 +581,6 @@
                 nextActiveIndex = slides.length - 1;
             }
 
-            // Fire active display transition rules
             slides[nextActiveIndex].classList.add('active');
         }
 
