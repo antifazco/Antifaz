@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -144,10 +144,11 @@
     }
 
     .store-container {
-        max-width: 720px; /* INCREASED: Widened canvas path to open grid line widths */
-        width: 90%;
-        /* INCREASED BUFFER: Extra cushion space guarantees full top image details look clear */
-        padding-top: 280px; 
+        /* CHANGED: Swapped hard pixel locks for fluid width limits that stretch with the screen */
+        max-width: 850px; 
+        width: 55vw; /* Fluid base sizing depending directly on browser scale */
+        min-width: 500px; /* Prevents rows from crunching too much on tablet windows */
+        padding-top: 260px; 
         padding-bottom: 80px;
         box-sizing: border-box;
         display: flex;
@@ -161,7 +162,7 @@
         align-items: center;
         width: 100%;
         gap: 20px;
-        margin-top: 40px; /* Creates clean isolation below the grid rows */
+        margin-top: 40px; 
     }
 
     .back-btn {
@@ -195,16 +196,16 @@
     }
 
     .product-card {
-        background-color: rgba(0, 0, 0, 0.85); /* Slightly translucent to let texture breathe */
+        background-color: rgba(0, 0, 0, 0.85); 
         border: 2px solid #fff;
         border-radius: 12px;
-        padding: 16px; 
+        padding: 2.5%; /* CHANGED: Fluid padding scales elegantly */
         display: flex;
-        flex-direction: row; /* Horizontal layout framework */
-        gap: 20px;
+        flex-direction: row; 
+        gap: 4%; /* CHANGED: Proportional layout spacing splits columns dynamically */
         box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95);
         transition: transform 0.2s ease;
-        align-items: center; /* Balanced centered vertical line tracking */
+        align-items: center; 
     }
 
     .product-card:hover {
@@ -213,16 +214,17 @@
 
     /* Split Column Structure */
     .product-details-col {
-        flex: 1;
+        flex: 1.3; /* Gives the description column a bit more proportional stretch */
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Hard alignment to the left side */
+        align-items: flex-start; 
         text-align: left;
     }
 
     .product-media-col {
-        width: 208px; 
-        flex-shrink: 0;
+        flex: 1; /* CHANGED: Media column now scales smoothly instead of holding a fixed pixel block */
+        max-width: 240px;
+        min-width: 160px;
         display: flex;
         flex-direction: column;
     }
@@ -231,7 +233,7 @@
     .carousel-wrapper {
         position: relative;
         width: 100%;
-        aspect-ratio: 1; /* Locked image ratios to perfect squares */
+        aspect-ratio: 1; 
         border: 2px dashed #ff0000;
         border-radius: 8px;
         background-color: #111;
@@ -307,7 +309,7 @@
 
     /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
-        font-size: 1.1rem; 
+        font-size: calc(1rem + 0.2vw); /* CHANGED: Fluid type scales down dynamically on smaller screen profiles */
         font-weight: bold;
         text-transform: uppercase;
         margin: 0 0 10px 0;
@@ -317,7 +319,7 @@
     }
 
     .product-price {
-        font-size: 1.3rem; 
+        font-size: calc(1.1rem + 0.2vw); /* CHANGED: Fluid scaling parity */
         font-weight: 900;
         color: #ff0000;
         margin-bottom: 15px;
@@ -357,7 +359,6 @@
         cursor: pointer;
     }
     
-    /* SHRUNK: Dropdowns are perfectly framed for clean digit tracking lengths */
     .qty-selector {
         max-width: 60px !important;
         text-align: center;
@@ -448,6 +449,11 @@
 
     /* RESPONSIVE LAYOUT CONVERSION FOR PHONE FRAMES */
     @media (max-width: 767px) {
+        .store-container {
+            width: 90% !important; /* Maximizes frame space footprint on mobile layouts */
+            padding-top: 180px !important; 
+        }
+
         .product-card {
             flex-direction: column-reverse; 
             gap: 20px;
@@ -456,12 +462,7 @@
 
         .product-media-col {
             width: 100%; 
-        }
-    }
-
-    @media (max-width: 767px) {
-        .store-container {
-            padding-top: 180px !important; /* Preserves mobile framework positioning constraints */
+            max-width: 100%;
         }
     }
 </style>
