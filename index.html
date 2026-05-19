@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> - ANTIFAZ - </title>
+<title> -ANTIFAZ- </title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -101,9 +101,18 @@
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
         
-        /* MODIFIED: Enabled pointer events so the bubble can receive mobile click interactions */
+        /* Enabled pointer events so the bubble can receive mobile click interactions */
         pointer-events: auto; 
         cursor: pointer;
+        
+        transition: background-color 0.1s, opacity 0.1s;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Tactile Mobile Tap Feedback for the speech bubble */
+    .custom-tooltip:active {
+        background-color: #111;
+        box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5);
     }
 
     /* Speech Bubble Tail Outline */
