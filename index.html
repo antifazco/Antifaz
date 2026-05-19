@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
-<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<title>-)ANTIFAZ(</title>
+<link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
     ::-webkit-scrollbar {
@@ -34,7 +34,7 @@
 
     /* SPA PAGE WRAPPERS & TRANSITIONS */
     .page-view {
-        display: none;
+        display: none; /* Keeps pages fully excluded from document height when hidden */
         width: 100%;
         opacity: 0;
         transition: opacity 0.25s ease-out;
@@ -47,8 +47,6 @@
         opacity: 1;
     }
 
-    /* ISOLATED LANDING PAGE: Explicitly contains the height 
-       to prevent empty black spaces from bleeding underneath the map */
     #home-page {
         padding-top: 20px;
         padding-bottom: 40px; 
@@ -135,10 +133,8 @@
         width: 55vw; 
         min-width: 500px; 
         box-sizing: border-box;
-        
-        /* DYNAMIC PADDING BUFFER: Scales fluidly relative to viewport width, 
-           preventing gaps or card clipping when resizing your background graphic */
-        padding-top: 25vw; 
+        /* Dynamic viewport width top padding fits the image layout precisely */
+        padding-top: 31vw; 
         padding-bottom: 40px;
     }
 
@@ -446,7 +442,7 @@
         .store-container {
             width: 92% !important;
             min-width: 0 !important;
-            padding-top: 140px; /* Locked safety margin for mobile frames */
+            padding-top: 140px; 
         }
         
         .store-footer-content {
@@ -770,7 +766,7 @@
             slides[nextActiveIndex].classList.add('active');
         }
 
-        // SPA NAVIGATION ROUTER ENGINE
+        // SPA NAVIGATION ROUTER ENGINE (FIXED: Handles clean active toggles)
         function navigateTo(pageId) {
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
@@ -780,11 +776,16 @@
 
             if (pageId === 'store') {
                 homePage.classList.remove('active');
+                homePage.style.display = 'none'; // Completely drop height logic from active layout view
+                storePage.style.display = 'flex';
                 storePage.classList.add('active');
                 window.scrollTo(0, 0);
             } else {
                 storePage.classList.remove('active');
+                storePage.style.display = 'none'; // Strip store baseline height trace completely
+                homePage.style.display = 'flex';
                 homePage.classList.add('active');
+                window.scrollTo(0, 0); // Always forces browser baseline context home instantly
                 setTimeout(resizeMap, 50); 
             }
         }
@@ -917,6 +918,13 @@
         document.getElementById('map-image').addEventListener('load', resizeMap);
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
+            
+            // INITIALIZATION FIX: Explicitly enforce pure initial state on page boots
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            homePage.style.display = 'flex';
+            storePage.style.display = 'none';
+            window.scrollTo(0, 0);
         });
     </script>
 
