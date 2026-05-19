@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -134,6 +134,15 @@
     }
 
     /* STORE FRONT ARCHITECTURE */
+    #store-page {
+        background-image: url('storebkgr.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Keeps texture locked still while cards scroll */
+        width: 100%;
+    }
+
     .store-container {
         max-width: 1100px;
         width: 90%;
@@ -190,7 +199,7 @@
     }
 
     .product-card {
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.85); /* Slightly translucent to let texture breathe */
         border: 2px solid #fff;
         border-radius: 12px;
         padding: 20px;
