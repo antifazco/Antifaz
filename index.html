@@ -738,4 +738,197 @@
             orderLines.forEach(line => {
                 textMessageBlueprint += `• ${line}\n`;
             });
-            textMessageBlueprint +=
+            textMessageBlueprint += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP\n\n¿Tienen disponibilidad para coordinar la entrega? 💥`;
+
+            const parsedURI = encodeURIComponent(textMessageBlueprint);
+            window.open(`https://api.whatsapp.com/send?phone=${businessNumber}&text=${parsedURI}`, '_blank');
+        }
+
+        // LIGHTWEIGHT CAROUSEL CONTROLLER LOGIC
+        function moveSlide(buttonElement, direction) {
+            const wrapper = buttonElement.closest('.carousel-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            let currentActiveIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            slides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= slides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = slides.length - 1;
+            }
+
+            slides[nextActiveIndex].classList.add('active');
+        }
+
+        // SPA NAVIGATION ROUTER ENGINE (FIXED: Handles clean active toggles)
+        function navigateTo(pageId) {
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            
+            activeArea = null;
+            hideTooltip();
+
+            if (pageId === 'store') {
+                homePage.classList.remove('active');
+                homePage.style.display = 'none'; // Completely drop height logic from active layout view
+                storePage.style.display = 'flex';
+                storePage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                storePage.classList.remove('active');
+                storePage.style.display = 'none'; // Strip store baseline height trace completely
+                homePage.style.display = 'flex';
+                homePage.classList.add('active');
+                window.scrollTo(0, 0); // Always forces browser baseline context home instantly
+                setTimeout(resizeMap, 50); 
+            }
+        }
+
+        areas.forEach(area => {
+            // DESKTOP HOVER LOGIC
+            area.addEventListener('mouseenter', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                if (currentHoveredArea !== area) {
+                    currentHoveredArea = area;
+                    showTooltip(area);
+                }
+            });
+
+            area.addEventListener('mousemove', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                positionTooltip(x, y);
+            });
+
+            area.addEventListener('mouseleave', () => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                currentHoveredArea = null;
+                hideTooltip();
+            });
+
+            // SMART MOBILE CLICK / TOUCH INTERACTION
+            area.addEventListener('click', (e) => {
+                const isMerchStore = (area.getAttribute('href') === '#store');
+                
+                if (window.matchMedia("(pointer: coarse)").matches) {
+                    if (activeArea !== area) {
+                        e.preventDefault(); 
+                        activeArea = area;
+                        showTooltip(area);
+                        
+                        const coords = area.coords.split(',').map(Number);
+                        const shape = area.getAttribute('shape');
+                        let centerX, centerY;
+
+                        if (shape === 'circle') {
+                            centerX = coords[0];
+                            centerY = coords[1] - (coords[2] * 0.9); 
+                        } else if (shape === 'rect') {
+                            centerX = (coords[0] + coords[2]) / 2;
+                            centerY = coords[1] + 10; 
+                        }
+                        positionTooltip(centerX, centerY);
+                    } else if (isMerchStore) {
+                        e.preventDefault();
+                        navigateTo('store');
+                    }
+                } else if (!window.matchMedia("(pointer: coarse)").matches && isMerchStore) {
+                    e.preventDefault();
+                    navigateTo('store');
+                }
+            });
+        });
+
+        // INTERACTIVE SPEECH BUBBLE TAP REGISTER
+        tooltip.addEventListener('click', () => {
+            if (activeArea) {
+                if (activeArea.getAttribute('href') === '#store') {
+                    navigateTo('store');
+                } else if (window.matchMedia("(pointer: coarse)").matches) {
+                    const destination = activeArea.getAttribute('href');
+                    const targetWindow = activeArea.getAttribute('target') || '_self';
+                    if (destination) window.open(destination, targetWindow);
+                }
+            }
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'AREA' && e.target !== tooltip) {
+                activeArea = null;
+                hideTooltip();
+            }
+        });
+
+        function showTooltip(element) {
+            tooltip.textContent = element.getAttribute('data-tooltip');
+            tooltip.classList.remove('visible');
+            void tooltip.offsetWidth; 
+            tooltip.classList.add('visible');
+        }
+
+        function positionTooltip(x, y) {
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+        }
+
+        function resizeMap() {
+            const img = document.getElementById('map-image');
+            if (!img || img.clientWidth === 0) return;
+
+            const map = document.getElementsByName('antifaz-links')[0];
+            const mapAreas = map.getElementsByTagName('area');
+            const originalWidth = 600; 
+            const currentWidth = img.clientWidth;
+            const scale = currentWidth / originalWidth;
+
+            const originalCoords = [
+                [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
+                [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
+                [265,735,335,795], [300,870,35]   
+            ];
+
+            for (let i = 0; i < mapAreas.length; i++) {
+                const shape = mapAreas[i].getAttribute('shape');
+                let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
+                const verticalOffset = Math.round(15 * scale);
+                
+                if (shape === 'circle') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                } else if (shape === 'rect') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                    scaled[3] = scaled[3] + verticalOffset;
+                }
+                mapAreas[i].coords = scaled.join(',');
+            }
+        }
+
+        window.addEventListener('resize', resizeMap);
+        document.getElementById('map-image').addEventListener('load', resizeMap);
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(resizeMap, 300);
+            
+            // INITIALIZATION FIX: Explicitly enforce pure initial state on page boots
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            homePage.style.display = 'flex';
+            storePage.style.display = 'none';
+            window.scrollTo(0, 0);
+        });
+    </script>
+
+</body>
+</html>
