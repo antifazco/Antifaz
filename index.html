@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -144,7 +144,7 @@
     }
 
     .store-container {
-        max-width: 650px; /* Narrowed layout to perfectly display stacked rows */
+        max-width: 750px; /* Widened slightly to balance split design elements */
         width: 90%;
         /* Adjusted top padding globally for clean desktop breathing room */
         padding-top: 260px; 
@@ -181,7 +181,7 @@
         box-shadow: 2px 2px 0px #ff0000;
     }
 
-    /* Products Grid Matrix shifted into stacked rows */
+    /* Products Grid Stacked Rows */
     .products-grid {
         display: flex;
         flex-direction: column;
@@ -193,42 +193,124 @@
         background-color: rgba(0, 0, 0, 0.85); /* Slightly translucent to let texture breathe */
         border: 2px solid #fff;
         border-radius: 12px;
-        padding: 20px;
+        padding: 24px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row; /* Horizontal layout framework */
+        gap: 24px;
         box-shadow: 6px 6px 0px rgba(255, 0, 0, 0.3);
         transition: transform 0.2s ease;
+        align-items: stretch;
     }
 
     .product-card:hover {
         transform: translateY(-5px);
     }
 
-    .product-img-placeholder {
+    /* Split Column Structure */
+    .product-details-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Hard alignment to the left side */
+        text-align: left;
+    }
+
+    .product-media-col {
+        width: 260px; /* Clean proportional size for square layout display */
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* IMAGE CAROUSEL ARCHITECTURE */
+    .carousel-wrapper {
+        position: relative;
         width: 100%;
-        aspect-ratio: 16 / 9; /* Switched to a wider banner look for row structures */
-        max-height: 250px;
-        background-color: #111;
+        aspect-ratio: 1; /* Locked image ratios to perfect squares */
         border: 2px dashed #ff0000;
         border-radius: 8px;
+        background-color: #111;
+        overflow: hidden;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .carousel-slides {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    /* Raw Image Elements inside the slideshow framework */
+    .carousel-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .carousel-placeholder-text {
         color: #555;
         font-weight: bold;
         text-transform: uppercase;
-        font-size: 0.9rem;
-        margin-bottom: 18px;
+        font-size: 0.85rem;
         text-align: center;
         padding: 10px;
-        box-sizing: border-box;
     }
 
+    /* Punk Navigation Controls */
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: #ff0000;
+        border: 2px solid #fff;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 2px 2px 0px #ff0000;
+        transition: background-color 0.1s;
+    }
+
+    .carousel-btn:hover {
+        background: #ff0000;
+        color: #000;
+    }
+
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+
+    /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
         font-weight: bold;
         text-transform: uppercase;
-        margin: 0 0 8px 0;
+        margin: 0 0 10px 0;
         color: #fff;
         letter-spacing: 1px;
         line-height: 1.3;
@@ -246,6 +328,7 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+        width: 100%;
     }
 
     .option-label {
@@ -264,14 +347,15 @@
         border-radius: 6px;
         outline: none;
         cursor: pointer;
+        max-width: 160px;
     }
 
     .buy-btn {
-        margin-top: auto;
+        margin-top: auto; /* Aligns order trigger nicely to the baseline */
         background-color: #ff0000;
         color: #000;
         border: 2px solid #fff;
-        padding: 12px;
+        padding: 12px 20px;
         font-weight: 900;
         text-transform: uppercase;
         font-size: 1rem;
@@ -279,6 +363,7 @@
         border-radius: 8px;
         box-shadow: 4px 4px 0px #fff;
         transition: transform 0.1s, box-shadow 0.1s;
+        align-self: flex-start;
     }
 
     .buy-btn:hover {
@@ -290,7 +375,24 @@
         box-shadow: 2px 2px 0px #fff;
     }
 
-    /* Media query targeting mobile viewports to preserve its layout */
+    /* RESPONSIVE LAYOUT CONVERSION FOR PHONE FRAMES */
+    @media (max-width: 767px) {
+        .product-card {
+            flex-direction: column-reverse; /* Media content drops below description content on narrow viewports */
+            gap: 20px;
+            padding: 16px;
+        }
+
+        .product-media-col {
+            width: 100%; /* Spans full safe width limits natively */
+        }
+
+        .buy-btn {
+            width: 100%;
+            align-self: center;
+        }
+    }
+
     @media (max-width: 767px) {
         .store-container {
             padding-top: 180px; /* Kept intact exactly as you had it for mobile devices */
@@ -337,71 +439,114 @@
 
             <div class="products-grid">
                 <div class="product-card">
-                    <div class="product-img-placeholder">[Foto: Vinilo 12"]</div>
-                    <h2 class="product-name">10" Vinyl Qué dolor!</h2>
-                    <div class="product-price">$100.000 COP</div>
-                    <div class="product-options">
-                        <span class="option-label">Formato:</span>
-                        <select class="size-select">
-                            <option>Rojo Transparente</option>
-                        </select>
+                    <div class="product-details-col">
+                        <h2 class="product-name">10" Vinyl Qué dolor!</h2>
+                        <div class="product-price">$100.000 COP</div>
+                        <div class="product-options">
+                            <span class="option-label">Formato: Rojo Transparente</span>
+                        </div>
+                        <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
-                    <button class="buy-btn">Pedir por WhatsApp</button>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Vinilo Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Vinilo Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img-placeholder">[Foto: Cassette]</div>
-                    <h2 class="product-name">Cassette Qué dolor!</h2>
-                    <div class="product-price">$40.000 COP</div>
-                    <div class="product-options">
-                        <span class="option-label">Color:</span>
-                        <select class="size-select">
-                            <option>Rojo Transparente</option>
-                        </select>
+                    <div class="product-details-col">
+                        <h2 class="product-name">Cassette Qué dolor!</h2>
+                        <div class="product-price">$40.000 COP</div>
+                        <div class="product-options">
+                            <span class="option-label">Color: Rojo Transparente</span>
+                        </div>
+                        <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
-                    <button class="buy-btn">Pedir por WhatsApp</button>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Cassette Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Cassette Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img-placeholder">[Foto: Camiseta Oficial]</div>
-                    <h2 class="product-name">Camiseta Qué dolor!</h2>
-                    <div class="product-price">$60.000 COP</div>
-                    <div class="product-options">
-                        <span class="option-label">Talla:</span>
-                        <select class="size-select">
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                        </select>
+                    <div class="product-details-col">
+                        <h2 class="product-name">Camiseta Qué dolor!</h2>
+                        <div class="product-price">$60.000 COP</div>
+                        <div class="product-options">
+                            <span class="option-label">Selecciona Talla:</span>
+                            <select class="size-select">
+                                <option>S</option>
+                                <option>M</option>
+                                <option>L</option>
+                                <option>XL</option>
+                            </select>
+                        </div>
+                        <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
-                    <button class="buy-btn">Pedir por WhatsApp</button>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Camiseta Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Camiseta Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img-placeholder">[Foto: Gorra Patch]</div>
-                    <h2 class="product-name">Gorra visera plana</h2>
-                    <div class="product-price">$40.000 COP</div>
-                    <div class="product-options">
-                        <span class="option-label">Talla:</span>
-                        <select class="size-select">
-                            <option>Ajustable Unica</option>
-                        </select>
+                    <div class="product-details-col">
+                        <h2 class="product-name">Gorra visera plana</h2>
+                        <div class="product-price">$40.000 COP</div>
+                        <div class="product-options">
+                            <span class="option-label">Talla: Ajustable Unica</span>
+                        </div>
+                        <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
-                    <button class="buy-btn">Pedir por WhatsApp</button>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Gorra Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Gorra Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card">
-                    <div class="product-img-placeholder">[Foto: Mediadores Pack]</div>
-                    <h2 class="product-name">Guitar Picks (x4)</h2>
-                    <div class="product-price">$20.000 COP</div>
-                    <div class="product-options">
-                        <span class="option-label">Contenido:</span>
-                        <select class="size-select">
-                            <option>Pack de 4 unidades (1mm)</option>
-                        </select>
+                    <div class="product-details-col">
+                        <h2 class="product-name">Guitar Picks (x4)</h2>
+                        <div class="product-price">$20.000 COP</div>
+                        <div class="product-options">
+                            <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                        </div>
+                        <button class="buy-btn">Pedir por WhatsApp</button>
                     </div>
-                    <button class="buy-btn">Pedir por WhatsApp</button>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Picks Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Picks Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -414,6 +559,34 @@
         
         let activeArea = null; 
         let currentHoveredArea = null; 
+
+        // LIGHTWEIGHT CAROUSEL CONTROLLER LOGIC
+        function moveSlide(buttonElement, direction) {
+            const wrapper = buttonElement.closest('.carousel-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            let currentActiveIndex = 0;
+
+            // Track down which frame layout contains the operational active flag
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            // Strip current visible flags
+            slides[currentActiveIndex].classList.remove('active');
+
+            // Apply routing boundaries matrix
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= slides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = slides.length - 1;
+            }
+
+            // Fire active display transition rules
+            slides[nextActiveIndex].classList.add('active');
+        }
 
         // SPA NAVIGATION ROUTER ENGINE
         function navigateTo(pageId) {
