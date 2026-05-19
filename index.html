@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>*ANTIFAZ*</title>
+<title> - ANTIFAZ - </title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -95,12 +95,15 @@
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
-        pointer-events: none;       
         opacity: 0;
         transform: translate(-50%, -122%) scale(0.5);
         z-index: 2000;
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
+        
+        /* MODIFIED: Enabled pointer events so the bubble can receive mobile click interactions */
+        pointer-events: auto; 
+        cursor: pointer;
     }
 
     /* Speech Bubble Tail Outline */
@@ -155,7 +158,7 @@
             <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
 
             <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
-            <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤 Guillo (Voz/Guitarra) ➔" target="_blank">
+            <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
 
             <area shape="rect" coords="265,735,335,795" href="https://www.reddit.com/user/GuilloMoji/comments/1qe1xps/desenmascarando_la_fiesta_de_m%C3%A1scaras_mojiganga/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" alt="Info" data-tooltip="🗣️ Informacion ➔" target="_blank">
 
@@ -221,8 +224,22 @@
             });
         });
 
+        // INTERACTIVE SPEECH BUBBLE TAP REGISTER
+        tooltip.addEventListener('click', () => {
+            // Only trigger bubble execution paths on mobile/touch interfaces
+            if (window.matchMedia("(pointer: coarse)").matches && activeArea) {
+                const destination = activeArea.getAttribute('href');
+                const targetWindow = activeArea.getAttribute('target') || '_self';
+                
+                if (destination) {
+                    window.open(destination, targetWindow);
+                }
+            }
+        });
+
         document.body.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'AREA') {
+            // Don't close the tooltip if they are actively tapping the speech bubble itself
+            if (e.target.tagName !== 'AREA' && e.target !== tooltip) {
                 activeArea = null;
                 hideTooltip();
             }
@@ -275,7 +292,6 @@
                 const shape = mapAreas[i].getAttribute('shape');
                 let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
                 
-                // GLOBAL CALIBRATION: Add +15px to all Y axis components to push hitboxes down
                 const verticalOffset = Math.round(15 * scale);
                 
                 if (shape === 'circle') {
