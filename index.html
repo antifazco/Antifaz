@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -56,7 +56,7 @@
     .link-map-container {
         position: relative; 
         max-width: 1400px; 
-        width: 95%; 
+        width: 95%; /* Perfect vertical-centric scaling on desktops */
         overflow: visible; 
     }
 
@@ -114,64 +114,18 @@
         box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5);
     }
 
-    .custom-tooltip::before {
-        content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
-        border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; width: 0;
-    }
-
-    .custom-tooltip::after {
-        content: ""; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
-        border-width: 10px 8px 0; border-style: solid; border-color: #000 transparent; display: block; width: 0;
-    }
-
-    .custom-tooltip.visible {
-        opacity: 1;
-        animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    }
-
-    /* 3-SECTION STOREFRONT BACKGROUND ENGINE */
+    /* STORE FRONT ARCHITECTURE */
     #store-page {
-        background-color: #000;
-        width: 100%;
-    }
-
-    /* Section 1: Dynamic Top Header Artwork Space */
-    .store-header-bg {
-        width: 100%;
+        /* FIXED SCALE: The background image now applies globally to the entire layout view */
         background-image: url('storebkgr.jpg');
-        background-size: contain;
-        background-position: center top;
+        background-size: 100% auto; /* Matches the exact width of the page wrapper dynamically */
+        background-position: center top; 
         background-repeat: no-repeat;
-        /* Height matches the precise window aspect ratio for your artwork details */
-        height: 240px; 
-        flex-shrink: 0;
-    }
-
-    /* Section 2: Middle Scrollable Merch Lane */
-    .store-body-bg {
+        background-color: #000; /* Blends perfectly into pure black borders on ultra-tall viewports */
         width: 100%;
-        background-image: url('storebkgr.jpg');
-        background-size: contain;
-        background-position: center center;
-        background-repeat: repeat-y; /* Seamless denim looping on deep scrolls */
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-grow: 1;
-    }
-
-    /* Section 3: Bottom Footer Framework */
-    .store-footer-bg {
-        width: 100%;
-        background-image: url('storebkgr.jpg');
-        background-size: contain;
-        background-position: center bottom;
-        background-repeat: no-repeat;
-        padding-bottom: 60px; /* Space buffer for the star ribbon logo */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex-shrink: 0;
     }
 
     .store-container {
@@ -179,6 +133,10 @@
         width: 55vw; 
         min-width: 500px; 
         box-sizing: border-box;
+        
+        /* PADDING BUFFER MATRIX: Designed to match your storebkgr layout precisely */
+        padding-top: 420px; /* Generous top padding completely protects your logo/handwriting header details */
+        padding-bottom: 40px;
     }
 
     .store-footer-content {
@@ -187,6 +145,7 @@
         min-width: 500px; 
         box-sizing: border-box;
         margin-top: 20px;
+        padding-bottom: 160px; /* Deep bottom padding keeps your cart/volver buttons clear of the star ribbon graphics */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -224,7 +183,7 @@
     }
 
     .product-card {
-        background-color: rgba(0, 0, 0, 0.85); 
+        background-color: rgba(0, 0, 0, 0.88); /* Deep translucent black lets your denim graphics show around the edges */
         border: 2px solid #fff;
         border-radius: 12px;
         padding: 2.5%; 
@@ -475,15 +434,23 @@
         box-shadow: 2px 2px 0px #fff;
     }
 
-    /* RESPONSIVE RENDERING MATRIX FOR PHONES */
+    /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
-        .store-header-bg {
-            height: 150px; /* Scaled down height boundary for smaller phone viewport limits */
+        #store-page {
+            /* On mobile, background transitions to scale relative to the height of the phone box */
+            background-size: cover; 
+        }
+
+        .store-container {
+            width: 92% !important;
+            min-width: 0 !important;
+            padding-top: 140px; /* Compact safety margin customized for smartphone screen spaces */
         }
         
-        .store-container, .store-footer-content {
-            width: 90% !important;
+        .store-footer-content {
+            width: 92% !important;
             min-width: 0 !important;
+            padding-bottom: 80px;
         }
 
         .product-card {
@@ -531,173 +498,167 @@
     </div>
 
     <div id="store-page" class="page-view">
-        <div class="store-header-bg"></div>
-
-        <div class="store-body-bg">
-            <div class="store-container">
-                <div class="products-grid">
-                    <div class="product-card" data-id="vinyl" data-name='10" Vinyl Qué dolor!' data-price="100000">
-                        <div class="product-details-col">
-                            <h2 class="product-name">10" Vinyl Qué dolor!</h2>
-                            <div class="product-price">$100.000 COP</div>
-                            <div class="product-options">
-                                <div class="option-row">
-                                    <span class="option-label">Formato: Rojo Transparente</span>
-                                </div>
-                                <div class="option-row">
-                                    <span class="option-label">Cantidad:</span>
-                                    <select class="store-select qty-selector" onchange="updateCartSummary()">
-                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                                    </select>
-                                </div>
+        <div class="store-container">
+            <div class="products-grid">
+                <div class="product-card" data-id="vinyl" data-name='10" Vinyl Qué dolor!' data-price="100000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">10" Vinyl Qué dolor!</h2>
+                        <div class="product-price">$100.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Formato: Rojo Transparente</span>
                             </div>
-                        </div>
-                        <div class="product-media-col">
-                            <div class="carousel-wrapper">
-                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                                <div class="carousel-slides">
-                                    <div class="carousel-slide active"><div class="carousel-placeholder-text">[Vinilo Foto 1]</div></div>
-                                    <div class="carousel-slide"><div class="carousel-placeholder-text">[Vinilo Foto 2]</div></div>
-                                </div>
-                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="product-card" data-id="cassette" data-name="Cassette Qué dolor!" data-price="40000">
-                        <div class="product-details-col">
-                            <h2 class="product-name">Cassette Qué dolor!</h2>
-                            <div class="product-price">$40.000 COP</div>
-                            <div class="product-options">
-                                <div class="option-row">
-                                    <span class="option-label">Color: Rojo Transparente</span>
-                                </div>
-                                <div class="option-row">
-                                    <span class="option-label">Cantidad:</span>
-                                    <select class="store-select qty-selector" onchange="updateCartSummary()">
-                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                                    </select>
-                                </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Vinilo Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Vinilo Foto 2]</div></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
-                        <div class="product-media-col">
-                            <div class="carousel-wrapper">
-                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                                <div class="carousel-slides">
-                                    <div class="carousel-slide active"><div class="carousel-placeholder-text">[Cassette Foto 1]</div></div>
-                                    <div class="carousel-slide"><div class="carousel-placeholder-text">[Cassette Foto 2]</div></div>
-                                </div>
-                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="cassette" data-name="Cassette Qué dolor!" data-price="40000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">Cassette Qué dolor!</h2>
+                        <div class="product-price">$40.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Color: Rojo Transparente</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="product-card" data-id="shirt" data-name="Camiseta Qué dolor!" data-price="60000">
-                        <div class="product-details-col">
-                            <h2 class="product-name">Camiseta Qué dolor!</h2>
-                            <div class="product-price">$60.000 COP</div>
-                            <div class="product-options">
-                                <div class="option-row">
-                                    <span class="option-label">Selecciona Talla:</span>
-                                    <select class="store-select size-selector" onchange="updateCartSummary()">
-                                        <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
-                                    </select>
-                                </div>
-                                <div class="option-row">
-                                    <span class="option-label">Cantidad:</span>
-                                    <select class="store-select qty-selector" onchange="updateCartSummary()">
-                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                                    </select>
-                                </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Cassette Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Cassette Foto 2]</div></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
-                        <div class="product-media-col">
-                            <div class="carousel-wrapper">
-                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                                <div class="carousel-slides">
-                                    <div class="carousel-slide active"><div class="carousel-placeholder-text">[Camiseta Foto 1]</div></div>
-                                    <div class="carousel-slide"><div class="carousel-placeholder-text">[Camiseta Foto 2]</div></div>
-                                </div>
-                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="shirt" data-name="Camiseta Qué dolor!" data-price="60000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">Camiseta Qué dolor!</h2>
+                        <div class="product-price">$60.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Selecciona Talla:</span>
+                                <select class="store-select size-selector" onchange="updateCartSummary()">
+                                    <option value="S">S</option><option value="M">M</option><option value="L">L</option><option value="XL">XL</option>
+                                </select>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="product-card" data-id="hat" data-name="Gorra visera plana" data-price="40000">
-                        <div class="product-details-col">
-                            <h2 class="product-name">Gorra visera plana</h2>
-                            <div class="product-price">$40.000 COP</div>
-                            <div class="product-options">
-                                <div class="option-row">
-                                    <span class="option-label">Talla: Ajustable Unica</span>
-                                </div>
-                                <div class="option-row">
-                                    <span class="option-label">Cantidad:</span>
-                                    <select class="store-select qty-selector" onchange="updateCartSummary()">
-                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                                    </select>
-                                </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Camiseta Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Camiseta Foto 2]</div></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
-                        <div class="product-media-col">
-                            <div class="carousel-wrapper">
-                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                                <div class="carousel-slides">
-                                    <div class="carousel-slide active"><div class="carousel-placeholder-text">[Gorra Foto 1]</div></div>
-                                    <div class="carousel-slide"><div class="carousel-placeholder-text">[Gorra Foto 2]</div></div>
-                                </div>
-                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="hat" data-name="Gorra visera plana" data-price="40000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">Gorra visera plana</h2>
+                        <div class="product-price">$40.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Talla: Ajustable Unica</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Gorra Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Gorra Foto 2]</div></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="product-card" data-id="picks" data-name="Guitar Picks (x4)" data-price="20000">
-                        <div class="product-details-col">
-                            <h2 class="product-name">Guitar Picks (x4)</h2>
-                            <div class="product-price">$20.000 COP</div>
-                            <div class="product-options">
-                                <div class="option-row">
-                                    <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
-                                </div>
-                                <div class="option-row">
-                                    <span class="option-label">Cantidad:</span>
-                                    <select class="store-select qty-selector" onchange="updateCartSummary()">
-                                        <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
-                                    </select>
-                                </div>
+                <div class="product-card" data-id="picks" data-name="Guitar Picks (x4)" data-price="20000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">Guitar Picks (x4)</h2>
+                        <div class="product-price">$20.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="product-media-col">
-                            <div class="carousel-wrapper">
-                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                                <div class="carousel-slides">
-                                    <div class="carousel-slide active"><div class="carousel-placeholder-text">[Picks Foto 1]</div></div>
-                                    <div class="carousel-slide"><div class="carousel-placeholder-text">[Picks Foto 2]</div></div>
-                                </div>
-                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                    </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><div class="carousel-placeholder-text">[Picks Foto 1]</div></div>
+                                <div class="carousel-slide"><div class="carousel-placeholder-text">[Picks Foto 2]</div></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="store-footer-bg">
-            <div class="store-footer-content">
-                <div class="cart-summary-box">
-                    <h3 class="cart-title">🛒 Resumen de Orden</h3>
-                    <div id="cart-items-container" class="cart-items-list">
-                        <span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>
-                    </div>
-                    <div class="cart-total-row">
-                        <span>TOTAL:</span>
-                        <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
-                    </div>
-                    <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp()">💬 Enviar Pedido por WhatsApp</button>
+        <div class="store-footer-content">
+            <div class="cart-summary-box">
+                <h3 class="cart-title">🛒 Resumen de Orden</h3>
+                <div id="cart-items-container" class="cart-items-list">
+                    <span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>
                 </div>
-
-                <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
+                <div class="cart-total-row">
+                    <span>TOTAL:</span>
+                    <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
+                </div>
+                <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp()">💬 Enviar Pedido por WhatsApp</button>
             </div>
+
+            <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
         </div>
     </div>
 
