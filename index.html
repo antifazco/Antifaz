@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -25,7 +25,6 @@
     body {
         margin: 0;
         padding: 0;
-        min-height: 100vh;
         background-color: #000;
         font-family: Arial, sans-serif;
         box-sizing: border-box;
@@ -48,9 +47,13 @@
         opacity: 1;
     }
 
+    /* ISOLATED LANDING PAGE: Explicitly contains the height 
+       to prevent empty black spaces from bleeding underneath the map */
     #home-page {
         padding-top: 20px;
-        padding-bottom: 80px; 
+        padding-bottom: 40px; 
+        height: auto;
+        min-height: 0;
     }
 
     .link-map-container {
@@ -116,12 +119,11 @@
 
     /* STORE FRONT ARCHITECTURE */
     #store-page {
-        /* FIXED SCALE: The background image now applies globally to the entire layout view */
         background-image: url('storebkgr.jpg');
-        background-size: 100% auto; /* Matches the exact width of the page wrapper dynamically */
-        background-position: center top; 
+        background-size: 100% auto; 
+        background-position: center top;  
         background-repeat: no-repeat;
-        background-color: #000; /* Blends perfectly into pure black borders on ultra-tall viewports */
+        background-color: #000; 
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -134,8 +136,9 @@
         min-width: 500px; 
         box-sizing: border-box;
         
-        /* PADDING BUFFER MATRIX: Designed to match your storebkgr layout precisely */
-        padding-top: 420px; /* Generous top padding completely protects your logo/handwriting header details */
+        /* DYNAMIC PADDING BUFFER: Scales fluidly relative to viewport width, 
+           preventing gaps or card clipping when resizing your background graphic */
+        padding-top: 25vw; 
         padding-bottom: 40px;
     }
 
@@ -145,7 +148,7 @@
         min-width: 500px; 
         box-sizing: border-box;
         margin-top: 20px;
-        padding-bottom: 160px; /* Deep bottom padding keeps your cart/volver buttons clear of the star ribbon graphics */
+        padding-bottom: 12vw; /* Protects bottom banner details fluidly */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -183,7 +186,7 @@
     }
 
     .product-card {
-        background-color: rgba(0, 0, 0, 0.88); /* Deep translucent black lets your denim graphics show around the edges */
+        background-color: rgba(0, 0, 0, 0.88); 
         border: 2px solid #fff;
         border-radius: 12px;
         padding: 2.5%; 
@@ -437,14 +440,13 @@
     /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
         #store-page {
-            /* On mobile, background transitions to scale relative to the height of the phone box */
             background-size: cover; 
         }
 
         .store-container {
             width: 92% !important;
             min-width: 0 !important;
-            padding-top: 140px; /* Compact safety margin customized for smartphone screen spaces */
+            padding-top: 140px; /* Locked safety margin for mobile frames */
         }
         
         .store-footer-content {
