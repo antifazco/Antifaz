@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>--ANTIFAZ--</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -201,7 +201,7 @@
         background-color: rgba(0, 0, 0, 0.88); 
         border: 2px solid #fff;
         border-radius: 12px;
-        padding: 12px 2.5%; /* CHANGED: Shrunk vertical interior padding for a cleaner baseline height profile */
+        padding: 12px 2.5%; 
         display: flex;
         flex-direction: row; 
         gap: 4%; 
@@ -224,8 +224,8 @@
     }
 
     .product-media-col {
-        width: 360px; /* CHANGED: Carousel block column expanded 20% from 300px */
-        max-width: 45%; /* Ensures safety bounds check on narrow desktop panels */
+        width: 360px; 
+        max-width: 45%; 
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
@@ -235,7 +235,7 @@
     .carousel-wrapper {
         position: relative;
         width: 100%;
-        aspect-ratio: 4 / 3; /* CHANGED: Converted square profile to an elegant widescreen layout asset box */
+        aspect-ratio: 4 / 3; 
         border: 2px solid #fff; 
         border-radius: 8px;
         background-color: #111;
@@ -250,6 +250,7 @@
         width: 100%;
         height: 100%;
         position: relative;
+        cursor: zoom-in; /* Indicates expansion capability smoothly */
     }
 
     .carousel-slide {
@@ -300,6 +301,108 @@
     .carousel-btn:hover { background: #ff0000; color: #000; }
     .carousel-btn.prev { left: 6px; }
     .carousel-btn.next { right: 6px; }
+
+    /* FULL SCREEN IMAGE OVERLAY MODAL SYSTEM */
+    .store-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.92);
+        z-index: 9999;
+        display: none; /* Controlled cleanly by script toggles */
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+    }
+
+    .store-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .modal-carousel-container {
+        width: 70vw; /* Takes exactly 70% of the viewport width asset lanes */
+        max-height: 80vh;
+        aspect-ratio: 4 / 3;
+        position: relative;
+        background-color: #000;
+        border: 3px solid #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.4);
+    }
+
+    .modal-slides-lane {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .modal-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    .modal-slide.active {
+        opacity: 1;
+        z-index: 5;
+    }
+
+    .modal-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Full containment ensures unclipped presentation */
+    }
+
+    /* Widescreen Modal Custom Buttons */
+    .modal-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: #ff0000;
+        border: 2px solid #fff;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 100;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 3px 3px 0px #ff0000;
+        transition: transform 0.1s, background-color 0.1s;
+    }
+
+    .modal-btn:hover { background: #ff0000; color: #000; }
+    .modal-btn:active { transform: translateY(-50%) scale(0.95); }
+    .modal-btn.prev { left: 16px; }
+    .modal-btn.next { right: 16px; }
+
+    .modal-close-hint {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        color: #aaa;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        pointer-events: none;
+    }
 
     /* TYPOGRAPHY & INTERACTIVE ASSETS */
     .product-name {
@@ -472,7 +575,11 @@
         }
         
         .carousel-wrapper {
-            aspect-ratio: 1; /* Preserves a tidy square ratio on mobile layouts where elements stack vertically */
+            aspect-ratio: 1; 
+        }
+
+        .modal-carousel-container {
+            width: 90vw; /* Widened slightly on small viewports for legibility */
         }
     }
 </style>
@@ -529,8 +636,8 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                            <div class="carousel-slides">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="openProductModal(this)">
                                 <div class="carousel-slide active"><img src="vinyl1.jpg" alt="Vinyl view 1"></div>
                                 <div class="carousel-slide"><img src="vinyl2.jpg" alt="Vinyl view 2"></div>
                                 <div class="carousel-slide"><img src="vinyl3.jpg" alt="Vinyl view 3"></div>
@@ -538,7 +645,7 @@
                                 <div class="carousel-slide"><img src="vinyl5.jpg" alt="Vinyl view 5"></div>
                                 <div class="carousel-slide"><img src="vinyl6.jpg" alt="Vinyl view 6"></div>
                             </div>
-                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -561,13 +668,13 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                            <div class="carousel-slides">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="openProductModal(this)">
                                 <div class="carousel-slide active"><img src="cassette1.jpg" alt="Cassette view 1"></div>
                                 <div class="carousel-slide"><img src="cassette2.jpg" alt="Cassette view 2"></div>
                                 <div class="carousel-slide"><img src="cassette3.jpg" alt="Cassette view 3"></div>
                             </div>
-                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -593,12 +700,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                            <div class="carousel-slides">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="openProductModal(this)">
                                 <div class="carousel-slide active"><img src="shirt1.jpg" alt="Shirt front view"></div>
                                 <div class="carousel-slide"><img src="shirt2.jpg" alt="Shirt back view"></div>
                             </div>
-                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -621,12 +728,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                            <div class="carousel-slides">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="openProductModal(this)">
                                 <div class="carousel-slide active"><img src="gorra1.jpg" alt="Hat view 1"></div>
                                 <div class="carousel-slide"><img src="gorra2.jpg" alt="Hat view 2"></div>
                             </div>
-                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -649,12 +756,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <button class="carousel-btn prev" onclick="moveSlide(this, -1)">◀</button>
-                            <div class="carousel-slides">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="openProductModal(this)">
                                 <div class="carousel-slide active"><img src="pick1.jpg" alt="Picks view 1"></div>
                                 <div class="carousel-slide"><img src="pick2.jpg" alt="Picks view 2"></div>
                             </div>
-                            <button class="carousel-btn next" onclick="moveSlide(this, 1)">▶</button>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -678,6 +785,15 @@
         </div>
     </div>
 
+    <div id="global-store-modal" class="store-modal-overlay" onclick="closeProductModal(event)">
+        <span class="modal-close-hint">Click outside to close ×</span>
+        <div class="modal-carousel-container" onclick="event.stopPropagation()">
+            <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
+            <div id="modal-slides-lane" class="modal-slides-lane"></div>
+            <button class="modal-btn next" onclick="moveModalSlide(1)">▶</button>
+        </div>
+    </div>
+
     <script>
         const tooltip = document.getElementById('tooltip');
         const container = document.getElementById('container');
@@ -685,6 +801,9 @@
         
         let activeArea = null; 
         let currentHoveredArea = null; 
+        
+        // Modal State Memory Tracker
+        let currentActiveCardContext = null;
 
         // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
         function updateCartSummary() {
@@ -761,7 +880,8 @@
         }
 
         // LIGHTWEIGHT CAROUSEL CONTROLLER LOGIC
-        function moveSlide(buttonElement, direction) {
+        function moveSlide(buttonElement, direction, event) {
+            if (event) event.stopPropagation(); // Stops modal click sequence from launching instantly
             const wrapper = buttonElement.closest('.carousel-wrapper');
             const slides = wrapper.querySelectorAll('.carousel-slide');
             let currentActiveIndex = 0;
@@ -784,7 +904,71 @@
             slides[nextActiveIndex].classList.add('active');
         }
 
-        // SPA NAVIGATION ROUTER ENGINE (FIXED: Handles clean active toggles)
+        // MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS
+        function openProductModal(slidesContainerElement) {
+            const productCard = slidesContainerElement.closest('.product-card');
+            currentActiveCardContext = productCard;
+            
+            const nativeSlides = slidesContainerElement.querySelectorAll('.carousel-slide img');
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalOverlay = document.getElementById('global-store-modal');
+            
+            // Re-render matching node image wrappers into modal container dynamically
+            let modalHTMLBuffer = '';
+            let targetActiveIndex = 0;
+            
+            slidesContainerElement.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+                const src = slide.querySelector('img').getAttribute('src');
+                const isActive = slide.classList.contains('active');
+                if (isActive) targetActiveIndex = index;
+                
+                modalHTMLBuffer += `
+                    <div class="modal-slide ${isActive ? 'active' : ''}">
+                        <img src="${src}" alt="Expanded view">
+                    </div>
+                `;
+            });
+            
+            modalLane.innerHTML = modalHTMLBuffer;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeProductModal(event) {
+            const modalOverlay = document.getElementById('global-store-modal');
+            modalOverlay.classList.remove('active');
+        }
+
+        function moveModalSlide(direction) {
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalSlides = modalLane.querySelectorAll('.modal-slide');
+            let currentActiveIndex = 0;
+
+            modalSlides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            modalSlides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= modalSlides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = modalSlides.length - 1;
+            }
+
+            modalSlides[nextActiveIndex].classList.add('active');
+
+            // SYNC STEP: Reflect modal slide position back onto native card carousel seamlessly
+            if (currentActiveCardContext) {
+                const cardSlides = currentActiveCardContext.querySelectorAll('.carousel-slide');
+                cardSlides.forEach(slide => slide.classList.remove('active'));
+                cardSlides[nextActiveIndex].classList.add('active');
+            }
+        }
+
+        // SPA NAVIGATION ROUTER ENGINE
         function navigateTo(pageId) {
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
@@ -794,16 +978,16 @@
 
             if (pageId === 'store') {
                 homePage.classList.remove('active');
-                homePage.style.display = 'none'; // Completely drop height logic from active layout view
+                homePage.style.display = 'none'; 
                 storePage.style.display = 'flex';
                 storePage.classList.add('active');
                 window.scrollTo(0, 0);
             } else {
                 storePage.classList.remove('active');
-                storePage.style.display = 'none'; // Strip store baseline height trace completely
+                storePage.style.display = 'none'; 
                 homePage.style.display = 'flex';
                 homePage.classList.add('active');
-                window.scrollTo(0, 0); // Always forces browser baseline context home instantly
+                window.scrollTo(0, 0); 
                 setTimeout(resizeMap, 50); 
             }
         }
@@ -911,7 +1095,6 @@
             const currentWidth = img.clientWidth;
             const scale = currentWidth / originalWidth;
 
-            // FIXED REFERENCE MATRIX CO-ORDINATES
             const originalCoords = [
                 [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
                 [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
@@ -938,7 +1121,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
             
-            // INITIALIZATION FIX: Explicitly enforce pure initial state on page boots
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
             homePage.style.display = 'flex';
