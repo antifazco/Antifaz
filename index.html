@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>+ANTIFAZ+</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -802,17 +802,17 @@
                     <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
                 </div>
                 <div class="checkout-buttons-row">
-                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Pago via WhatsApp (COP)')">
+                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Pago via WhatsApp (COP)', 'COP')">
                         <span class="btn-icon">💬</span>
                         <span class="btn-label">WhatsApp</span>
                         <span class="btn-sub">Colombia</span>
                     </button>
-                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Pago via PayPal (USD)')">
+                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Pago via PayPal (USD)', 'USD')">
                         <span class="btn-icon">🅿️</span>
                         <span class="btn-label">PayPal</span>
                         <span class="btn-sub">USA</span>
                     </button>
-                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('qreuro.png', 'Pago via Wero (EUR)')">
+                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('qreuro.png', 'Pago via Wero (EUR)', 'EUR')">
                         <span class="btn-icon">💶</span>
                         <span class="btn-label">Wero</span>
                         <span class="btn-sub">Europe</span>
@@ -844,9 +844,13 @@
             
             <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; max-height: 120px; overflow-y: auto; color: #eee; line-height: 1.4;" id="qr-modal-items"></div>
             
-            <div style="width: 100%; display: flex; justify-content: space-between; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px;">
-                <span>TOTAL:</span>
-                <span id="qr-modal-total" style="color: #ff0000;">$0</span>
+            <!-- Target Layout Row displaying standard total + dynamic converted values -->
+            <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <span>TOTAL:</span>
+                    <span id="qr-modal-total" style="color: #fff;">$0 COP</span>
+                </div>
+                <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
             </div>
             
             <button class="back-btn" style="width: 100%; padding: 12px; font-size: 0.9rem; margin-top: 5px;" onclick="closeCheckoutModal()">Cerrar / Volver</button>
@@ -896,14 +900,19 @@
             totalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
         }
 
-        // DYNAMIC QR INTERACTION CHECKOUT ENGINE
-        function launchQRCheckout(imageFileName, contextualTitle) {
+        // DYNAMIC QR INTERACTION CHECKOUT ENGINE WITH FLUCTUATING RATES
+        function launchQRCheckout(imageFileName, contextualTitle, targetCurrency) {
             const productCards = document.querySelectorAll('.product-card');
             const modalOverlay = document.getElementById('checkout-qr-modal');
             const modalTitle = document.getElementById('qr-modal-title');
             const modalImage = document.getElementById('qr-modal-image');
             const modalItemsContainer = document.getElementById('qr-modal-items');
             const modalTotalDisplay = document.getElementById('qr-modal-total');
+            const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
+
+            // LIVE DAY EXCHANGE CONVERSION FACTOR CONSTANTS
+            const COP_TO_USD_RATE = 0.000265;
+            const COP_TO_EUR_RATE = 0.000228;
 
             let orderLines = [];
             let aggregatePrice = 0;
@@ -935,6 +944,20 @@
             modalItemsContainer.innerHTML = orderLines.join('');
             modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
+            // Calculate active regional conversion line item values
+            if (targetCurrency === 'USD') {
+                const convertedUSD = (aggregatePrice * COP_TO_USD_RATE).toFixed(2);
+                modalConvertedDisplay.textContent = `~ $${convertedUSD} USD`;
+                modalConvertedDisplay.style.display = 'flex';
+            } else if (targetCurrency === 'EUR') {
+                const convertedEUR = (aggregatePrice * COP_TO_EUR_RATE).toFixed(2);
+                modalConvertedDisplay.textContent = `~ €${convertedEUR} EUR`;
+                modalConvertedDisplay.style.display = 'flex';
+            } else {
+                modalConvertedDisplay.textContent = '';
+                modalConvertedDisplay.style.display = 'none';
+            }
+
             modalOverlay.style.display = 'flex';
             void modalOverlay.offsetWidth; 
             modalOverlay.classList.add('active');
@@ -948,7 +971,7 @@
             }, 200);
         }
 
-        // LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile)
+        /* LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile) */
         function moveSlide(buttonElement, direction, event) {
             if (event) event.stopPropagation(); 
             const wrapper = buttonElement.closest('.carousel-wrapper');
@@ -973,7 +996,7 @@
             slides[nextActiveIndex].classList.add('active');
         }
 
-        // DETECT CLICKS ON MAIN IMAGE CONTAINER
+        /* DETECT CLICKS ON MAIN IMAGE CONTAINER */
         function handleCardImageClick(slidesContainerElement) {
             if (window.matchMedia("(max-width: 767px)").matches) {
                 return;
@@ -981,7 +1004,7 @@
             openProductModal(slidesContainerElement);
         }
 
-        // MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS (Desktop exclusive execution)
+        /* MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS (Desktop exclusive execution) */
         function openProductModal(slidesContainerElement) {
             const productCard = slidesContainerElement.closest('.product-card');
             currentActiveCardContext = productCard;
@@ -1040,7 +1063,7 @@
             }
         }
 
-        // SPA NAVIGATION ROUTER ENGINE
+        /* SPA NAVIGATION ROUTER ENGINE */
         function navigateTo(pageId) {
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
@@ -1064,7 +1087,7 @@
             }
         }
 
-        // HIGHLY RESPONSIVE & SENSITIVE TOOLTIP DETECTORS
+        /* HIGHLY RESPONSIVE & SENSITIVE TOOLTIP DETECTORS */
         areas.forEach(area => {
             area.addEventListener('mouseenter', () => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
@@ -1084,7 +1107,7 @@
                 hideTooltip();
             });
 
-            // SMART MOBILE CLICK / TOUCH INTERACTION
+            /* SMART MOBILE CLICK / TOUCH INTERACTION */
             area.addEventListener('click', (e) => {
                 const isMerchStore = (area.getAttribute('href') === '#store');
                 
