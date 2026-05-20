@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>+ANTIFAZ+</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -802,20 +802,20 @@
                     <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
                 </div>
                 <div class="checkout-buttons-row">
-                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Pago via WhatsApp (COP)', 'COP')">
-                        <span class="btn-icon">💬</span>
-                        <span class="btn-label">WhatsApp</span>
-                        <span class="btn-sub">Colombia</span>
+                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Bancolombia (COP)', 'COP')">
+                        <span class="btn-icon">🇨🇴</span>
+                        <span class="btn-label">Colombia</span>
+                        <span class="btn-sub">Bancolombia (COP)</span>
                     </button>
-                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Pago via PayPal (USD)', 'USD')">
-                        <span class="btn-icon">🅿️</span>
-                        <span class="btn-label">PayPal</span>
-                        <span class="btn-sub">USA</span>
+                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Paypal - Venmo (USD)', 'USD')">
+                        <span class="btn-icon">🇺🇸</span>
+                        <span class="btn-label">USA</span>
+                        <span class="btn-sub">Paypal - Venmo (USD)</span>
                     </button>
-                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('qreuro.png', 'Pago via Wero (EUR)', 'EUR')">
-                        <span class="btn-icon">💶</span>
-                        <span class="btn-label">Wero</span>
-                        <span class="btn-sub">Europe</span>
+                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('qreuro.png', 'Paypal (€)', 'EUR')">
+                        <span class="btn-icon">🇪🇺</span>
+                        <span class="btn-label">Europe</span>
+                        <span class="btn-sub">Paypal (€)</span>
                     </button>
                 </div>
             </div>
@@ -844,7 +844,6 @@
             
             <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; max-height: 120px; overflow-y: auto; color: #eee; line-height: 1.4;" id="qr-modal-items"></div>
             
-            <!-- Target Layout Row displaying standard total + dynamic converted values -->
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
                 <div style="display: flex; justify-content: space-between; width: 100%;">
                     <span>TOTAL:</span>
@@ -944,13 +943,13 @@
             modalItemsContainer.innerHTML = orderLines.join('');
             modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Calculate active regional conversion line item values
+            // Calculate active regional conversion line item values with forced ceiling up-round
             if (targetCurrency === 'USD') {
-                const convertedUSD = (aggregatePrice * COP_TO_USD_RATE).toFixed(2);
+                const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
                 modalConvertedDisplay.textContent = `~ $${convertedUSD} USD`;
                 modalConvertedDisplay.style.display = 'flex';
             } else if (targetCurrency === 'EUR') {
-                const convertedEUR = (aggregatePrice * COP_TO_EUR_RATE).toFixed(2);
+                const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
                 modalConvertedDisplay.textContent = `~ €${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
             } else {
