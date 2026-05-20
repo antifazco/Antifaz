@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>- ANTIFAZ -</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -102,7 +102,7 @@
     }
 
     .custom-tooltip.mobile-active {
-        pointer-events: auto;
+        pointer-events: auto; /* Restores tap interaction to standard mobile click event triggers */
     }
 
     .custom-tooltip:active {
@@ -943,14 +943,14 @@
             modalItemsContainer.innerHTML = orderLines.join('');
             modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Calculate active regional conversion line item values with forced ceiling up-round
+            // Calculate active regional conversion line item values with forced ceiling up-round and clean formatting
             if (targetCurrency === 'USD') {
                 const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
-                modalConvertedDisplay.textContent = `~ $${convertedUSD} USD`;
+                modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
                 modalConvertedDisplay.style.display = 'flex';
             } else if (targetCurrency === 'EUR') {
                 const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
-                modalConvertedDisplay.textContent = `~ €${convertedEUR} EUR`;
+                modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
             } else {
                 modalConvertedDisplay.textContent = '';
@@ -962,13 +962,16 @@
             modalOverlay.classList.add('active');
         }
 
-        function closeCheckoutModal() {
+        function cancelCheckoutModal() {
             const modalOverlay = document.getElementById('checkout-qr-modal');
             modalOverlay.classList.remove('active');
             setTimeout(() => {
                 modalOverlay.style.display = 'none';
             }, 200);
         }
+        
+        // Expose close handler safely across click boundaries
+        window.closeCheckoutModal = cancelCheckoutModal;
 
         /* LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile) */
         function moveSlide(buttonElement, direction, event) {
@@ -1140,12 +1143,13 @@
             });
         });
 
-        tooltip.addEventListener('click', () => {
+        tooltip.addEventListener('click', (e) => {
             if (activeArea) {
-                if (activeArea.getAttribute('href') === '#store') {
+                const destination = activeArea.getAttribute('href');
+                if (destination === '#store') {
+                    e.preventDefault();
                     navigateTo('store');
-                } else if (window.matchMedia("(pointer: coarse)").matches) {
-                    const destination = activeArea.getAttribute('href');
+                } else {
                     const targetWindow = activeArea.getAttribute('target') || '_self';
                     if (destination) window.open(destination, targetWindow);
                 }
@@ -1206,7 +1210,7 @@
         }
 
         window.addEventListener('resize', resizeMap);
-        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA') hideTooltip(); }; 
+        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA' && e.target !== tooltip) hideTooltip(); }; 
         document.getElementById('map-image').addEventListener('load', resizeMap);
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
