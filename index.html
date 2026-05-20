@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -802,17 +802,17 @@
                     <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
                 </div>
                 <div class="checkout-buttons-row">
-                    <button class="checkout-btn btn-whatsapp" onclick="checkoutToWhatsApp()">
+                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Pago via WhatsApp (COP)')">
                         <span class="btn-icon">💬</span>
                         <span class="btn-label">WhatsApp</span>
                         <span class="btn-sub">Colombia</span>
                     </button>
-                    <button class="checkout-btn btn-paypal">
+                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Pago via PayPal (USD)')">
                         <span class="btn-icon">🅿️</span>
                         <span class="btn-label">PayPal</span>
                         <span class="btn-sub">USA</span>
                     </button>
-                    <button class="checkout-btn btn-wero">
+                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('qreuro.png', 'Pago via Wero (EUR)')">
                         <span class="btn-icon">💶</span>
                         <span class="btn-label">Wero</span>
                         <span class="btn-sub">Europe</span>
@@ -830,6 +830,26 @@
             <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
             <div id="modal-slides-lane" class="modal-slides-lane"></div>
             <button class="modal-btn next" onclick="moveModalSlide(1)">▶</button>
+        </div>
+    </div>
+
+    <!-- DYNAMIC PAYMENTS QR MODAL SYSTEM -->
+    <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
+        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 15px; height: auto;" onclick="event.stopPropagation()">
+            <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
+            
+            <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
+            
+            <p style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
+            
+            <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; max-height: 120px; overflow-y: auto; color: #eee; line-height: 1.4;" id="qr-modal-items"></div>
+            
+            <div style="width: 100%; display: flex; justify-content: space-between; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px;">
+                <span>TOTAL:</span>
+                <span id="qr-modal-total" style="color: #ff0000;">$0</span>
+            </div>
+            
+            <button class="back-btn" style="width: 100%; padding: 12px; font-size: 0.9rem; margin-top: 5px;" onclick="closeCheckoutModal()">Cerrar / Volver</button>
         </div>
     </div>
 
@@ -876,9 +896,15 @@
             totalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
         }
 
-        // WHATSAPP BILLING GENERATOR AND LINK BUILDER ROUTER
-        function checkoutToWhatsApp() {
+        // DYNAMIC QR INTERACTION CHECKOUT ENGINE
+        function launchQRCheckout(imageFileName, contextualTitle) {
             const productCards = document.querySelectorAll('.product-card');
+            const modalOverlay = document.getElementById('checkout-qr-modal');
+            const modalTitle = document.getElementById('qr-modal-title');
+            const modalImage = document.getElementById('qr-modal-image');
+            const modalItemsContainer = document.getElementById('qr-modal-items');
+            const modalTotalDisplay = document.getElementById('qr-modal-total');
+
             let orderLines = [];
             let aggregatePrice = 0;
 
@@ -894,25 +920,32 @@
                         const size = card.querySelector('.size-selector').value;
                         detailStr += ` [Talla: ${size}]`;
                     }
-                    orderLines.push(detailStr);
+                    orderLines.push(`<div>• ${detailStr}</div>`);
                     aggregatePrice += (price * quantity);
                 }
             });
 
             if (orderLines.length === 0) {
-                alert('Por favor, selecciona al menos 1 artículo para enviar tu order.');
+                alert('Por favor, selecciona al menos 1 artículo para continuar con tu pago.');
                 return;
             }
 
-            const businessNumber = "573000000000"; 
-            let textMessageBlueprint = `¡Qué más! Quiero armar un pedido desde la tienda web de ANTIFAZ:\n\n`;
-            orderLines.forEach(line => {
-                textMessageBlueprint += `• ${line}\n`;
-            });
-            textMessageBlueprint += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP\n\n¿Tienen disponibilidad para coordinar la entrega? 💥`;
+            modalTitle.textContent = contextualTitle;
+            modalImage.setAttribute('src', imageFileName);
+            modalItemsContainer.innerHTML = orderLines.join('');
+            modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            const parsedURI = encodeURIComponent(textMessageBlueprint);
-            window.open(`https://api.whatsapp.com/send?phone=${businessNumber}&text=${parsedURI}`, '_blank');
+            modalOverlay.style.display = 'flex';
+            void modalOverlay.offsetWidth; 
+            modalOverlay.classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            const modalOverlay = document.getElementById('checkout-qr-modal');
+            modalOverlay.classList.remove('active');
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+            }, 200);
         }
 
         // LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile)
@@ -942,11 +975,9 @@
 
         // DETECT CLICKS ON MAIN IMAGE CONTAINER
         function handleCardImageClick(slidesContainerElement) {
-            // If it's a mobile layout, let the inline arrows do the work. DO NOT open the modal.
             if (window.matchMedia("(max-width: 767px)").matches) {
                 return;
             }
-            // On desktop view, trigger the fullscreen expansion modal
             openProductModal(slidesContainerElement);
         }
 
