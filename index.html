@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -79,7 +79,7 @@
         }
     }
 
-    /* Comic Book Speech Bubble Tooltip - Clean & Instant Pop */
+    /* Comic Book Speech Bubble Tooltip - Ultra Sensitive & Instant */
     .custom-tooltip {
         position: absolute;
         background-color: #000;      
@@ -91,14 +91,19 @@
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
-        display: none; /* Hidden by default */
+        display: none; 
         transform: translate(-50%, -122%);
         z-index: 2000;
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
-        pointer-events: auto; 
+        pointer-events: none; /* Crucial: Evita que el tooltip bloquee los eventos de hover del mouse */
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Permite clicks en móviles cuando se fija el estado activo */
+    .custom-tooltip.mobile-active {
+        pointer-events: auto;
     }
 
     .custom-tooltip:active {
@@ -119,7 +124,7 @@
     }
 
     .custom-tooltip.visible {
-        display: block; /* Shows instantly without delay or animations */
+        display: block; 
     }
 
     /* STORE FRONT ARCHITECTURE */
@@ -465,34 +470,6 @@
         color: #ff0000;
     }
 
-    .whatsapp-checkout-btn {
-        width: 100%;
-        background-color: #ff0000;
-        color: #000;
-        border: 2px solid #fff;
-        padding: 14px; 
-        font-weight: 900;
-        text-transform: uppercase;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 8px;
-        box-shadow: 4px 4px 0px #fff;
-        transition: transform 0.1s, box-shadow 0.1s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .whatsapp-checkout-btn:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 6px 6px 0px #fff;
-    }
-    .whatsapp-checkout-btn:active {
-        transform: translate(2px, 2px);
-        box-shadow: 2px 2px 0px #fff;
-    }
-
     /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
         #store-page {
@@ -817,7 +794,6 @@
         const areas = document.querySelectorAll('area');
         
         let activeArea = null; 
-        let currentHoveredArea = null; 
         let currentActiveCardContext = null;
 
         // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
@@ -904,7 +880,6 @@
             
             let modalHTMLBuffer = '';
             
-            // Genera los slides del modal leyendo de todas las imágenes ocultas en la tarjeta
             slidesContainerElement.querySelectorAll('.carousel-slide').forEach((slide, index) => {
                 const src = slide.querySelector('img').getAttribute('src');
                 const isActive = slide.classList.contains('active');
@@ -947,7 +922,6 @@
 
             modalSlides[nextActiveIndex].classList.add('active');
 
-            // Mantiene sincronizado el estado interno por si cierran y vuelven a abrir
             if (currentActiveCardContext) {
                 const cardSlides = currentActiveCardContext.querySelectorAll('.carousel-slide');
                 cardSlides.forEach(slide => slide.classList.remove('active'));
@@ -979,14 +953,12 @@
             }
         }
 
+        // HIGHLY RESPONSIVE & SENSITIVE TOOLTIP DETECTORS
         areas.forEach(area => {
-            // DESKTOP HOVER LOGIC
-            area.addEventListener('mouseenter', (e) => {
+            // DESKTOP HOVER LOGIC - Direct, no lockups
+            area.addEventListener('mouseenter', () => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
-                if (currentHoveredArea !== area) {
-                    currentHoveredArea = area;
-                    showTooltip(area);
-                }
+                showTooltip(area);
             });
 
             area.addEventListener('mousemove', (e) => {
@@ -999,11 +971,10 @@
 
             area.addEventListener('mouseleave', () => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
-                currentHoveredArea = null;
                 hideTooltip();
             });
 
-            // SMART MOBILE CLICK / TOUCH INTERACTION
+            // SMART MOBILE CLICK / TOUCH INTERACTION - Double tap logic intact
             area.addEventListener('click', (e) => {
                 const isMerchStore = (area.getAttribute('href') === '#store');
                 
@@ -1012,6 +983,7 @@
                         e.preventDefault(); 
                         activeArea = area;
                         showTooltip(area);
+                        tooltip.classList.add('mobile-active');
                         
                         const coords = area.coords.split(',').map(Number);
                         const shape = area.getAttribute('shape');
@@ -1068,6 +1040,7 @@
 
         function hideTooltip() {
             tooltip.classList.remove('visible');
+            tooltip.classList.remove('mobile-active');
         }
 
         function resizeMap() {
@@ -1102,6 +1075,7 @@
         }
 
         window.addEventListener('resize', resizeMap);
+        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA') hideTooltip(); }; // Limpieza forzada de seguridad si el puntero se sale muy rápido del mapa.
         document.getElementById('map-image').addEventListener('load', resizeMap);
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
