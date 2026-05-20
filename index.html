@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>--ANTIFAZ--</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -635,7 +635,19 @@
 .btn-wero {
     background-color: #00c853;
 }
+
+    /* ALL YOUR ORIGINAL CSS REMAINS HERE - I have added the new Modal CSS at the end */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #ff0000; border: 2px solid #000; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #b30000; }
+    body { margin: 0; padding: 0; background-color: #000; font-family: Arial, sans-serif; box-sizing: border-box; overflow-x: hidden; color: #fff; }
     
+    /* [ ... Keep all your original CSS from your first prompt here ... ] */
+    /* I am only adding these 3 lines for the new modal */
+    .checkout-modal-content { background: #000; border: 2px solid #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5); text-align: left; }
+    #qr-image { max-width: 150px; border: 4px solid #fff; margin: 10px auto; display: block; }
+    .checkout-instructions { font-weight: bold; color: #ff0000; text-align: center; border-bottom: 2px solid #fff; padding-bottom: 10px; }
 </style>
 </head>
 <body>
@@ -1195,6 +1207,45 @@
             storePage.style.display = 'none';
             window.scrollTo(0, 0);
         });
+    </script>
+
+    <!-- [ ... Your entire HTML body from the first prompt remains exactly the same ... ] -->
+    
+    <!-- ADD THIS MODAL BEFORE THE CLOSING </body> TAG -->
+    <div id="checkout-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
+        <div class="checkout-modal-content" onclick="event.stopPropagation()">
+            <p class="checkout-instructions">Please copy and paste the articles description and total of your order when submitting your payment</p>
+            <div style="text-align:center;"><img id="qr-image" src="" alt="Payment QR"></div>
+            <div id="checkout-summary-body" style="color: #fff; margin: 20px 0; line-height: 1.6;"></div>
+            <button class="back-btn" onclick="closeCheckoutModal()" style="width: 100%;">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // [ ... Keep all your original script logic here ... ]
+
+        // ADD THESE TWO FUNCTIONS TO THE BOTTOM OF YOUR EXISTING SCRIPT
+        function openCheckoutModal(qrFileName) {
+            updateCartSummary(); // Refresh current cart state
+            const summaryBody = document.getElementById('checkout-summary-body');
+            document.getElementById('qr-image').src = qrFileName;
+            
+            // Get data from your existing elements
+            const items = document.getElementById('cart-items-container').innerHTML;
+            const total = document.getElementById('cart-total-price-display').innerText;
+            
+            summaryBody.innerHTML = `<strong>Pedido:</strong><br>${items}<br><br><strong>${total}</strong>`;
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.remove('active');
+        }
+
+        // UPDATE YOUR CHECKOUT BUTTONS IN THE HTML TO PASS THE FILENAMES:
+        // onclick="openCheckoutModal('qrcol.png')"
+        // onclick="openCheckoutModal('qrusa.png')"
+        // onclick="openCheckoutModal('qreuro.png')"
     </script>
 
 </body>
