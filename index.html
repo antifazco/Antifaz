@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>+ANTIFAZ+</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -14,16 +14,13 @@
 
     body { margin: 0; padding: 0; background-color: #000; font-family: Arial, sans-serif; box-sizing: border-box; overflow-x: hidden; color: #fff; }
 
-    /* SPA PAGE WRAPPERS & TRANSITIONS */
     .page-view { display: none; width: 100%; opacity: 0; transition: opacity 0.25s ease-out; }
     .page-view.active { display: flex; flex-direction: column; align-items: center; opacity: 1; }
-    #home-page { padding-top: 20px; padding-bottom: 40px; height: auto; min-height: 0; }
+    #home-page { padding-top: 20px; padding-bottom: 40px; }
     .link-map-container { position: relative; max-width: 1400px; width: 95%; overflow: visible; }
     .link-map-container img { display: block; width: 100%; height: auto; }
     area { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    @media (max-width: 767px) { .link-map-container { width: 100% !important; padding: 0; } }
 
-    /* Frantic Punk Pop & Shake Animation */
     @keyframes punkPop {
         0% { opacity: 0; transform: translate(-50%, -122%) scale(0.4) rotate(-8deg); }
         50% { transform: translate(-50%, -122%) scale(1.1) rotate(4deg); }
@@ -31,197 +28,105 @@
         100% { opacity: 1; transform: translate(-50%, -122%) scale(1) rotate(0deg); }
     }
 
-    /* Comic Book Speech Bubble Tooltip */
-    .custom-tooltip { position: absolute; background-color: #000; color: #ff0000; border: 2px solid #fff; border-radius: 12px; padding: 8px 16px; font-size: 0.95rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; opacity: 0; transform: translate(-50%, -122%) scale(0.5); z-index: 2000; white-space: nowrap; box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3); pointer-events: auto; cursor: pointer; transition: background-color 0.1s, opacity 0.1s, left 0.05s ease-out, top 0.05s ease-out; -webkit-tap-highlight-color: transparent; }
-    .custom-tooltip:active { background-color: #111; box-shadow: 2px 2px 0px rgba(255, 0, 0, 0.5); }
-    .custom-tooltip::before { content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; width: 0; }
-    .custom-tooltip::after { content: ""; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%); border-width: 10px 8px 0; border-style: solid; border-color: #000 transparent; display: block; width: 0; }
+    .custom-tooltip { position: absolute; background-color: #000; color: #ff0000; border: 2px solid #fff; border-radius: 12px; padding: 8px 16px; font-size: 0.95rem; font-weight: bold; text-transform: uppercase; opacity: 0; transform: translate(-50%, -122%) scale(0.5); z-index: 2000; white-space: nowrap; pointer-events: none; transition: opacity 0.1s; }
     .custom-tooltip.visible { opacity: 1; animation: punkPop 0.22s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+    .custom-tooltip::before { content: ""; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); border-width: 12px 10px 0; border-style: solid; border-color: #fff transparent; display: block; }
 
-    /* STORE FRONT ARCHITECTURE */
-    #store-page { background-image: url('storebkgr.jpg'); background-size: 100% auto; background-position: center top; background-repeat: no-repeat; background-color: #000; width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .store-container { max-width: 950px; width: 62vw; min-width: 500px; box-sizing: border-box; padding-top: 31vw; padding-bottom: 40px; }
-    .store-footer-content { max-width: 950px; width: 62vw; min-width: 500px; box-sizing: border-box; margin-top: 20px; padding-bottom: 12vw; display: flex; flex-direction: column; align-items: center; gap: 25px; }
-    .back-btn { background-color: #000; color: #fff; border: 2px solid #fff; padding: 10px 24px; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 8px; box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.95); transition: transform 0.1s, box-shadow 0.1s; }
-    .back-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 12px rgba(0, 0, 0, 1); }
-    .back-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.95); }
-
-    /* Products Grid */
+    #store-page { background-color: #000; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .store-container, .store-footer-content { max-width: 950px; width: 62vw; min-width: 500px; box-sizing: border-box; }
     .products-grid { display: flex; flex-direction: column; gap: 35px; width: 100%; }
-    .product-card { background-color: rgba(0, 0, 0, 0.88); border: 2px solid #fff; border-radius: 12px; padding: 12px 2.5%; display: flex; flex-direction: row; gap: 4%; box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95); transition: transform 0.2s ease; align-items: center; }
-    .product-card:hover { transform: translateY(-5px); }
-    .product-details-col { flex: 1.3; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-    .product-media-col { width: 360px; max-width: 45%; flex-shrink: 0; display: flex; flex-direction: column; }
-
-    /* CAROUSEL */
-    .carousel-wrapper { position: relative; width: 100%; aspect-ratio: 4 / 3; border: 2px solid #fff; border-radius: 8px; background-color: #111; overflow: hidden; display: flex; justify-content: center; align-items: center; box-shadow: 4px 4px 0px #ffffff; }
-    .carousel-slides { width: 100%; height: 100%; position: relative; cursor: zoom-in; }
-    .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.2s ease-in-out; display: flex; justify-content: center; align-items: center; }
-    .carousel-slide.active { opacity: 1; z-index: 2; }
-    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #000; color: #ff0000; border: 2px solid #fff; width: 28px; height: 28px; font-size: 0.75rem; cursor: pointer; z-index: 10; border-radius: 6px; display: flex; justify-content: center; align-items: center; box-shadow: 2px 2px 0px #ff0000; }
-    .carousel-btn:hover { background: #ff0000; color: #000; }
-    .carousel-btn.prev { left: 6px; } .carousel-btn.next { right: 6px; }
-
-    /* MODALS */
-    .store-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.92); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s ease-out; }
-    .store-modal-overlay.active { display: flex; opacity: 1; }
-    .modal-carousel-container { width: 70vw; max-height: 80vh; aspect-ratio: 4 / 3; position: relative; background-color: #000; border: 3px solid #fff; border-radius: 12px; overflow: hidden; box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.4); }
-    .modal-slides-lane { width: 100%; height: 100%; position: relative; }
-    .modal-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; display: flex; justify-content: center; align-items: center; transition: opacity 0.25s ease-in-out; }
-    .modal-slide.active { opacity: 1; z-index: 5; }
-    .modal-slide img { width: 100%; height: 100%; object-fit: contain; }
-    .modal-btn { position: absolute; top: 50%; transform: translateY(-50%); background: #000; color: #ff0000; border: 2px solid #fff; width: 44px; height: 44px; font-size: 1.1rem; cursor: pointer; z-index: 100; border-radius: 8px; display: flex; justify-content: center; align-items: center; box-shadow: 3px 3px 0px #ff0000; }
+    .product-card { background-color: rgba(0, 0, 0, 0.88); border: 2px solid #fff; border-radius: 12px; padding: 12px 2.5%; display: flex; flex-direction: row; gap: 4%; }
     
-    /* CHECKOUT MODAL CONTENT */
-    .checkout-modal-content { background: #000; border: 2px solid #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5); text-align: left; }
-
-    /* TYPOGRAPHY */
-    .product-name { font-size: calc(1rem + 0.2vw); font-weight: bold; text-transform: uppercase; margin: 0 0 10px 0; color: #fff; letter-spacing: 1px; line-height: 1.3; }
-    .product-price { font-size: calc(1.1rem + 0.2vw); font-weight: 900; color: #ff0000; margin-bottom: 15px; }
-    .product-options { margin-bottom: 5px; display: flex; flex-direction: column; gap: 8px; width: 100%; }
-    .option-row { display: flex; flex-direction: column; gap: 4px; width: 100%; margin-bottom: 8px; }
-    .option-label { font-size: 0.8rem; font-weight: bold; text-transform: uppercase; color: #aaa; }
-    .store-select { background: #000; color: #fff; border: 2px solid #fff; padding: 6px 10px; font-weight: bold; border-radius: 6px; outline: none; cursor: pointer; width: 60px; text-align: center; appearance: none; }
-    .qty-selector, .size-selector { width: 60px !important; }
-
-    /* CART & CHECKOUT */
-    .cart-summary-box { width: 100%; background-color: #000; border: 2px solid #fff; border-radius: 12px; padding: 20px; box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.95); }
-    .cart-title { font-size: 1.3rem; font-weight: 900; color: #ff0000; text-transform: uppercase; border-bottom: 2px dashed #ff0000; padding-bottom: 8px; }
-    .cart-items-list { font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; color: #eee; }
-    .cart-total-row { font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 20px; display: flex; justify-content: space-between; }
-    .cart-total-price { color: #ff0000; }
-    .checkout-buttons-row { display: flex; gap: 10px; width: 100%; }
-    .checkout-btn { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 12px 6px; border: 2px solid #fff; border-radius: 8px; cursor: pointer; transition: transform 0.1s, box-shadow 0.1s; box-shadow: 4px 4px 0px #fff; }
-    .btn-label { font-size: 0.85rem; font-weight: 900; text-transform: uppercase; color: #000; }
-    .btn-whatsapp { background-color: #ff0000; }
-    .btn-paypal { background-color: #ffc439; }
-    .btn-wero { background-color: #00c853; }
+    .store-select { width: 60px !important; background: #000; color: #fff; border: 2px solid #fff; padding: 6px; font-weight: bold; border-radius: 6px; }
+    
+    .store-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.92); z-index: 9999; display: none; justify-content: center; align-items: center; }
+    .store-modal-overlay.active { display: flex; }
+    
+    .checkout-modal-content { background: #000; border: 2px solid #fff; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; }
+    
+    .checkout-btn { cursor: pointer; padding: 12px; border: 2px solid #fff; border-radius: 8px; background: #ff0000; font-weight: 900; }
 </style>
 </head>
 <body>
 
-    <!-- Home Page & Store Page Content remains same as your original -->
-    <div id="home-page" class="page-view active">
-        <div class="link-map-container" id="container">
-            <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
-            <map name="antifaz-links">
-                <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔" target="_blank">
-                <area shape="circle" coords="120,332,48" href="https://open.spotify.com/artist/6izznq82s4QurUpBqYthgt" alt="Spotify" data-tooltip="⚡ Spotify ➔" target="_blank">
-                <area shape="circle" coords="242,332,48" href="https://www.instagram.com/antifaz.co" alt="Instagram" data-tooltip="📸 Instagram ➔" target="_blank">
-                <area shape="circle" coords="364,332,48" href="https://www.youtube.com/@Antifaz-co" alt="YouTube" data-tooltip="📺 YouTube ➔" target="_blank">
-                <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Tienda ➔">
-                <area shape="circle" coords="133,510,58" href="https://www.instagram.com/santty_cast/" alt="Trombone" data-tooltip="🎺 Santiago (Trombón) ➔" target="_blank">
-                <area shape="circle" coords="300,510,58" href="https://www.instagram.com/era_drummer/" alt="Drums" data-tooltip="🥁 Esteban (Batería) ➔" target="_blank">
-                <area shape="circle" coords="467,510,58" href="https://www.instagram.com/gavoespitia/" alt="Trumpet" data-tooltip="🎺 Gabriel (Trompeta) ➔" target="_blank">
-                <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
-                <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
-                <area shape="rect" coords="265,735,335,795" href="mailto:antifaz.co@gmail.com" alt="Info" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔" target="_blank">
-                <area shape="circle" coords="300,870,35" href="http://www.skacolombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
-            </map>
-            <div id="tooltip" class="custom-tooltip"></div>
+<div id="home-page" class="page-view active">
+    <div class="link-map-container" id="container">
+        <img src="web2026lore.jpg" alt="Antifaz Links" usemap="#antifaz-links" id="map-image">
+        <map name="antifaz-links">
+            <area shape="circle" coords="300,147,100" href="https://lamusicadelgarage.org/noticia/2416537/antifaz-y-el-grito-necesario-del-punk-latino-guillo-presenta-su-disco-debut-que-dolor" alt="Bio" data-tooltip="📖 Biografia ➔">
+            <area shape="circle" coords="486,332,48" href="#store" alt="Merch" data-tooltip="👕 Merch Tienda ➔">
+        </map>
+        <div id="tooltip" class="custom-tooltip"></div>
+    </div>
+</div>
+
+<div id="store-page" class="page-view">
+    <div class="store-container">
+        <div class="products-grid">
+            <!-- Add your product-card divs here -->
         </div>
     </div>
-
-    <div id="store-page" class="page-view">
-        <div class="store-container">
-            <div class="products-grid">
-                <!-- Products would go here -->
-            </div>
-            <div class="store-footer-content">
-                <div class="cart-summary-box">
-                    <h3 class="cart-title">🛒 Resumen de Orden</h3>
-                    <div id="cart-items-container" class="cart-items-list">
-                        <span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>
-                    </div>
-                    <div class="cart-total-row">
-                        <span>TOTAL:</span>
-                        <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
-                    </div>
-                    <div class="checkout-buttons-row">
-                        <button class="checkout-btn btn-whatsapp" onclick="openCheckoutModal()">
-                            <span class="btn-icon">💬</span>
-                            <span class="btn-label">WhatsApp</span>
-                        </button>
-                        <button class="checkout-btn btn-paypal" onclick="openCheckoutModal()">
-                            <span class="btn-icon">🅿️</span>
-                            <span class="btn-label">PayPal</span>
-                        </button>
-                        <button class="checkout-btn btn-wero" onclick="openCheckoutModal()">
-                            <span class="btn-icon">💶</span>
-                            <span class="btn-label">Wero</span>
-                        </button>
-                    </div>
-                </div>
-                <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
-            </div>
+    <div class="store-footer-content">
+        <div class="cart-summary-box">
+            <button onclick="openCheckoutModal()">CHECKOUT</button>
         </div>
     </div>
+</div>
 
-    <!-- Image Modal -->
-    <div id="global-store-modal" class="store-modal-overlay" onclick="closeProductModal(event)">
-        <div class="modal-carousel-container" onclick="event.stopPropagation()">
-            <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
-            <div id="modal-slides-lane" class="modal-slides-lane"></div>
-            <button class="modal-btn next" onclick="moveModalSlide(1)">▶</button>
-        </div>
+<div id="checkout-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
+    <div class="checkout-modal-content" onclick="event.stopPropagation()">
+        <p>Please copy and paste the order details:</p>
+        <div id="checkout-summary-body"></div>
+        <button onclick="closeCheckoutModal()">Cerrar</button>
     </div>
+</div>
 
-    <!-- Checkout Modal -->
-    <div id="checkout-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
-        <div class="checkout-modal-content" onclick="event.stopPropagation()">
-            <p style="font-weight: bold; color: #ff0000; text-align: center; border-bottom: 2px solid #fff; padding-bottom: 10px;">
-                Please copy and paste the articles description and total of your order when submitting your payment
-            </p>
-            <div id="checkout-summary-body" style="color: #fff; margin: 20px 0; line-height: 1.6;"></div>
-            <button class="back-btn" onclick="closeCheckoutModal()" style="width: 100%;">Cerrar</button>
-        </div>
-    </div>
+<script>
+    // --- MAP & TOOLTIP LOGIC ---
+    const tooltip = document.getElementById('tooltip');
+    const container = document.getElementById('container');
+    const areas = document.querySelectorAll('area');
 
-    <script>
-        // Existing logic...
-        function openCheckoutModal() {
-            const productCards = document.querySelectorAll('.product-card');
-            const summaryBody = document.getElementById('checkout-summary-body');
-            let orderLines = [];
-            let aggregatePrice = 0;
+    function showTooltip(area) {
+        tooltip.textContent = area.getAttribute('data-tooltip');
+        tooltip.classList.add('visible');
+    }
 
-            productCards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                const price = parseInt(card.getAttribute('data-price'), 10);
-                const quantity = parseInt(card.querySelector('.qty-selector').value, 10);
-                const id = card.getAttribute('data-id');
+    function hideTooltip() { tooltip.classList.remove('visible'); }
 
-                if (quantity > 0) {
-                    let detailStr = `${quantity}x ${name}`;
-                    if (id === 'shirt') {
-                        const size = card.querySelector('.size-selector').value;
-                        detailStr += ` (Talla: ${size})`;
-                    }
-                    orderLines.push(detailStr);
-                    aggregatePrice += (price * quantity);
-                }
-            });
+    areas.forEach(area => {
+        area.addEventListener('mouseenter', () => showTooltip(area));
+        area.addEventListener('mouseleave', hideTooltip);
+        area.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            tooltip.style.left = `${e.clientX - rect.left}px`;
+            tooltip.style.top = `${e.clientY - rect.top}px`;
+        });
+        area.addEventListener('click', (e) => {
+            if (area.getAttribute('href') === '#store') { e.preventDefault(); navigateTo('store'); }
+        });
+    });
 
-            if (orderLines.length === 0) {
-                alert('Tu carrito está vacío.');
-                return;
-            }
+    // --- NAVIGATION ---
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId + '-page').classList.add('active');
+        document.getElementById(pageId + '-page').style.display = 'flex';
+    }
 
-            summaryBody.innerHTML = `
-                <strong>Pedido:</strong><br>
-                ${orderLines.map(line => `• ${line}`).join('<br>')}<br><br>
-                <strong>TOTAL: $${aggregatePrice.toLocaleString('es-CO')} COP</strong>
-            `;
+    // --- CHECKOUT MODAL LOGIC ---
+    function openCheckoutModal() {
+        const summaryBody = document.getElementById('checkout-summary-body');
+        summaryBody.innerHTML = "Order details loading..."; 
+        document.getElementById('checkout-modal').classList.add('active');
+    }
 
-            document.getElementById('checkout-modal').classList.add('active');
-        }
+    function closeCheckoutModal() {
+        document.getElementById('checkout-modal').classList.remove('active');
+    }
 
-        function closeCheckoutModal() {
-            document.getElementById('checkout-modal').classList.remove('active');
-        }
-
-        // ... (Keep existing updateCartSummary, moveSlide, openProductModal, etc.)
-    </script>
+    function resizeMap() { /* Your existing map resize code */ }
+    window.addEventListener('resize', resizeMap);
+</script>
 </body>
 </html>
