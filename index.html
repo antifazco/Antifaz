@@ -102,7 +102,7 @@
     }
 
     .custom-tooltip.mobile-active {
-        pointer-events: auto; /* Restores tap interaction to standard mobile click event triggers */
+        pointer-events: auto; 
     }
 
     .custom-tooltip:active {
@@ -851,6 +851,11 @@
                 </div>
                 <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
             </div>
+
+            <!-- Punk Style Copy Clipboard Action Trigger Component -->
+            <button id="qr-modal-copy-btn" class="back-btn" style="width: 100%; padding: 10px; font-size: 0.85rem; background-color: #111; color: #ff0000; border-color: #ff0000; margin-top: 5px;" onclick="copyOrderSummaryToClipboard()">
+                📋 Copiar Resumen de Productos
+            </button>
             
             <button class="back-btn" style="width: 100%; padding: 12px; font-size: 0.9rem; margin-top: 5px;" onclick="closeCheckoutModal()">Cerrar / Volver</button>
         </div>
@@ -863,6 +868,7 @@
         
         let activeArea = null; 
         let currentActiveCardContext = null;
+        let plainTextReceiptStringGlobal = ""; // Keeps current formatted raw recipe string ready to be copied
 
         // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
         function updateCartSummary() {
@@ -908,12 +914,18 @@
             const modalItemsContainer = document.getElementById('qr-modal-items');
             const modalTotalDisplay = document.getElementById('qr-modal-total');
             const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
+            const copyBtn = document.getElementById('qr-modal-copy-btn');
 
-            // LIVE DAY EXCHANGE CONVERSION FACTOR CONSTANTS
+            // Restore copy button's original template style configuration state
+            copyBtn.innerHTML = "📋 Copiar Resumen de Productos";
+            copyBtn.style.color = "#ff0000";
+            copyBtn.style.borderColor = "#ff0000";
+
             const COP_TO_USD_RATE = 0.000265;
             const COP_TO_EUR_RATE = 0.000228;
 
-            let orderLines = [];
+            let htmlOrderLines = [];
+            let rawPlainTextLines = [];
             let aggregatePrice = 0;
 
             productCards.forEach(card => {
@@ -928,38 +940,61 @@
                         const size = card.querySelector('.size-selector').value;
                         detailStr += ` [Talla: ${size}]`;
                     }
-                    orderLines.push(`<div>• ${detailStr}</div>`);
+                    htmlOrderLines.push(`<div>• ${detailStr}</div>`);
+                    rawPlainTextLines.push(`${detailStr}`);
                     aggregatePrice += (price * quantity);
                 }
             });
 
-            if (orderLines.length === 0) {
+            if (htmlOrderLines.length === 0) {
                 alert('Por favor, selecciona al menos 1 artículo para continuar con tu pago.');
                 return;
             }
 
             modalTitle.textContent = contextualTitle;
             modalImage.setAttribute('src', imageFileName);
-            modalItemsContainer.innerHTML = orderLines.join('');
+            modalItemsContainer.innerHTML = htmlOrderLines.join('');
             modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Calculate active regional conversion line item values with forced ceiling up-round and clean formatting
+            // Setup clear raw string context buffer 
+            let receiptSummaryTextBuilder = "ANTIFAZ PEDIDO:\n" + rawPlainTextLines.join('\n');
+            receiptSummaryTextBuilder += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP`;
+
             if (targetCurrency === 'USD') {
                 const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
                 modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
                 modalConvertedDisplay.style.display = 'flex';
+                receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
             } else if (targetCurrency === 'EUR') {
                 const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
                 modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
+                receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
             } else {
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
             }
 
+            // Expose the built string globally for clipboard execution
+            plainTextReceiptStringGlobal = receiptSummaryTextBuilder;
+
             modalOverlay.style.display = 'flex';
             void modalOverlay.offsetWidth; 
             modalOverlay.classList.add('active');
+        }
+
+        // CLIPBOARD COPY INTERACTION ROUTER
+        function copyOrderSummaryToClipboard() {
+            if (!plainTextReceiptStringGlobal) return;
+            
+            navigator.clipboard.writeText(plainTextReceiptStringGlobal).then(() => {
+                const copyBtn = document.getElementById('qr-modal-copy-btn');
+                copyBtn.innerHTML = "💥 ¡Copiado al Portapapeles!";
+                copyBtn.style.color = "#00c853";
+                copyBtn.style.borderColor = "#00c853";
+            }).catch(err => {
+                console.error('Could not copy context characters: ', err);
+            });
         }
 
         function cancelCheckoutModal() {
@@ -970,7 +1005,6 @@
             }, 200);
         }
         
-        // Expose close handler safely across click boundaries
         window.closeCheckoutModal = cancelCheckoutModal;
 
         /* LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile) */
