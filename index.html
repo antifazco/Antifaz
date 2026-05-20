@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -96,12 +96,11 @@
         z-index: 2000;
         white-space: nowrap;
         box-shadow: 5px 5px 0px rgba(255, 0, 0, 0.3);
-        pointer-events: none; /* Crucial: Evita que el tooltip bloquee los eventos de hover del mouse */
+        pointer-events: none; 
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
     }
 
-    /* Permite clicks en móviles cuando se fija el estado activo */
     .custom-tooltip.mobile-active {
         pointer-events: auto;
     }
@@ -258,6 +257,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        transition: opacity 0.2s ease-in-out;
     }
 
     .carousel-slide.active {
@@ -270,6 +270,31 @@
         height: 100%;
         object-fit: cover;
     }
+
+    /* Inline Small Carousel Navigation Controls (Desktop Hidden by default) */
+    .carousel-btn {
+        display: none; 
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #000;
+        color: #ff0000;
+        border: 2px solid #fff;
+        width: 32px; 
+        height: 32px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 6px;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 2px 2px 0px #ff0000;
+        transition: background-color 0.1s;
+    }
+    .carousel-btn:hover { background: #ff0000; color: #000; }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+
 
     /* FULL SCREEN IMAGE OVERLAY MODAL SYSTEM */
     .store-modal-overlay {
@@ -504,6 +529,16 @@
             aspect-ratio: 1; 
         }
 
+        /* SHOW CAROUSEL ARROWS ON MOBILE ONLY */
+        .carousel-btn {
+            display: flex; 
+        }
+        
+        /* Change cursor to default because we block the popup layout system on mobile */
+        .carousel-slides {
+            cursor: default;
+        }
+
         .modal-carousel-container {
             width: 90vw; 
         }
@@ -620,7 +655,8 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <div class="carousel-slides" onclick="openProductModal(this)">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
                                 <div class="carousel-slide active"><img src="vinyl1.jpg" alt="Vinyl view 1"></div>
                                 <div class="carousel-slide"><img src="vinyl2.jpg" alt="Vinyl view 2"></div>
                                 <div class="carousel-slide"><img src="vinyl3.jpg" alt="Vinyl view 3"></div>
@@ -628,6 +664,7 @@
                                 <div class="carousel-slide"><img src="vinyl5.jpg" alt="Vinyl view 5"></div>
                                 <div class="carousel-slide"><img src="vinyl6.jpg" alt="Vinyl view 6"></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -651,11 +688,13 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <div class="carousel-slides" onclick="openProductModal(this)">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
                                 <div class="carousel-slide active"><img src="cassette1.jpg" alt="Cassette view 1"></div>
                                 <div class="carousel-slide"><img src="cassette2.jpg" alt="Cassette view 2"></div>
                                 <div class="carousel-slide"><img src="cassette3.jpg" alt="Cassette view 3"></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -682,10 +721,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <div class="carousel-slides" onclick="openProductModal(this)">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
                                 <div class="carousel-slide active"><img src="shirt1.jpg" alt="Shirt front view"></div>
                                 <div class="carousel-slide"><img src="shirt2.jpg" alt="Shirt back view"></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -709,10 +750,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <div class="carousel-slides" onclick="openProductModal(this)">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
                                 <div class="carousel-slide active"><img src="gorra1.jpg" alt="Hat view 1"></div>
                                 <div class="carousel-slide"><img src="gorra2.jpg" alt="Hat view 2"></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -736,10 +779,12 @@
                     </div>
                     <div class="product-media-col">
                         <div class="carousel-wrapper">
-                            <div class="carousel-slides" onclick="openProductModal(this)">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
                                 <div class="carousel-slide active"><img src="pick1.jpg" alt="Picks view 1"></div>
                                 <div class="carousel-slide"><img src="pick2.jpg" alt="Picks view 2"></div>
                             </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
                         </div>
                     </div>
                 </div>
@@ -870,7 +915,42 @@
             window.open(`https://api.whatsapp.com/send?phone=${businessNumber}&text=${parsedURI}`, '_blank');
         }
 
-        // MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS
+        // LIGHTWEIGHT INLINE SLIDER CONTROLLER (Used on Mobile)
+        function moveSlide(buttonElement, direction, event) {
+            if (event) event.stopPropagation(); 
+            const wrapper = buttonElement.closest('.carousel-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            let currentActiveIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            slides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= slides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = slides.length - 1;
+            }
+
+            slides[nextActiveIndex].classList.add('active');
+        }
+
+        // DETECT CLICKS ON MAIN IMAGE CONTAINER
+        function handleCardImageClick(slidesContainerElement) {
+            // If it's a mobile layout, let the inline arrows do the work. DO NOT open the modal.
+            if (window.matchMedia("(max-width: 767px)").matches) {
+                return;
+            }
+            // On desktop view, trigger the fullscreen expansion modal
+            openProductModal(slidesContainerElement);
+        }
+
+        // MODAL DETAILED EXPANSION CAROUSEL LOGIC HOOKS (Desktop exclusive execution)
         function openProductModal(slidesContainerElement) {
             const productCard = slidesContainerElement.closest('.product-card');
             currentActiveCardContext = productCard;
@@ -955,7 +1035,6 @@
 
         // HIGHLY RESPONSIVE & SENSITIVE TOOLTIP DETECTORS
         areas.forEach(area => {
-            // DESKTOP HOVER LOGIC - Direct, no lockups
             area.addEventListener('mouseenter', () => {
                 if (window.matchMedia("(pointer: coarse)").matches) return; 
                 showTooltip(area);
@@ -974,7 +1053,7 @@
                 hideTooltip();
             });
 
-            // SMART MOBILE CLICK / TOUCH INTERACTION - Double tap logic intact
+            // SMART MOBILE CLICK / TOUCH INTERACTION
             area.addEventListener('click', (e) => {
                 const isMerchStore = (area.getAttribute('href') === '#store');
                 
@@ -1008,7 +1087,6 @@
             });
         });
 
-        // INTERACTIVE SPEECH BUBBLE TAP REGISTER
         tooltip.addEventListener('click', () => {
             if (activeArea) {
                 if (activeArea.getAttribute('href') === '#store') {
@@ -1075,7 +1153,7 @@
         }
 
         window.addEventListener('resize', resizeMap);
-        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA') hideTooltip(); }; // Limpieza forzada de seguridad si el puntero se sale muy rápido del mapa.
+        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA') hideTooltip(); }; 
         document.getElementById('map-image').addEventListener('load', resizeMap);
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
