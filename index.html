@@ -217,6 +217,22 @@
         text-align: left;
     }
 
+    .product-card table {
+        color: #fff;
+        font-size: 0.85rem;
+    }
+
+    .product-card table input[type="text"] {
+        background: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        border-radius: 4px;
+        padding: 4px;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
     .product-media-col {
         width: 360px; 
         max-width: 45%; 
@@ -835,20 +851,31 @@
 
     <!-- DYNAMIC PAYMENTS QR MODAL SYSTEM -->
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
-        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 15px; height: auto;" onclick="event.stopPropagation()">
+        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 15px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
             
-            <!-- Embedded USA PayPal Form Field (Hidden on other regions automatically via JS execution blocks) -->
-            <div id="paypal-form-container" style="display: none; margin: 5px 0;">
-                <form action="https://www.paypal.com/donate" method="post" target="_top">
-                    <input type="hidden" name="business" value="4BR46ZW84BXY4" />
-                    <input type="hidden" name="no_recurring" value="1" />
-                    <input type="hidden" name="item_name" value="Please cut/paste the resume of your products in the description before submitting your payment." />
+            <!-- Embedded Updated PayPal Form Container Block -->
+            <div id="paypal-form-container" style="display: none; margin: 5px 0; width: 100%; text-align: center;">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="7D6TQYG46KJQ6" />
+                    <table style="margin: 0 auto 10px auto; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding-bottom: 4px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #aaa;">
+                                <input type="hidden" name="on0" value="Paste your merch resume:"/>
+                                Paste your merch resume:
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="os0" maxLength="200" style="background: #000; color: #fff; border: 2px solid #fff; border-radius: 6px; padding: 8px; outline: none; width: 240px; font-weight: bold; text-align: center;" />
+                            </td>
+                        </tr>
+                    </table>
                     <input type="hidden" name="currency_code" value="USD" />
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-                    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="box-shadow: 3px 3px 0px #ff0000; border-radius: 4px; transition: transform 0.1s;" onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'" />
                 </form>
             </div>
 
@@ -970,7 +997,6 @@
             let receiptSummaryTextBuilder = "ANTIFAZ PEDIDO:\n" + rawPlainTextLines.join('\n');
             receiptSummaryTextBuilder += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Toggle USA PayPal Form block view states smoothly
             if (targetCurrency === 'USD') {
                 const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
                 modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
