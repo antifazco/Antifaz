@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>- ANTIFAZ -</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -840,6 +840,18 @@
             
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
             
+            <!-- Embedded USA PayPal Form Field (Hidden on other regions automatically via JS execution blocks) -->
+            <div id="paypal-form-container" style="display: none; margin: 5px 0;">
+                <form action="https://www.paypal.com/donate" method="post" target="_top">
+                    <input type="hidden" name="business" value="4BR46ZW84BXY4" />
+                    <input type="hidden" name="no_recurring" value="1" />
+                    <input type="hidden" name="item_name" value="Please cut/paste the resume of your products in the description before submitting your payment." />
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+                </form>
+            </div>
+
             <p style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
             <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; max-height: 120px; overflow-y: auto; color: #eee; line-height: 1.4;" id="qr-modal-items"></div>
@@ -852,7 +864,6 @@
                 <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
             </div>
 
-            <!-- Punk Style Copy Clipboard Action Trigger Component -->
             <button id="qr-modal-copy-btn" class="back-btn" style="width: 100%; padding: 10px; font-size: 0.85rem; background-color: #111; color: #ff0000; border-color: #ff0000; margin-top: 5px;" onclick="copyOrderSummaryToClipboard()">
                 📋 Copiar Resumen de Productos
             </button>
@@ -868,7 +879,7 @@
         
         let activeArea = null; 
         let currentActiveCardContext = null;
-        let plainTextReceiptStringGlobal = ""; // Keeps current formatted raw recipe string ready to be copied
+        let plainTextReceiptStringGlobal = ""; 
 
         // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
         function updateCartSummary() {
@@ -914,9 +925,9 @@
             const modalItemsContainer = document.getElementById('qr-modal-items');
             const modalTotalDisplay = document.getElementById('qr-modal-total');
             const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
+            const paypalFormContainer = document.getElementById('paypal-form-container');
             const copyBtn = document.getElementById('qr-modal-copy-btn');
 
-            // Restore copy button's original template style configuration state
             copyBtn.innerHTML = "📋 Copiar Resumen de Productos";
             copyBtn.style.color = "#ff0000";
             copyBtn.style.borderColor = "#ff0000";
@@ -956,26 +967,28 @@
             modalItemsContainer.innerHTML = htmlOrderLines.join('');
             modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Setup clear raw string context buffer 
             let receiptSummaryTextBuilder = "ANTIFAZ PEDIDO:\n" + rawPlainTextLines.join('\n');
             receiptSummaryTextBuilder += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP`;
 
+            // Toggle USA PayPal Form block view states smoothly
             if (targetCurrency === 'USD') {
                 const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
                 modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
                 modalConvertedDisplay.style.display = 'flex';
+                paypalFormContainer.style.display = 'block'; 
                 receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
             } else if (targetCurrency === 'EUR') {
                 const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
                 modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
+                paypalFormContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
             } else {
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
+                paypalFormContainer.style.display = 'none';
             }
 
-            // Expose the built string globally for clipboard execution
             plainTextReceiptStringGlobal = receiptSummaryTextBuilder;
 
             modalOverlay.style.display = 'flex';
@@ -983,7 +996,6 @@
             modalOverlay.classList.add('active');
         }
 
-        // CLIPBOARD COPY INTERACTION ROUTER
         function copyOrderSummaryToClipboard() {
             if (!plainTextReceiptStringGlobal) return;
             
