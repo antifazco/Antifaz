@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -612,7 +612,6 @@
         width: 100%;
     }
 
-    /* Custom Punk Styled Link Wrapper for Wompi Integration Redirects */
     .wompi-checkout-link-btn {
         display: inline-flex;
         background-color: #ff9100;
@@ -630,6 +629,26 @@
     }
     .wompi-checkout-link-btn:hover {
         background-color: #ffea00;
+    }
+
+    /* Small X Exit Button Element Styling Blueprint */
+    .modal-close-x-trigger {
+        position: absolute;
+        right: 16px;
+        top: 12px;
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.6rem;
+        font-weight: 300;
+        cursor: pointer;
+        z-index: 1000;
+        line-height: 1;
+        padding: 0;
+        transition: color 0.1s;
+    }
+    .modal-close-x-trigger:hover {
+        color: #ff0000;
     }
 </style>
 </head>
@@ -868,6 +887,9 @@
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
         <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
             
+            <!-- Absolute Anchored X Close Trigger Component Asset Layer -->
+            <button class="modal-close-x-trigger" onclick="closeCheckoutModal()">×</button>
+
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
             <!-- International & Local Step-by-Step Numbered Sequence Stack Container Frame -->
@@ -1093,7 +1115,7 @@
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 euroFormContainer.style.display = 'none';
-                colombpiContainer = colombiaWompiContainer.style.display = 'block'; // Triggers local Wompi anchor wrapper node display safely
+                colombiaWompiContainer.style.display = 'block'; 
                 
                 stepLabel1.textContent = "1. Copia el resumen de tu pedido";
                 copyBtn.innerHTML = "COPIAR";
