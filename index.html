@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -964,16 +964,21 @@
                 </form>
             </div>
 
-            <!-- European Payment Gateway Embedded Form Component -->
+            <!-- European Payment Gateway Embedded Form Component (With a visible short-form text field layout built directly inside) -->
             <div id="euro-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="2WZ23KLFPH44Y" />
-                    <table style="margin: 0 auto 10px auto; border-collapse: collapse; display: none;">
-                        <tr><td><input type="hidden" name="on0" value="Paste your merch resume:"/>Paste your merch resume:</td></tr>
-                        <tr><td><input type="text" name="os0" maxLength="200" id="euro-raw-input-field" /></td></tr>
-                    </table>
-                    <input type="hidden" name="currency_code" value="EUR" />
+                    <input type="hidden" name="hosted_button_id" value="MLGD29CD8WNS2" />
+                    
+                    <div style="margin: 0 auto 14px auto; width: 240px; text-align: center;">
+                        <input type="hidden" name="on0" value="Paste your merch resume:"/>
+                        <label for="euro-raw-input-field" style="display: block; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #aaa; margin-bottom: 6px;">
+                            Paste your merch resume:
+                        </label>
+                        <input type="text" name="os0" maxLength="200" id="euro-raw-input-field" style="background: #000; color: #fff; border: 2px solid #fff; border-radius: 6px; padding: 8px; outline: none; width: 100%; font-weight: bold; text-align: center; box-sizing: border-box;" />
+                    </div>
+
+                    <input type="hidden" name="currency_code" value="USD" />
                     <input type="image" src="https://www.paypalobjects.com/en_US/ES/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none; transform: none; transition: none;" />
                 </form>
             </div>
@@ -1132,13 +1137,14 @@
                 colombiaWompiContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
 
+                // Auto-fill visible input container text fields on first launch for ease of use
                 if (euroInputField) {
                     euroInputField.value = rawPlainTextLines.join(', ') + ` | Total: €${convertedEUR} EUR`;
                 }
                 
                 stepLabel1.textContent = "1. Copy your merch resume";
                 copyBtn.innerHTML = "COPY";
-                stepLabel2.textContent = "2. Scan the code or press button to pay";
+                stepLabel2.textContent = "2. Review order or fill form fields to proceed";
                 stepLabel3.textContent = "3. Make sure you paste your merch resume and total payment during check-out";
                 stepLabel4.textContent = "4. Enjoy your merch and thanks for the support";
 
@@ -1149,7 +1155,7 @@
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 euroFormContainer.style.display = 'none';
-                colombiaWompiContainer.style.display = 'block'; // Fixed: Typo solved here!
+                colombiaWompiContainer.style.display = 'block'; 
                 
                 stepLabel1.textContent = "1. Copia el resumen de tu pedido";
                 copyBtn.innerHTML = "COPIAR";
