@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -601,7 +601,6 @@
     .btn-paypal { background-color: #ffc439; }
     .btn-wero { background-color: #00c853; }
     
-    /* Dedicated instruction list layout styles */
     .checkout-step-item {
         font-size: 0.85rem;
         font-weight: bold;
@@ -847,12 +846,11 @@
 
     <!-- DYNAMIC PAYMENTS QR MODAL SYSTEM -->
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
-        <!-- Container uses full height overflow visibility scoping -->
         <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
             
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- Numbered Instruction Progression Stack List -->
+            <!-- International Step-by-Step Numbered Sequence Stack Container Frame -->
             <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
                     <p class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
@@ -869,26 +867,31 @@
             
             <p id="qr-modal-instruction-mid" style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
-            <!-- Embedded Form Element Block (Hosted button ID tracking: SVSH36K9S7D6G with target blank logic layer) -->
+            <!-- USA Payment Gateway Embedded Form Component -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" value="SVSH36K9S7D6G" />
                     <table style="margin: 0 auto 10px auto; border-collapse: collapse; display: none;">
-                        <tr>
-                            <td>
-                                <input type="hidden" name="on0" value="Merch resume"/>
-                                Merch resume
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" name="os0" maxLength="200" id="paypal-raw-input-field" />
-                            </td>
-                        </tr>
+                        <tr><td><input type="hidden" name="on0" value="Merch resume"/>Merch resume</td></tr>
+                        <tr><td><input type="text" name="os0" maxLength="200" id="paypal-raw-input-field" /></td></tr>
                     </table>
                     <input type="hidden" name="currency_code" value="USD" />
                     <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none; transform: none; transition: none;" />
+                </form>
+            </div>
+
+            <!-- European Payment Gateway Embedded Form Component -->
+            <div id="euro-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="MLGD29CD8WNS2" />
+                    <table style="margin: 0 auto 10px auto; border-collapse: collapse; display: none;">
+                        <tr><td><input type="hidden" name="on0" value="Paste your merch resume:"/>Paste your merch resume:</td></tr>
+                        <tr><td><input type="text" name="os0" maxLength="200" id="euro-raw-input-field" /></td></tr>
+                    </table>
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/ES/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none; transform: none; transition: none;" />
                 </form>
             </div>
 
@@ -958,8 +961,11 @@
             const modalItemsContainer = document.getElementById('qr-modal-items');
             const modalTotalDisplay = document.getElementById('qr-modal-total');
             const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
+            
             const paypalFormContainer = document.getElementById('paypal-form-container');
             const paypalInputField = document.getElementById('paypal-raw-input-field');
+            const euroFormContainer = document.getElementById('euro-form-container');
+            const euroInputField = document.getElementById('euro-raw-input-field');
             const copyBtn = document.getElementById('qr-modal-copy-btn');
             
             const usaInstructionsListBlock = document.getElementById('usa-instructions-list-container');
@@ -1012,13 +1018,13 @@
                 modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
                 modalConvertedDisplay.style.display = 'flex';
                 paypalFormContainer.style.display = 'block'; 
+                euroFormContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
                 
                 if (paypalInputField) {
                     paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
                 }
 
-                // Fixed: Use standard CSS style string assignment to safely modify element rendering constraints
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
                 instructionMid.style.display = 'none';
             } else if (targetCurrency === 'EUR') {
@@ -1026,15 +1032,20 @@
                 modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
                 paypalFormContainer.style.display = 'none';
+                euroFormContainer.style.display = 'block';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
+
+                if (euroInputField) {
+                    euroInputField.value = rawPlainTextLines.join(', ') + ` | Total: €${convertedEUR} EUR`;
+                }
                 
-                usaInstructionsListBlock.style.display = 'none';
-                instructionMid.style.display = 'block';
-                instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
+                usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
+                instructionMid.style.display = 'none';
             } else {
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
+                euroFormContainer.style.display = 'none';
                 
                 usaInstructionsListBlock.style.display = 'none';
                 instructionMid.style.display = 'block';
