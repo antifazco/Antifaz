@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>--ANTIFAZ--</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -850,17 +850,17 @@
             
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- International Step-by-Step Numbered Sequence Stack Container Frame -->
+            <!-- Dynamic International & Local Numbered Guide Stack Frame Container -->
             <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
-                    <p class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
+                    <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
                     <button id="qr-modal-copy-btn" class="back-btn" style="padding: 4px 10px; font-size: 0.7rem; background-color: #111; color: #ff0000; border-color: #ff0000; border-radius: 4px; box-shadow: none; margin: 0;" onclick="copyOrderSummaryToClipboard()">
                         COPY
                     </button>
                 </div>
                 <p id="qr-modal-instruction-mid-step" class="checkout-step-item">2. Scan the code or press button to pay</p>
-                <p class="checkout-step-item" style="color: #ff0000; padding: 0 5px;">3. Make sure you paste your merch resume and total payment during check-out</p>
-                <p class="checkout-step-item" style="color: #00c853;">4. Enjoy your merch and thanks for the support</p>
+                <p id="qr-modal-instruction-step-3" class="checkout-step-item" style="color: #ff0000; padding: 0 5px;">3. Make sure you paste your merch resume and total payment during check-out</p>
+                <p id="qr-modal-instruction-step-4" class="checkout-step-item" style="color: #00c853;">4. Enjoy your merch and thanks for the support</p>
             </div>
 
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
@@ -881,7 +881,7 @@
                 </form>
             </div>
 
-            <!-- European Payment Gateway Embedded Form Component (Configured with correct EUR currency codes safely) -->
+            <!-- European Payment Gateway Embedded Form Component -->
             <div id="euro-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
@@ -901,7 +901,7 @@
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
                 <div style="display: flex; justify-content: space-between; width: 100%;">
                     <span>TOTAL:</span>
-                    <span id="qr-modal-total" style="color: #fff;">$0 COP</span>
+                    <span id="qr-modal-total" style="color: #fff;">$0</span>
                 </div>
                 <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
             </div>
@@ -970,6 +970,12 @@
             
             const usaInstructionsListBlock = document.getElementById('usa-instructions-list-container');
             const instructionMid = document.getElementById('qr-modal-instruction-mid');
+            
+            // Step text node pointer configurations
+            const stepLabel1 = document.getElementById('qr-modal-instruction-step-1');
+            const stepLabel2 = document.getElementById('qr-modal-instruction-mid-step');
+            const stepLabel3 = document.getElementById('qr-modal-instruction-step-3');
+            const stepLabel4 = document.getElementById('qr-modal-instruction-step-4');
 
             copyBtn.innerHTML = "COPY";
             copyBtn.style.color = "#ff0000";
@@ -1025,6 +1031,13 @@
                     paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
                 }
 
+                // Set default English text guidelines strings
+                stepLabel1.textContent = "1. Copy your merch resume";
+                copyBtn.innerHTML = "COPY";
+                stepLabel2.textContent = "2. Scan the code or press button to pay";
+                stepLabel3.textContent = "3. Make sure you paste your merch resume and total payment during check-out";
+                stepLabel4.textContent = "4. Enjoy your merch and thanks for the support";
+
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
                 instructionMid.style.display = 'none';
             } else if (targetCurrency === 'EUR') {
@@ -1039,17 +1052,31 @@
                     euroInputField.value = rawPlainTextLines.join(', ') + ` | Total: €${convertedEUR} EUR`;
                 }
                 
+                // Set default English text guidelines strings
+                stepLabel1.textContent = "1. Copy your merch resume";
+                copyBtn.innerHTML = "COPY";
+                stepLabel2.textContent = "2. Scan the code or press button to pay";
+                stepLabel3.textContent = "3. Make sure you paste your merch resume and total payment during check-out";
+                stepLabel4.textContent = "4. Enjoy your merch and thanks for the support";
+
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
                 instructionMid.style.display = 'none';
             } else {
+                // Colombia Direct Context flow configuration execution branch
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 euroFormContainer.style.display = 'none';
                 
-                usaInstructionsListBlock.style.display = 'none';
-                instructionMid.style.display = 'block';
-                instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
+                // Translate the structured sequence strings directly into Spanish language contexts
+                stepLabel1.textContent = "1. Copia el resumen de tu pedido";
+                copyBtn.innerHTML = "COPIAR";
+                stepLabel2.textContent = "2. Escanea el código con tu App Bancolombia / Nequi";
+                stepLabel3.textContent = "3. Asegúrate de pegar el resumen en la descripción del pago";
+                stepLabel4.textContent = "4. ¡Disfruta tu merch y gracias por el apoyo!";
+
+                usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
+                instructionMid.style.display = 'none';
             }
 
             plainTextReceiptStringGlobal = receiptSummaryTextBuilder;
@@ -1064,7 +1091,7 @@
             
             navigator.clipboard.writeText(plainTextReceiptStringGlobal).then(() => {
                 const copyBtn = document.getElementById('qr-modal-copy-btn');
-                copyBtn.innerHTML = "DONE! 💥";
+                copyBtn.innerHTML = "LISTO! 💥";
                 copyBtn.style.color = "#00c853";
                 copyBtn.style.borderColor = "#00c853";
             }).catch(err => {
