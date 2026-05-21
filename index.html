@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -127,7 +127,7 @@
     }
 
     /* STORE FRONT ARCHITECTURE */
-    #store-page {
+    #store-page, #info-page {
         background-image: url('storebkgr.jpg');
         background-size: 100% auto; 
         background-position: center top;    
@@ -139,13 +139,26 @@
         align-items: center;
     }
 
-    .store-container {
+    /* Dedicated clean background asset adjustment frame for info view layouts */
+    #info-page {
+        background-image: none; /* Keeps focus strictly on your new uploaded kit graphic content */
+    }
+
+    .store-container, .info-container {
         max-width: 950px; 
         width: 62vw; 
         min-width: 500px; 
         box-sizing: border-box;
         padding-top: 31vw; 
         padding-bottom: 40px;
+    }
+
+    .info-container {
+        padding-top: 40px; /* Uniform grid spacing layout adjustment fields */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
     }
 
     .store-footer-content {
@@ -497,15 +510,22 @@
 
     /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
-        #store-page {
+        #store-page, #info-page {
             background-size: 100% auto; 
         }
 
-        .store-container {
+        .store-container, .info-container {
             width: 92% !important;
             min-width: 0 !important;
+        }
+        
+        .store-container {
             padding-top: 31vw; 
             padding-bottom: 40px;
+        }
+
+        .info-container {
+            padding-top: 20px;
         }
         
         .store-footer-content {
@@ -631,7 +651,6 @@
         background-color: #ffea00;
     }
 
-    /* Small X Exit Button Element Styling Blueprint */
     .modal-close-x-trigger {
         position: absolute;
         right: 16px;
@@ -674,12 +693,28 @@
                 <area shape="circle" coords="216,634,58" href="https://www.instagram.com/newbornlofi/" alt="Bass" data-tooltip="🎸 Boris (Bajo) ➔" target="_blank">
                 <area shape="circle" coords="384,634,58" href="https://www.instagram.com/guillo.moji/" alt="Guitar" data-tooltip="🎤🎸 Guillo (Voz/Guitarra) ➔" target="_blank">
 
-                <area shape="rect" coords="265,735,335,795" href="mailto:antifaz.co@gmail.com" alt="Info" data-tooltip="✉️ Email: ANTIFAZ.CO@GMAIL.COM ➔" target="_blank">
+                <!-- Updated Trigger target string routes and localized tooltip label descriptor arrays -->
+                <area shape="rect" coords="265,735,335,795" href="#info" alt="Info" data-tooltip="✉️ Info, EPK, Email... ➔">
 
                 <area shape="circle" coords="300,870,35" href="http://www.skacolombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
             </map>
 
             <div id="tooltip" class="custom-tooltip"></div>
+        </div>
+    </div>
+
+    <!-- NEW PHASE: COMPACT SPA ELECTRONIC PRESS KIT SECTION -->
+    <div id="info-page" class="page-view">
+        <div class="info-container">
+            <div style="width: 100%; border: 3px solid #fff; border-radius: 12px; overflow: hidden; background-color: #000; box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.35);">
+                <img src="presskit2026lore.jpg" alt="Antifaz Electronic Press Kit" style="width: 100%; height: auto; display: block; object-fit: contain;">
+            </div>
+            <div style="display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 5px;">
+                <a href="mailto:antifaz.co@gmail.com" target="_blank" class="back-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background-color: #ff0000; color: #000; border-color: #fff;">
+                    ✉️ CONTACTAR POR EMAIL
+                </a>
+                <button class="back-btn" onclick="navigateTo('home')">← VOLVER AL INICIO</button>
+            </div>
         </div>
     </div>
 
@@ -849,7 +884,7 @@
                 </div>
                 <div class="cart-total-row">
                     <span>TOTAL:</span>
-                    <span id="cart-total-price-display" class="cart-total-price">$0 COP</span>
+                    <span id="cart-total-price-display" class="cart-total-price">$0</span>
                 </div>
                 <div class="checkout-buttons-row">
                     <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Bancolombia (COP)', 'COP')">
@@ -887,12 +922,10 @@
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
         <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
             
-            <!-- Absolute Anchored X Close Trigger Component Asset Layer -->
             <button class="modal-close-x-trigger" onclick="closeCheckoutModal()">×</button>
 
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- International & Local Step-by-Step Numbered Sequence Stack Container Frame -->
             <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
                     <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
@@ -909,14 +942,12 @@
             
             <p id="qr-modal-instruction-mid" style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
-            <!-- Local Colombia Wompi Button Redirect Link Container Wrapper -->
             <div id="colombia-wompi-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <a href="https://checkout.wompi.co/l/ldMc1J" target="_blank" class="wompi-checkout-link-btn">
                     💳 Pagar con Wompi (PSE / Nequi)
                 </a>
             </div>
 
-            <!-- USA Payment Gateway Embedded Form Component -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
@@ -930,7 +961,6 @@
                 </form>
             </div>
 
-            <!-- European Payment Gateway Embedded Form Component -->
             <div id="euro-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
@@ -944,7 +974,6 @@
                 </form>
             </div>
 
-            <!-- Standard Flat Structural Items Breakdown Container Summary -->
             <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; color: #eee; line-height: 1.4; text-align: left;" id="qr-modal-items"></div>
             
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
@@ -1249,10 +1278,11 @@
             }
         }
 
-        /* SPA NAVIGATION ROUTER ENGINE */
+        /* SPA NAVIGATION ROUTER ENGINE (Expanded to manage the raw view transitions for the new EPK phase) */
         function navigateTo(pageId) {
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
+            const infoPage = document.getElementById('info-page');
             
             activeArea = null;
             hideTooltip();
@@ -1260,12 +1290,27 @@
             if (pageId === 'store') {
                 homePage.classList.remove('active');
                 homePage.style.display = 'none'; 
+                infoPage.classList.remove('active');
+                infoPage.style.display = 'none';
+                
                 storePage.style.display = 'flex';
                 storePage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'info') {
+                homePage.classList.remove('active');
+                homePage.style.display = 'none'; 
+                storePage.classList.remove('active');
+                storePage.style.display = 'none';
+                
+                infoPage.style.display = 'flex';
+                infoPage.classList.add('active');
                 window.scrollTo(0, 0);
             } else {
                 storePage.classList.remove('active');
                 storePage.style.display = 'none'; 
+                infoPage.classList.remove('active');
+                infoPage.style.display = 'none';
+                
                 homePage.style.display = 'flex';
                 homePage.classList.add('active');
                 window.scrollTo(0, 0); 
@@ -1295,7 +1340,9 @@
 
             /* SMART MOBILE CLICK / TOUCH INTERACTION */
             area.addEventListener('click', (e) => {
-                const isMerchStore = (area.getAttribute('href') === '#store');
+                const destinationAttr = area.getAttribute('href');
+                const isStoreAction = (destinationAttr === '#store');
+                const isInfoAction = (destinationAttr === '#info');
                 
                 if (window.matchMedia("(pointer: coarse)").matches) {
                     if (activeArea !== area) {
@@ -1316,13 +1363,16 @@
                             centerY = coords[1] + 10; 
                         }
                         positionTooltip(centerX, centerY);
-                    } else if (isMerchStore) {
+                    } else if (isStoreAction) {
                         e.preventDefault();
                         navigateTo('store');
+                    } else if (isInfoAction) {
+                        e.preventDefault();
+                        navigateTo('info');
                     }
-                } else if (!window.matchMedia("(pointer: coarse)").matches && isMerchStore) {
+                } else if (!window.matchMedia("(pointer: coarse)").matches && (isStoreAction || isInfoAction)) {
                     e.preventDefault();
-                    navigateTo('store');
+                    navigateTo(isStoreAction ? 'store' : 'info');
                 }
             });
         });
@@ -1333,6 +1383,9 @@
                 if (destination === '#store') {
                     e.preventDefault();
                     navigateTo('store');
+                } else if (destination === '#info') {
+                    e.preventDefault();
+                    navigateTo('info');
                 } else {
                     const targetWindow = activeArea.getAttribute('target') || '_self';
                     if (destination) window.open(destination, targetWindow);
@@ -1401,8 +1454,10 @@
             
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
+            const infoPage = document.getElementById('info-page');
             homePage.style.display = 'flex';
             storePage.style.display = 'none';
+            infoPage.style.display = 'none';
             window.scrollTo(0, 0);
         });
     </script>
