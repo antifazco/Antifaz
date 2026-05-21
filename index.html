@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -839,7 +839,7 @@
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
             <!-- Contextual Instructions Header Label -->
-            <p id="qr-modal-instruction-top" style="font-size: 0.95rem; color: #fff; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center; display: none;">Copy your merch resume</p>
+            <p id="qr-modal-instruction-top" style="font-size: 0.95rem; color: #fff; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center; display: none;">Copy your merch resume:</p>
 
             <button id="qr-modal-copy-btn" class="back-btn" style="width: 100%; padding: 10px; font-size: 0.85rem; background-color: #111; color: #ff0000; border-color: #ff0000; margin: 0;" onclick="copyOrderSummaryToClipboard()">
                 📋 Copiar Resumen de Productos
@@ -849,9 +849,9 @@
             
             <p id="qr-modal-instruction-mid" style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
-            <!-- Embedded Form Element Block (Reset version) -->
+            <!-- Embedded Form Element Block (Target Blank Redirection Engaged) -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
                     <input type="hidden" name="hosted_button_id" value="7D6TQYG46KJQ6" />
                     <input type="hidden" name="currency_code" value="USD" />
@@ -861,7 +861,8 @@
 
             <p id="qr-modal-instruction-bottom" style="font-size: 0.75rem; color: #ff0000; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center; display: none;">Make sure you paste your merch resume and total payment in the cart</p>
 
-            <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; max-height: 120px; overflow-y: auto; color: #eee; line-height: 1.4;" id="qr-modal-items"></div>
+            <!-- Scrollable & High-Readability Items Summary Containment Frame Box -->
+            <div style="border: 2px solid #333; background-color: #111; border-radius: 8px; width: 100%; padding: 12px; box-sizing: border-box; font-size: 0.9rem; max-height: 180px; overflow-y: auto; color: #fff; line-height: 1.5; text-align: left;" id="qr-modal-items"></div>
             
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
                 <div style="display: flex; justify-content: space-between; width: 100%;">
@@ -870,8 +871,6 @@
                 </div>
                 <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
             </div>
-            
-            <button class="back-btn" style="width: 100%; padding: 12px; font-size: 0.9rem; margin-top: 5px;" onclick="closeCheckoutModal()">Cerrar / Volver</button>
         </div>
     </div>
 
@@ -931,7 +930,6 @@
             const paypalFormContainer = document.getElementById('paypal-form-container');
             const copyBtn = document.getElementById('qr-modal-copy-btn');
             
-            // Labels context nodes references
             const instructionTop = document.getElementById('qr-modal-instruction-top');
             const instructionMid = document.getElementById('qr-modal-instruction-mid');
             const instructionBottom = document.getElementById('qr-modal-instruction-bottom');
@@ -978,7 +976,6 @@
             let receiptSummaryTextBuilder = "ANTIFAZ PEDIDO:\n" + rawPlainTextLines.join('\n');
             receiptSummaryTextBuilder += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP`;
 
-            // Adjust contextual message strings depending on USA target currency triggers
             if (targetCurrency === 'USD') {
                 const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
                 modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
@@ -986,9 +983,8 @@
                 paypalFormContainer.style.display = 'block'; 
                 receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
                 
-                // Set USA messaging structures
                 instructionTop.style.display = 'block';
-                instructionMid.textContent = "Scan the code or press pay now to pay";
+                instructionMid.textContent = "Scan the code or press button to pay";
                 instructionBottom.style.display = 'block';
             } else if (targetCurrency === 'EUR') {
                 const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
@@ -997,7 +993,6 @@
                 paypalFormContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
                 
-                // Fallback to standard structures
                 instructionTop.style.display = 'none';
                 instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
                 instructionBottom.style.display = 'none';
@@ -1006,7 +1001,6 @@
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 
-                // Fallback to standard structures
                 instructionTop.style.display = 'none';
                 instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
                 instructionBottom.style.display = 'none';
