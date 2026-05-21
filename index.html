@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -611,6 +611,26 @@
         text-align: center;
         width: 100%;
     }
+
+    /* Custom Punk Styled Link Wrapper for Wompi Integration Redirects */
+    .wompi-checkout-link-btn {
+        display: inline-flex;
+        background-color: #ff9100;
+        color: #000 !important;
+        border: 2px solid #fff;
+        padding: 10px 24px;
+        font-weight: 900;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 6px;
+        text-decoration: none !important;
+        box-shadow: 3px 3px 0px #ff0000;
+        margin: 4px 0;
+    }
+    .wompi-checkout-link-btn:hover {
+        background-color: #ffea00;
+    }
 </style>
 </head>
 <body>
@@ -850,7 +870,7 @@
             
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- Dynamic International & Local Numbered Guide Stack Frame Container -->
+            <!-- International & Local Step-by-Step Numbered Sequence Stack Container Frame -->
             <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
                     <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
@@ -867,6 +887,13 @@
             
             <p id="qr-modal-instruction-mid" style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
+            <!-- Local Colombia Wompi Button Redirect Link Container Wrapper -->
+            <div id="colombia-wompi-container" style="display: none; margin: 0; width: 100%; text-align: center;">
+                <a href="https://checkout.wompi.co/l/ldMc1J" target="_blank" class="wompi-checkout-link-btn">
+                    💳 Pagar con Wompi (PSE / Nequi)
+                </a>
+            </div>
+
             <!-- USA Payment Gateway Embedded Form Component -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
@@ -966,12 +993,12 @@
             const paypalInputField = document.getElementById('paypal-raw-input-field');
             const euroFormContainer = document.getElementById('euro-form-container');
             const euroInputField = document.getElementById('euro-raw-input-field');
+            const colombiaWompiContainer = document.getElementById('colombia-wompi-container');
             const copyBtn = document.getElementById('qr-modal-copy-btn');
             
             const usaInstructionsListBlock = document.getElementById('usa-instructions-list-container');
             const instructionMid = document.getElementById('qr-modal-instruction-mid');
             
-            // Step text node pointer configurations
             const stepLabel1 = document.getElementById('qr-modal-instruction-step-1');
             const stepLabel2 = document.getElementById('qr-modal-instruction-mid-step');
             const stepLabel3 = document.getElementById('qr-modal-instruction-step-3');
@@ -1025,13 +1052,13 @@
                 modalConvertedDisplay.style.display = 'flex';
                 paypalFormContainer.style.display = 'block'; 
                 euroFormContainer.style.display = 'none';
+                colombiaWompiContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
                 
                 if (paypalInputField) {
                     paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
                 }
 
-                // Set default English text guidelines strings
                 stepLabel1.textContent = "1. Copy your merch resume";
                 copyBtn.innerHTML = "COPY";
                 stepLabel2.textContent = "2. Scan the code or press button to pay";
@@ -1046,13 +1073,13 @@
                 modalConvertedDisplay.style.display = 'flex';
                 paypalFormContainer.style.display = 'none';
                 euroFormContainer.style.display = 'block';
+                colombiaWompiContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
 
                 if (euroInputField) {
                     euroInputField.value = rawPlainTextLines.join(', ') + ` | Total: €${convertedEUR} EUR`;
                 }
                 
-                // Set default English text guidelines strings
                 stepLabel1.textContent = "1. Copy your merch resume";
                 copyBtn.innerHTML = "COPY";
                 stepLabel2.textContent = "2. Scan the code or press button to pay";
@@ -1062,16 +1089,15 @@
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
                 instructionMid.style.display = 'none';
             } else {
-                // Colombia Direct Context flow configuration execution branch
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 euroFormContainer.style.display = 'none';
+                colombpiContainer = colombiaWompiContainer.style.display = 'block'; // Triggers local Wompi anchor wrapper node display safely
                 
-                // Translate the structured sequence strings directly into Spanish language contexts
                 stepLabel1.textContent = "1. Copia el resumen de tu pedido";
                 copyBtn.innerHTML = "COPIAR";
-                stepLabel2.textContent = "2. Escanea el código con tu App Bancolombia / Nequi";
+                stepLabel2.textContent = "2. Escanea el código o presiona el botón para pagar";
                 stepLabel3.textContent = "3. Asegúrate de pegar el resumen en la descripción del pago";
                 stepLabel4.textContent = "4. ¡Disfruta tu merch y gracias por el apoyo!";
 
