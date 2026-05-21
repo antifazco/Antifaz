@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>-ANTIFAZ-</title>
+<title>ANTIFAZ</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -600,6 +600,18 @@
     .btn-whatsapp { background-color: #ff0000; }
     .btn-paypal { background-color: #ffc439; }
     .btn-wero { background-color: #00c853; }
+    
+    /* Dedicated instruction list layout styles */
+    .checkout-step-item {
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #aaa;
+        margin: 0;
+        text-align: center;
+        width: 100%;
+    }
 </style>
 </head>
 <body>
@@ -835,34 +847,53 @@
 
     <!-- DYNAMIC PAYMENTS QR MODAL SYSTEM -->
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
-        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 15px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
+        <!-- Changed: Main containment container structural frame is now completely scrollable via top layer layout configuration nodes directly -->
+        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- Contextual Instructions Header Label -->
-            <p id="qr-modal-instruction-top" style="font-size: 0.95rem; color: #fff; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center; display: none;">Copy your merch resume:</p>
-
-            <button id="qr-modal-copy-btn" class="back-btn" style="width: 100%; padding: 10px; font-size: 0.85rem; background-color: #111; color: #ff0000; border-color: #ff0000; margin: 0;" onclick="copyOrderSummaryToClipboard()">
-                📋 Copiar Resumen de Productos
-            </button>
+            <!-- Contextual List Element Node Structures for Guest Check-Out Procedures -->
+            <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;">
+                    <p class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
+                    <button id="qr-modal-copy-btn" class="back-btn" style="padding: 4px 10px; font-size: 0.7rem; background-color: #111; color: #ff0000; border-color: #ff0000; border-radius: 4px; box-shadow: none; margin: 0;" onclick="copyOrderSummaryToClipboard()">
+                        COPY
+                    </button>
+                </div>
+                <p class="checkout-step-item">2. Scan the code or press button to pay</p>
+                <p class="checkout-step-item" style="color: #ff0000;">3. Make sure you paste your merch resume and total payment during check-out</p>
+                <p class="checkout-step-item" style="color: #00c853;">4. Enjoy your merch and thanks for the support</p>
+            </div>
 
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
             
             <p id="qr-modal-instruction-mid" style="font-size: 0.75rem; color: #aaa; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center;">Escanea el código QR con tu app de pagos para continuar</p>
             
-            <!-- Embedded Form Element Block (Target Blank Redirection Engaged) -->
+            <!-- Embedded Form Element Block (Hosted button ID tracking: SVSH36K9S7D6G with target blank logic layer) -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="7D6TQYG46KJQ6" />
+                    <input type="hidden" name="hosted_button_id" value="SVSH36K9S7D6G" />
+                    <table style="margin: 0 auto 10px auto; border-collapse: collapse; display: none;">
+                        <tr>
+                            <td>
+                                <input type="hidden" name="on0" value="Merch resume"/>
+                                Merch resume
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name="os0" maxLength="200" id="paypal-raw-input-field" />
+                            </td>
+                        </tr>
+                    </table>
                     <input type="hidden" name="currency_code" value="USD" />
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none;" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none; transform: none; transition: none;" />
                 </form>
             </div>
 
-            <p id="qr-modal-instruction-bottom" style="font-size: 0.75rem; color: #ff0000; text-transform: uppercase; margin: 0; font-weight: bold; letter-spacing: 0.5px; text-align: center; display: none;">Make sure you paste your merch resume and total payment in the cart</p>
-
-            <!-- Scrollable & High-Readability Items Summary Containment Frame Box -->
-            <div style="border: 2px solid #333; background-color: #111; border-radius: 8px; width: 100%; padding: 12px; box-sizing: border-box; font-size: 0.9rem; max-height: 180px; overflow-y: auto; color: #fff; line-height: 1.5; text-align: left;" id="qr-modal-items"></div>
+            <!-- Standard Fallback Items List view frame (No independent frame scrollbars active) -->
+            <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; color: #eee; line-height: 1.4; text-align: left;" id="qr-modal-items"></div>
             
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
                 <div style="display: flex; justify-content: space-between; width: 100%;">
@@ -928,13 +959,13 @@
             const modalTotalDisplay = document.getElementById('qr-modal-total');
             const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
             const paypalFormContainer = document.getElementById('paypal-form-container');
+            const paypalInputField = document.getElementById('paypal-raw-input-field');
             const copyBtn = document.getElementById('qr-modal-copy-btn');
             
-            const instructionTop = document.getElementById('qr-modal-instruction-top');
+            const usaInstructionsListBlock = document.getElementById('usa-instructions-list-container');
             const instructionMid = document.getElementById('qr-modal-instruction-mid');
-            const instructionBottom = document.getElementById('qr-modal-instruction-bottom');
 
-            copyBtn.innerHTML = "📋 Copiar Resumen de Productos";
+            copyBtn.innerHTML = "COPY";
             copyBtn.style.color = "#ff0000";
             copyBtn.style.borderColor = "#ff0000";
 
@@ -983,9 +1014,14 @@
                 paypalFormContainer.style.display = 'block'; 
                 receiptSummaryTextBuilder += ` / $${convertedUSD} USD`;
                 
-                instructionTop.style.display = 'block';
-                instructionMid.textContent = "Scan the code or press button to pay";
-                instructionBottom.style.display = 'block';
+                // Mirror current summary string into hidden text field for PayPal tracking pipeline securely
+                if (paypalInputField) {
+                    paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
+                }
+
+                // Show target USA customized list element parameters explicitly
+                usaInstructionsListBlock.style.style.setProperty('display', 'flex', 'important');
+                instructionMid.style.display = 'none';
             } else if (targetCurrency === 'EUR') {
                 const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
                 modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
@@ -993,17 +1029,17 @@
                 paypalFormContainer.style.display = 'none';
                 receiptSummaryTextBuilder += ` / €${convertedEUR} EUR`;
                 
-                instructionTop.style.display = 'none';
+                usaInstructionsListBlock.style.display = 'none';
+                instructionMid.style.display = 'block';
                 instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
-                instructionBottom.style.display = 'none';
             } else {
                 modalConvertedDisplay.textContent = '';
                 modalConvertedDisplay.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 
-                instructionTop.style.display = 'none';
+                usaInstructionsListBlock.style.display = 'none';
+                instructionMid.style.display = 'block';
                 instructionMid.textContent = "Escanea el código QR con tu app de pagos para continuar";
-                instructionBottom.style.display = 'none';
             }
 
             plainTextReceiptStringGlobal = receiptSummaryTextBuilder;
@@ -1018,7 +1054,7 @@
             
             navigator.clipboard.writeText(plainTextReceiptStringGlobal).then(() => {
                 const copyBtn = document.getElementById('qr-modal-copy-btn');
-                copyBtn.innerHTML = "💥 ¡Copiado al Portapapeles!";
+                copyBtn.innerHTML = "DONE! 💥";
                 copyBtn.style.color = "#00c853";
                 copyBtn.style.borderColor = "#00c853";
             }).catch(err => {
@@ -1124,7 +1160,7 @@
             if (currentActiveCardContext) {
                 const cardSlides = currentActiveCardContext.querySelectorAll('.carousel-slide');
                 cardSlides.forEach(slide => slide.classList.remove('active'));
-                cardSlides[nextActiveIndex].classList.add('active');
+                cardSlides[nextActiveIndex].length ? cardSlides[nextActiveIndex].classList.add('active') : null;
             }
         }
 
