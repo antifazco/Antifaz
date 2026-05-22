@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -929,13 +929,13 @@
             <!-- International & Local Step-by-Step Numbered Sequence Stack Container Frame -->
             <div id="usa-instructions-list-container" style="display: none; width: 100%; flex-direction: column; gap: 8px;">
                 <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
-                    <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume</p>
+                    <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copy your merch resume to save for your records</p>
                     <button id="qr-modal-copy-btn" class="back-btn" style="padding: 4px 10px; font-size: 0.7rem; background-color: #111; color: #ff0000; border-color: #ff0000; border-radius: 4px; box-shadow: none; margin: 0;" onclick="copyOrderSummaryToClipboard()">
                         COPY
                     </button>
                 </div>
                 <p id="qr-modal-instruction-mid-step" class="checkout-step-item">2. Scan the code or press button to pay</p>
-                <p id="qr-modal-instruction-step-3" class="checkout-step-item" style="color: #ff0000; padding: 0 5px;">3. Make sure you paste your merch resume and total payment during check-out</p>
+                <p id="qr-modal-instruction-step-3" class="checkout-step-item" style="color: #ff0000; padding: 0 5px;">3. Make sure to put the TOTAL payment during check-out</p>
                 
             </div>
 
@@ -1125,10 +1125,10 @@
                     paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
                 }
 
-                stepLabel1.textContent = "1. Copy your merch resume";
+                stepLabel1.textContent = "1. Copy your merch resume to save for your records";
                 copyBtn.innerHTML = "COPY";
                 
-                stepLabel3.textContent = "3. Make sure you paste your merch resume and total payment during check-out";
+                stepLabel3.textContent = "3. Make sure to put the TOTAL payment during check-out";
             
 
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
@@ -1146,10 +1146,10 @@
                     euroInputField.value = rawPlainTextLines.join(', ') + ` | Total: €${convertedEUR} EUR`;
                 }
                 
-                stepLabel1.textContent = "1. Copy your merch resume";
+                stepLabel1.textContent = "1. Copy your merch resume to save for your records";
                 copyBtn.innerHTML = "COPY";
                 
-                stepLabel3.textContent = "3. Make sure you paste your merch resume and total payment during check-out";
+                stepLabel3.textContent = "3. Make sure to put the TOTAL payment during check-out";
                 
 
                 usaInstructionsListBlock.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
