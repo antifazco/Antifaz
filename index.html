@@ -696,7 +696,6 @@
         </div>
     </div>
 
-    <!-- EPK SECTION -->
     <div id="info-page" class="page-view">
         <div class="info-container">
             <div style="width: 100%; border: 3px solid #fff; border-radius: 12px; overflow: hidden; background-color: #000; box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.35);">
@@ -717,7 +716,6 @@
     <div id="store-page" class="page-view">
         <div class="store-container">
             <div class="products-grid">
-                <!-- Tarjeta Vinilo -->
                 <div class="product-card" data-id="vinyl" data-name='10" Vinyl Qué dolor!' data-price="100000">
                     <div class="product-details-col">
                         <h2 class="product-name">10" Vinyl Qué dolor!</h2>
@@ -750,7 +748,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta Cassette -->
                 <div class="product-card" data-id="cassette" data-name="Cassette Qué dolor!" data-price="45000">
                     <div class="product-details-col">
                         <h2 class="product-name">Cassette Qué dolor!</h2>
@@ -780,7 +777,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta Camiseta -->
                 <div class="product-card" data-id="shirt" data-name="Camiseta Qué dolor!" data-price="60000">
                     <div class="product-details-col">
                         <h2 class="product-name">Camiseta Qué dolor!</h2>
@@ -812,8 +808,7 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta Gorra -->
-                <div class="product-card" data-id="hat" data-name="Gorra visera plana" data-price="40000">
+                <div class="product-card" data-id="hat" data-name="Gorra visera plana" data-price="45000">
                     <div class="product-details-col">
                         <h2 class="product-name">Gorra visera plana</h2>
                         <div class="product-price">$40.000 COP</div>
@@ -841,7 +836,6 @@
                     </div>
                 </div>
 
-                <!-- Tarjeta Picks -->
                 <div class="product-card" data-id="picks" data-name="Guitar Picks (x4)" data-price="20000">
                     <div class="product-details-col">
                         <h2 class="product-name">Guitar Picks (x4)</h2>
@@ -905,7 +899,6 @@
         </div>
     </div>
 
-    <!-- MODAL IMAGEN GRANDE -->
     <div id="global-store-modal" class="store-modal-overlay" onclick="closeProductModal(event)">
         <div class="modal-carousel-container" onclick="event.stopPropagation()">
             <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
@@ -914,7 +907,6 @@
         </div>
     </div>
 
-    <!-- DYNAMIC PAYMENTS QR MODAL SYSTEM -->
     <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
         <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
             
@@ -922,7 +914,6 @@
 
             <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
             
-            <!-- Instructions Sequence Stack Container Frame -->
             <div id="instructions-list-container" style="display: flex; width: 100%; flex-direction: column; gap: 8px;">
                 <div id="colombia-copy-row" style="display: none; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
                     <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copia el resumen de tu pedido</p>
@@ -936,18 +927,16 @@
 
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
             
-            <!-- Local Colombia Wompi Button Redirect Link -->
             <div id="colombia-wompi-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <a href="https://checkout.wompi.co/l/ldMc1J" target="_blank" class="wompi-checkout-link-btn">
                     💳 Pagar con Wompi (PSE / Nequi)
                 </a>
             </div>
 
-            <!-- USA Payment Gateway Embedded Form Component -->
             <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                     <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="BWRJYRP4LD9JA" />
+                    <input type="hidden" name="hosted_button_id" value="GGHXACW4TB43Q" />
                     
                     <div style="margin: 0 auto 14px auto; width: 240px; text-align: center;">
                         <input type="hidden" name="on0" value="Your Items:"/>
@@ -962,7 +951,6 @@
                 </form>
             </div>
 
-            <!-- European Payment Gateway Embedded Form Component -->
             <div id="euro-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                     <input type="hidden" name="cmd" value="_s-xclick" />
@@ -981,7 +969,6 @@
                 </form>
             </div>
 
-            <!-- Items Breakdown Container Summary -->
             <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; color: #eee; line-height: 1.4; text-align: left;" id="qr-modal-items"></div>
             
             <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
