@@ -838,4 +838,597 @@
 
                 <div class="product-card" data-id="picks" data-name="Guitar Picks (x4)" data-price="20000">
                     <div class="product-details-col">
-                        <h2
+                        <h2 class="product-name">Guitar Picks (x4)</h2>
+                        <div class="product-price">$20.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Contenido: Pack de 4 unidades (1mm)</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
+                                <div class="carousel-slide active"><img src="pick1.jpg" alt="Picks view 1"></div>
+                                <div class="carousel-slide"><img src="pick2.jpg" alt="Picks view 2"></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="store-footer-content">
+            <div class="cart-summary-box">
+                <h3 class="cart-title">🛒 Resumen de Orden</h3>
+                <div id="cart-items-container" class="cart-items-list">
+                    <span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>
+                </div>
+                <div class="cart-total-row">
+                    <span>TOTAL:</span>
+                    <span id="cart-total-price-display" class="cart-total-price">$0</span>
+                </div>
+                <div class="checkout-buttons-row">
+                    <button class="checkout-btn btn-whatsapp" onclick="launchQRCheckout('qrcol.png', 'Bancolombia (COP)', 'COP')">
+                        <span class="btn-icon">🇨🇴</span>
+                        <span class="btn-label">Colombia</span>
+                        <span class="btn-sub">Bancolombia (COP)</span>
+                    </button>
+                    <button class="checkout-btn btn-paypal" onclick="launchQRCheckout('qrusa.png', 'Paypal - Venmo (USD)', 'USD')">
+                        <span class="btn-icon">🇺🇸</span>
+                        <span class="btn-label">USA</span>
+                        <span class="btn-sub">Paypal - Venmo (USD)</span>
+                    </button>
+                    <button class="checkout-btn btn-wero" onclick="launchQRCheckout('', 'Europe IBAN Payment', 'EUR')">
+                        <span class="btn-icon">🇪🇺</span>
+                        <span class="btn-label">Europe</span>
+                        <span class="btn-sub">IBAN Options</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
+        </div>
+    </div>
+
+    <div id="global-store-modal" class="store-modal-overlay" onclick="closeProductModal(event)">
+        <div class="modal-carousel-container" onclick="event.stopPropagation()">
+            <button class="modal-btn prev" onclick="moveModalSlide(-1)">◀</button>
+            <div id="modal-slides-lane" class="modal-slides-lane"></div>
+            <button class="modal-btn next" onclick="moveModalSlide(1)">▶</button>
+        </div>
+    </div>
+
+    <div id="checkout-qr-modal" class="store-modal-overlay" onclick="closeCheckoutModal()">
+        <div class="modal-carousel-container" style="aspect-ratio: auto; max-width: 450px; width: 85%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 16px; height: auto; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            
+            <button class="modal-close-x-trigger" onclick="closeCheckoutModal()">×</button>
+
+            <h3 id="qr-modal-title" style="color: #ff0000; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: 1px; font-size: 1.3rem;">Pago de Orden</h3>
+            
+            <div id="instructions-list-container" style="display: flex; width: 100%; flex-direction: column; gap: 8px;">
+                <div id="colombia-copy-row" style="display: none; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: wrap;">
+                    <p id="qr-modal-instruction-step-1" class="checkout-step-item" style="width: auto; margin: 0; color: #fff;">1. Copia el resumen de tu pedido</p>
+                    <button id="qr-modal-copy-btn" class="back-btn" style="padding: 4px 10px; font-size: 0.7rem; background-color: #111; color: #ff0000; border-color: #ff0000; border-radius: 4px; box-shadow: none; margin: 0;" onclick="copyOrderSummaryToClipboard()">
+                        COPIAR
+                    </button>
+                </div>
+                <p id="qr-modal-instruction-step-2" class="checkout-step-item">Escanea el código o presiona el botón inferior para pagar</p>
+                <p id="qr-modal-instruction-step-3" class="checkout-step-item" style="color: #ff0000; padding: 0 5px; display: none;">Asegúrate de pegar el resumen en la descripción del pago</p>
+            </div>
+
+            <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
+            
+            <div id="colombia-wompi-container" style="display: none; margin: 0; width: 100%; text-align: center;">
+                <a href="https://checkout.wompi.co/l/ldMc1J" target="_blank" class="wompi-checkout-link-btn">
+                    💳 Pagar con Wompi (PSE / Nequi)
+                </a>
+            </div>
+
+            <div id="paypal-form-container" style="display: none; margin: 0; width: 100%; text-align: center;">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="BWRJYRP4LD9JA" />
+                    
+                    <div style="margin: 0 auto 14px auto; width: 240px; text-align: center;">
+                        <input type="hidden" name="on0" value="Your Items:"/>
+                        <label for="paypal-raw-input-field" style="display: block; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; color: #aaa; margin-bottom: 6px;">
+                            Your Items:
+                        </label>
+                        <input type="text" name="os0" maxLength="200" id="paypal-raw-input-field" style="background: #000; color: #fff; border: 2px solid #fff; border-radius: 6px; padding: 8px; outline: none; width: 100%; font-weight: bold; text-align: center; box-sizing: border-box;" />
+                    </div>
+
+                    <input type="hidden" name="currency_code" value="USD" />
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Buy Now" style="border: none; padding: 0; background: none; box-shadow: none; transform: none; transition: none;" />
+                </form>
+            </div>
+
+            <div id="euro-email-container" style="display: none; margin: 10px 0; width: 100%; text-align: center;">
+                <a href="mailto:antifaz.co@gmail.com" class="back-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background-color: #ff0000; color: #000; border-color: #fff;">
+                    ✉️ ENVIAR CORREO ELECTRÓNICO
+                </a>
+            </div>
+
+            <div style="border-top: 2px dashed #333; border-bottom: 2px dashed #333; width: 100%; padding: 10px 0; font-size: 0.9rem; color: #eee; line-height: 1.4; text-align: left;" id="qr-modal-items"></div>
+            
+            <div style="width: 100%; display: flex; flex-direction: column; gap: 4px; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.5px; text-align: right;">
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <span>TOTAL:</span>
+                    <span id="qr-modal-total" style="color: #fff;">$0</span>
+                </div>
+                <div id="qr-modal-converted-row" style="font-size: 1.05rem; color: #ff0000; display: flex; justify-content: flex-end; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const container = document.getElementById('container');
+        const areas = document.querySelectorAll('area');
+        
+        let activeArea = null; 
+        let currentActiveCardContext = null;
+        let plainTextReceiptStringGlobal = ""; 
+
+        // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
+        function updateCartSummary() {
+            const productCards = document.querySelectorAll('.product-card');
+            const itemsContainer = document.getElementById('cart-items-container');
+            const totalDisplay = document.getElementById('cart-total-price-display');
+            
+            let orderLines = [];
+            let aggregatePrice = 0;
+
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const price = parseInt(card.getAttribute('data-price'), 10);
+                const quantity = parseInt(card.querySelector('.qty-selector').value, 10);
+                const id = card.getAttribute('data-id');
+
+                if (quantity > 0) {
+                    let textLine = `${quantity} x ${name}`;
+                    if (id === 'shirt') {
+                        const size = card.querySelector('.size-selector').value;
+                        textLine += ` (Talla: ${size})`;
+                    }
+                    orderLines.push(textLine);
+                    aggregatePrice += (price * quantity);
+                }
+            });
+
+            if (orderLines.length === 0) {
+                itemsContainer.innerHTML = '<span class="cart-empty-msg">Tu carrito está vacío. Elige cantidades arriba.</span>';
+            } else {
+                itemsContainer.innerHTML = orderLines.map(line => `<div>• ${line}</div>`).join('');
+            }
+
+            totalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
+        }
+
+        // DYNAMIC QR INTERACTION CHECKOUT ENGINE
+        function launchQRCheckout(imageFileName, contextualTitle, targetCurrency) {
+            const productCards = document.querySelectorAll('.product-card');
+            const modalOverlay = document.getElementById('checkout-qr-modal');
+            const modalTitle = document.getElementById('qr-modal-title');
+            const modalImage = document.getElementById('qr-modal-image');
+            const modalItemsContainer = document.getElementById('qr-modal-items');
+            const modalTotalDisplay = document.getElementById('qr-modal-total');
+            const modalConvertedDisplay = document.getElementById('qr-modal-converted-row');
+            
+            const paypalFormContainer = document.getElementById('paypal-form-container');
+            const euroEmailContainer = document.getElementById('euro-email-container');
+            const colombiaWompiContainer = document.getElementById('colombia-wompi-container');
+            const copyBtn = document.getElementById('qr-modal-copy-btn');
+            
+            const colombiaCopyRow = document.getElementById('colombia-copy-row');
+            const stepLabel2 = document.getElementById('qr-modal-instruction-step-2');
+            const stepLabel3 = document.getElementById('qr-modal-instruction-step-3');
+
+            if (copyBtn) {
+                copyBtn.innerHTML = "COPIAR";
+                copyBtn.style.color = "#ff0000";
+                copyBtn.style.borderColor = "#ff0000";
+            }
+
+            const COP_TO_USD_RATE = 0.000265;
+            const COP_TO_EUR_RATE = 0.000228;
+
+            let htmlOrderLines = [];
+            let rawPlainTextLines = [];
+            let aggregatePrice = 0;
+
+            productCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const price = parseInt(card.getAttribute('data-price'), 10);
+                const quantity = parseInt(card.querySelector('.qty-selector').value, 10);
+                const id = card.getAttribute('data-id');
+
+                if (quantity > 0) {
+                    let detailStr = `${quantity}x ${name}`;
+                    if (id === 'shirt') {
+                        const size = card.querySelector('.size-selector').value;
+                        detailStr += ` [Talla: ${size}]`;
+                    }
+                    htmlOrderLines.push(`<div>• ${detailStr}</div>`);
+                    rawPlainTextLines.push(`${detailStr}`);
+                    aggregatePrice += (price * quantity);
+                }
+            });
+
+            if (htmlOrderLines.length === 0) {
+                alert('Por favor, selecciona al menos 1 artículo para continuar con tu pago.');
+                return;
+            }
+
+            modalTitle.textContent = contextualTitle;
+            modalItemsContainer.innerHTML = htmlOrderLines.join('');
+            modalTotalDisplay.textContent = `$${aggregatePrice.toLocaleString('es-CO')} COP`;
+
+            let receiptSummaryTextBuilder = "ANTIFAZ PEDIDO:\n" + rawPlainTextLines.join('\n');
+            receiptSummaryTextBuilder += `\nTotal: $${aggregatePrice.toLocaleString('es-CO')} COP`;
+
+            if (targetCurrency === 'USD') {
+                const convertedUSD = Math.ceil(aggregatePrice * COP_TO_USD_RATE);
+                modalConvertedDisplay.textContent = `$${convertedUSD} USD`;
+                modalConvertedDisplay.style.display = 'flex';
+                modalImage.style.display = 'block';
+                modalImage.setAttribute('src', imageFileName);
+                paypalFormContainer.style.display = 'block'; 
+                euroEmailContainer.style.display = 'none';
+                colombiaWompiContainer.style.display = 'none';
+                colombiaCopyRow.style.display = 'none';
+                
+                stepLabel2.textContent = "MAKE SURE TO INPUT THE TOTAL BEFORE SUBMITING THE PAYMENT IN PAYPAL";
+                stepLabel2.style.color = "#fff";
+                stepLabel3.style.display = 'none';
+
+                const paypalInputField = document.getElementById('paypal-raw-input-field');
+                if (paypalInputField) {
+                    paypalInputField.value = rawPlainTextLines.join(', ') + ` | Total: $${convertedUSD} USD`;
+                }
+            } else if (targetCurrency === 'EUR') {
+                const convertedEUR = Math.ceil(aggregatePrice * COP_TO_EUR_RATE);
+                modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
+                modalConvertedDisplay.style.display = 'flex';
+                
+                // Ocultar QR y formulario de PayPal para Europa
+                modalImage.style.display = 'none';
+                paypalFormContainer.style.display = 'none';
+                
+                // Mostrar contenedor de email y fila para copiar resumen
+                euroEmailContainer.style.display = 'block';
+                colombiaWompiContainer.style.display = 'none';
+                colombiaCopyRow.style.display = 'flex';
+
+                stepLabel2.textContent = "Email ANTIFAZ.CO@GMAIL.COM for Europe IBAN payment options, please paste your list items in your email";
+                stepLabel2.style.color = "#ff0000";
+                stepLabel3.style.display = 'none';
+            } else {
+                modalConvertedDisplay.textContent = '';
+                modalConvertedDisplay.style.display = 'none';
+                modalImage.style.display = 'block';
+                modalImage.setAttribute('src', imageFileName);
+                paypalFormContainer.style.display = 'none';
+                euroEmailContainer.style.display = 'none';
+                colombiaWompiContainer.style.display = 'block'; 
+                colombiaCopyRow.style.display = 'flex';
+
+                stepLabel2.textContent = "2. Escanea el código o presiona el botón inferior para pagar";
+                stepLabel2.style.color = "#aaa";
+                stepLabel3.style.display = 'block';
+            }
+
+            plainTextReceiptStringGlobal = receiptSummaryTextBuilder;
+
+            modalOverlay.style.display = 'flex';
+            void modalOverlay.offsetWidth; 
+            modalOverlay.classList.add('active');
+        }
+
+        function copyOrderSummaryToClipboard() {
+            if (!plainTextReceiptStringGlobal) return;
+            
+            navigator.clipboard.writeText(plainTextReceiptStringGlobal).then(() => {
+                const copyBtn = document.getElementById('qr-modal-copy-btn');
+                copyBtn.innerHTML = "LISTO! 💥";
+                copyBtn.style.color = "#00c853";
+                copyBtn.style.borderColor = "#00c853";
+            }).catch(err => {
+                console.error('Could not copy context characters: ', err);
+            });
+        }
+
+        function cancelCheckoutModal() {
+            const modalOverlay = document.getElementById('checkout-qr-modal');
+            modalOverlay.classList.remove('active');
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+            }, 200);
+        }
+        
+        window.closeCheckoutModal = cancelCheckoutModal;
+
+        /* LIGHTWEIGHT INLINE SLIDER CONTROLLER */
+        function moveSlide(buttonElement, direction, event) {
+            if (event) event.stopPropagation(); 
+            const wrapper = buttonElement.closest('.carousel-wrapper');
+            const slides = wrapper.querySelectorAll('.carousel-slide');
+            let currentActiveIndex = 0;
+
+            slides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            slides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= slides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = slides.length - 1;
+            }
+
+            slides[nextActiveIndex].classList.add('active');
+        }
+
+        function handleCardImageClick(slidesContainerElement) {
+            if (window.matchMedia("(max-width: 767px)").matches) {
+                return;
+            }
+            openProductModal(slidesContainerElement);
+        }
+
+        /* MODAL DETAILED EXPANSION CAROUSEL LOGIC */
+        function openProductModal(slidesContainerElement) {
+            const productCard = slidesContainerElement.closest('.product-card');
+            currentActiveCardContext = productCard;
+            
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalOverlay = document.getElementById('global-store-modal');
+            
+            let modalHTMLBuffer = '';
+            
+            slidesContainerElement.querySelectorAll('.carousel-slide').forEach((slide, index) => {
+                const src = slide.querySelector('img').getAttribute('src');
+                const isActive = slide.classList.contains('active');
+                
+                modalHTMLBuffer += `
+                    <div class="modal-slide ${isActive ? 'active' : ''}">
+                        <img src="${src}" alt="Expanded view">
+                    </div>
+                `;
+            });
+            
+            modalLane.innerHTML = modalHTMLBuffer;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeProductModal(event) {
+            const modalOverlay = document.getElementById('global-store-modal');
+            modalOverlay.classList.remove('active');
+        }
+
+        function moveModalSlide(direction) {
+            const modalLane = document.getElementById('modal-slides-lane');
+            const modalSlides = modalLane.querySelectorAll('.modal-slide');
+            let currentActiveIndex = 0;
+
+            modalSlides.forEach((slide, index) => {
+                if (slide.classList.contains('active')) {
+                    currentActiveIndex = index;
+                }
+            });
+
+            modalSlides[currentActiveIndex].classList.remove('active');
+
+            let nextActiveIndex = currentActiveIndex + direction;
+            if (nextActiveIndex >= modalSlides.length) {
+                nextActiveIndex = 0;
+            } else if (nextActiveIndex < 0) {
+                nextActiveIndex = modalSlides.length - 1;
+            }
+
+            modalSlides[nextActiveIndex].classList.add('active');
+
+            if (currentActiveCardContext) {
+                const cardSlides = currentActiveCardContext.querySelectorAll('.carousel-slide');
+                cardSlides.forEach(slide => slide.classList.remove('active'));
+                cardSlides[nextActiveIndex] ? cardSlides[nextActiveIndex].classList.add('active') : null;
+            }
+        }
+
+        /* SPA NAVIGATION ROUTER ENGINE */
+        function navigateTo(pageId) {
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            const infoPage = document.getElementById('info-page');
+            
+            activeArea = null;
+            hideTooltip();
+
+            if (pageId === 'store') {
+                homePage.style.display = 'none';
+                homePage.classList.remove('active');
+                infoPage.style.display = 'none';
+                infoPage.classList.remove('active');
+                
+                storePage.style.display = 'flex';
+                storePage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'info') {
+                homePage.style.display = 'none';
+                homePage.classList.remove('active');
+                storePage.style.display = 'none';
+                storePage.classList.remove('active');
+                
+                infoPage.style.display = 'flex';
+                infoPage.classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                storePage.style.display = 'none';
+                storePage.classList.remove('active');
+                infoPage.style.display = 'none';
+                infoPage.classList.remove('active');
+                
+                homePage.style.display = 'flex';
+                homePage.classList.add('active');
+                window.scrollTo(0, 0); 
+                setTimeout(resizeMap, 50); 
+            }
+        }
+
+        /* TOOLTIP DETECTORS */
+        areas.forEach(area => {
+            area.addEventListener('mouseenter', () => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                showTooltip(area);
+            });
+
+            area.addEventListener('mousemove', (e) => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                positionTooltip(x, y);
+            });
+
+            area.addEventListener('mouseleave', () => {
+                if (window.matchMedia("(pointer: coarse)").matches) return; 
+                hideTooltip();
+            });
+
+            area.addEventListener('click', (e) => {
+                const destinationAttr = area.getAttribute('href');
+                const isStoreAction = (destinationAttr === '#store');
+                const isInfoAction = (destinationAttr === '#info');
+                
+                if (window.matchMedia("(pointer: coarse)").matches) {
+                    if (activeArea !== area) {
+                        e.preventDefault(); 
+                        activeArea = area;
+                        showTooltip(area);
+                        tooltip.classList.add('mobile-active');
+                        
+                        const coords = area.coords.split(',').map(Number);
+                        const shape = area.getAttribute('shape');
+                        let centerX, centerY;
+
+                        if (shape === 'circle') {
+                            centerX = coords[0];
+                            centerY = coords[1] - (coords[2] * 0.9); 
+                        } else if (shape === 'rect') {
+                            centerX = (coords[0] + coords[2]) / 2;
+                            centerY = coords[1] + 10; 
+                        }
+                        positionTooltip(centerX, centerY);
+                    } else if (isStoreAction) {
+                        e.preventDefault();
+                        navigateTo('store');
+                    } else if (isInfoAction) {
+                        e.preventDefault();
+                        navigateTo('info');
+                    }
+                } else if (!window.matchMedia("(pointer: coarse)").matches && (isStoreAction || isInfoAction)) {
+                    e.preventDefault();
+                    navigateTo(isStoreAction ? 'store' : 'info');
+                }
+            });
+        });
+
+        tooltip.addEventListener('click', (e) => {
+            if (activeArea) {
+                const destination = activeArea.getAttribute('href');
+                if (destination === '#store') {
+                    e.preventDefault();
+                    navigateTo('store');
+                } else if (destination === '#info') {
+                    e.preventDefault();
+                    navigateTo('info');
+                } else {
+                    const targetWindow = activeArea.getAttribute('target') || '_self';
+                    if (destination) window.open(destination, targetWindow);
+                }
+            }
+        });
+
+        document.body.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'AREA' && e.target !== tooltip) {
+                activeArea = null;
+                hideTooltip();
+            }
+        });
+
+        function showTooltip(element) {
+            tooltip.textContent = element.getAttribute('data-tooltip');
+            tooltip.classList.add('visible');
+        }
+
+        function positionTooltip(x, y) {
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('visible');
+            tooltip.classList.remove('mobile-active');
+        }
+
+        function resizeMap() {
+            const img = document.getElementById('map-image');
+            if (!img || img.clientWidth === 0) return;
+
+            const map = document.getElementsByName('antifaz-links')[0];
+            const mapAreas = map.getElementsByTagName('area');
+            const originalWidth = 600; 
+            const currentWidth = img.clientWidth;
+            const scale = currentWidth / originalWidth;
+
+            const originalCoords = [
+                [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
+                [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
+                [265,735,335,795], [300,870,35]   
+            ];
+
+            for (let i = 0; i < mapAreas.length; i++) {
+                const shape = mapAreas[i].getAttribute('shape');
+                let scaled = originalCoords[i].map(coord => Math.round(coord * scale));
+                const verticalOffset = Math.round(15 * scale);
+                
+                if (shape === 'circle') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                } else if (shape === 'rect') {
+                    scaled[1] = scaled[1] + verticalOffset;
+                    scaled[3] = scaled[3] + verticalOffset;
+                }
+                mapAreas[i].coords = scaled.join(',');
+            }
+        }
+
+        window.addEventListener('resize', resizeMap);
+        document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA' && e.target !== tooltip) hideTooltip(); }; 
+        document.getElementById('map-image').addEventListener('load', resizeMap);
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(resizeMap, 300);
+            
+            const homePage = document.getElementById('home-page');
+            const storePage = document.getElementById('store-page');
+            const infoPage = document.getElementById('info-page');
+            homePage.style.display = 'flex';
+            storePage.style.display = 'none';
+            infoPage.style.display = 'none';
+            window.scrollTo(0, 0);
+        });
+    </script>
+
+</body>
+</html>
