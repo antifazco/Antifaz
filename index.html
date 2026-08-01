@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ ▲▼▲</title>
+<title>ANTIFAZ (▲▼▲)</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -750,6 +750,34 @@
                     </div>
                 </div>
 
+                <div class="product-card" data-id="cd" data-name="CD Qué dolor!" data-price="35000">
+                    <div class="product-details-col">
+                        <h2 class="product-name">CD Qué dolor!</h2>
+                        <div class="product-price">$35.000 COP</div>
+                        <div class="product-options">
+                            <div class="option-row">
+                                <span class="option-label">Formato: Digipack / CD Audio</span>
+                            </div>
+                            <div class="option-row">
+                                <span class="option-label">Cantidad:</span>
+                                <select class="store-select qty-selector" onchange="updateCartSummary()">
+                                    <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-media-col">
+                        <div class="carousel-wrapper">
+                            <button class="carousel-btn prev" onclick="moveSlide(this, -1, event)">◀</button>
+                            <div class="carousel-slides" onclick="handleCardImageClick(this)">
+                                <div class="carousel-slide active"><img src="cd1.jpg" alt="CD view 1"></div>
+                                <div class="carousel-slide"><img src="cd2.jpg" alt="CD view 2"></div>
+                            </div>
+                            <button class="carousel-btn next" onclick="moveSlide(this, 1, event)">▶</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="product-card" data-id="cassette" data-name="Cassette Qué dolor!" data-price="45000">
                     <div class="product-details-col">
                         <h2 class="product-name">Cassette Qué dolor!</h2>
@@ -930,7 +958,7 @@
             <img id="qr-modal-image" src="" alt="Scan QR to Pay" style="width: 220px; height: 220px; border: 2px solid #fff; border-radius: 8px; background: #fff; object-fit: contain;">
             
             <div id="colombia-wompi-container" style="display: none; margin: 0; width: 100%; text-align: center;">
-                <a href="https://checkout.wompi.co/l/x3lXBn" target="_blank" class="wompi-checkout-link-btn">
+                <a href="https://checkout.wompi.co/l/ldMc1J" target="_blank" class="wompi-checkout-link-btn">
                     💳 Pagar con Wompi (PSE / Nequi)
                 </a>
             </div>
