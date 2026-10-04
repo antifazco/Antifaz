@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> ANTIFAZ </title>
+<title>- ANTIFAZ -</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -126,8 +126,8 @@
         display: block; 
     }
 
-    /* STORE FRONT ARCHITECTURE */
-    #store-page, #info-page {
+    /* STORE FRONT & SHOWS ARCHITECTURE */
+    #store-page, #shows-page, #info-page {
         background-image: url('storebkgr.jpg');
         background-size: 100% auto; 
         background-position: center top;    
@@ -143,7 +143,7 @@
         background-image: none; 
     }
 
-    .store-container, .info-container {
+    .store-container, .shows-container, .info-container {
         max-width: 950px; 
         width: 62vw; 
         min-width: 500px; 
@@ -333,7 +333,7 @@
         aspect-ratio: 4 / 3;
         position: relative;
         background-color: #000;
-        border: none; /* Removed white border from pop-up modal */
+        border: none;
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0px 0px 25px rgba(255, 0, 0, 0.4);
@@ -506,16 +506,16 @@
 
     /* RESPONSIVE RENDERING MATRIX FOR MOBILE INTERFACES */
     @media (max-width: 767px) {
-        #store-page, #info-page {
+        #store-page, #shows-page, #info-page {
             background-size: 100% auto; 
         }
 
-        .store-container, .info-container {
+        .store-container, .shows-container, .info-container {
             width: 92% !important;
             min-width: 0 !important;
         }
         
-        .store-container {
+        .store-container, .shows-container {
             padding-top: 31vw; 
             padding-bottom: 40px;
         }
@@ -691,7 +691,7 @@
 
                 <area shape="circle" coords="300,870,35" href="http://www.skacolombia.com/public/antifaz" alt="Anti Radio" data-tooltip="📻 ANTIFAZ RADIO ➔" target="_blank">
 
-                <area shape="circle" coords="445,835,50" href="https://www.domebi.com/events/punkinaldo-2026" alt="Tour" data-tooltip="🎟️ Boletas / Tour ➔" target="_blank">
+                <area shape="circle" coords="445,835,50" href="#shows" alt="Tour" data-tooltip="🎟️ Boletas / Tour ➔">
             </map>
 
             <div id="tooltip" class="custom-tooltip"></div>
@@ -711,6 +711,94 @@
                     ✉️ CONTACTAR POR EMAIL
                 </a>
                 <button class="back-btn" onclick="navigateTo('home')">← VOLVER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NUEVA SECCIÓN DE SHOWS -->
+    <div id="shows-page" class="page-view">
+        <div class="shows-container">
+            <div class="products-grid">
+                
+                <!-- Show 1 -->
+                <div class="product-card">
+                    <div class="product-details-col" style="flex: 2; align-items: center; text-align: center;">
+                        <h2 class="product-name" style="font-size: 1.4rem; margin-bottom: 20px;">Show 1</h2>
+                        <button class="back-btn" style="background-color: #ff0000; color: #000; border-color: #fff; font-size: 0.85rem;" onclick="window.open('https://www.domebi.com/events/punkinaldo-2026', '_blank')">🎟️ Comprar Boletas</button>
+                    </div>
+                    <div class="product-media-col" style="width: 100%; max-width: 100%;">
+                        <div class="carousel-wrapper" style="aspect-ratio: 16 / 9;">
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><img src="1banner.jpg" alt="Show 1 Flyer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Show 2 -->
+                <div class="product-card">
+                    <div class="product-details-col" style="flex: 2; align-items: center; text-align: center;">
+                        <h2 class="product-name" style="font-size: 1.4rem; margin-bottom: 20px;">Show 2</h2>
+                        <button class="back-btn" style="background-color: #ff0000; color: #000; border-color: #fff; font-size: 0.85rem;" onclick="window.open('https://www.domebi.com/events/punkinaldo-2026', '_blank')">🎟️ Comprar Boletas</button>
+                    </div>
+                    <div class="product-media-col" style="width: 100%; max-width: 100%;">
+                        <div class="carousel-wrapper" style="aspect-ratio: 16 / 9;">
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><img src="2banner.jpg" alt="Show 2 Flyer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Show 3 -->
+                <div class="product-card">
+                    <div class="product-details-col" style="flex: 2; align-items: center; text-align: center;">
+                        <h2 class="product-name" style="font-size: 1.4rem; margin-bottom: 20px;">Show 3</h2>
+                        <button class="back-btn" style="background-color: #ff0000; color: #000; border-color: #fff; font-size: 0.85rem;" onclick="window.open('https://www.domebi.com/events/punkinaldo-2026', '_blank')">🎟️ Comprar Boletas</button>
+                    </div>
+                    <div class="product-media-col" style="width: 100%; max-width: 100%;">
+                        <div class="carousel-wrapper" style="aspect-ratio: 16 / 9;">
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><img src="3banner.jpg" alt="Show 3 Flyer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Show 4 -->
+                <div class="product-card">
+                    <div class="product-details-col" style="flex: 2; align-items: center; text-align: center;">
+                        <h2 class="product-name" style="font-size: 1.4rem; margin-bottom: 20px;">Show 4</h2>
+                        <button class="back-btn" style="background-color: #ff0000; color: #000; border-color: #fff; font-size: 0.85rem;" onclick="window.open('https://www.domebi.com/events/punkinaldo-2026', '_blank')">🎟️ Comprar Boletas</button>
+                    </div>
+                    <div class="product-media-col" style="width: 100%; max-width: 100%;">
+                        <div class="carousel-wrapper" style="aspect-ratio: 16 / 9;">
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><img src="4banner.jpg" alt="Show 4 Flyer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Show 5 -->
+                <div class="product-card">
+                    <div class="product-details-col" style="flex: 2; align-items: center; text-align: center;">
+                        <h2 class="product-name" style="font-size: 1.4rem; margin-bottom: 20px;">Show 5</h2>
+                        <button class="back-btn" style="background-color: #ff0000; color: #000; border-color: #fff; font-size: 0.85rem;" onclick="window.open('https://www.domebi.com/events/punkinaldo-2026', '_blank')">🎟️ Comprar Boletas</button>
+                    </div>
+                    <div class="product-media-col" style="width: 100%; max-width: 100%;">
+                        <div class="carousel-wrapper" style="aspect-ratio: 16 / 9;">
+                            <div class="carousel-slides">
+                                <div class="carousel-slide active"><img src="5banner.jpg" alt="Show 5 Flyer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: center; width: 100%;">
+                <button class="back-btn" onclick="navigateTo('home')">← Volver</button>
             </div>
         </div>
     </div>
@@ -1012,7 +1100,7 @@
 
         // REALTIME SHOPPING CART CALCULATION LOGIC ENGINE
         function updateCartSummary() {
-            const productCards = document.querySelectorAll('.product-card');
+            const productCards = document.querySelectorAll('#store-page .product-card');
             const itemsContainer = document.getElementById('cart-items-container');
             const totalDisplay = document.getElementById('cart-total-price-display');
             
@@ -1047,7 +1135,7 @@
 
         // DYNAMIC QR INTERACTION CHECKOUT ENGINE
         function launchQRCheckout(imageFileName, contextualTitle, targetCurrency) {
-            const productCards = document.querySelectorAll('.product-card');
+            const productCards = document.querySelectorAll('#store-page .product-card');
             const modalOverlay = document.getElementById('checkout-qr-modal');
             const modalTitle = document.getElementById('qr-modal-title');
             const modalImage = document.getElementById('qr-modal-image');
@@ -1131,11 +1219,9 @@
                 modalConvertedDisplay.textContent = `€${convertedEUR} EUR`;
                 modalConvertedDisplay.style.display = 'flex';
                 
-                // Ocultar QR y formulario de PayPal para Europa
                 modalImage.style.display = 'none';
                 paypalFormContainer.style.display = 'none';
                 
-                // Mostrar contenedor de email y fila para copiar resumen
                 euroEmailContainer.style.display = 'block';
                 colombiaWompiContainer.style.display = 'none';
                 colombiaCopyRow.style.display = 'flex';
@@ -1283,35 +1369,35 @@
         function navigateTo(pageId) {
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
+            const showsPage = document.getElementById('shows-page');
             const infoPage = document.getElementById('info-page');
             
             activeArea = null;
             hideTooltip();
 
+            // Ocultar todas las páginas
+            homePage.style.display = 'none';
+            homePage.classList.remove('active');
+            storePage.style.display = 'none';
+            storePage.classList.remove('active');
+            showsPage.style.display = 'none';
+            showsPage.classList.remove('active');
+            infoPage.style.display = 'none';
+            infoPage.classList.remove('active');
+
             if (pageId === 'store') {
-                homePage.style.display = 'none';
-                homePage.classList.remove('active');
-                infoPage.style.display = 'none';
-                infoPage.classList.remove('active');
-                
                 storePage.style.display = 'flex';
                 storePage.classList.add('active');
                 window.scrollTo(0, 0);
+            } else if (pageId === 'shows') {
+                showsPage.style.display = 'flex';
+                showsPage.classList.add('active');
+                window.scrollTo(0, 0);
             } else if (pageId === 'info') {
-                homePage.style.display = 'none';
-                homePage.classList.remove('active');
-                storePage.style.display = 'none';
-                storePage.classList.remove('active');
-                
                 infoPage.style.display = 'flex';
                 infoPage.classList.add('active');
                 window.scrollTo(0, 0);
             } else {
-                storePage.style.display = 'none';
-                storePage.classList.remove('active');
-                infoPage.style.display = 'none';
-                infoPage.classList.remove('active');
-                
                 homePage.style.display = 'flex';
                 homePage.classList.add('active');
                 window.scrollTo(0, 0); 
@@ -1342,6 +1428,7 @@
             area.addEventListener('click', (e) => {
                 const destinationAttr = area.getAttribute('href');
                 const isStoreAction = (destinationAttr === '#store');
+                const isShowsAction = (destinationAttr === '#shows');
                 const isInfoAction = (destinationAttr === '#info');
                 
                 if (window.matchMedia("(pointer: coarse)").matches) {
@@ -1366,13 +1453,18 @@
                     } else if (isStoreAction) {
                         e.preventDefault();
                         navigateTo('store');
+                    } else if (isShowsAction) {
+                        e.preventDefault();
+                        navigateTo('shows');
                     } else if (isInfoAction) {
                         e.preventDefault();
                         navigateTo('info');
                     }
-                } else if (!window.matchMedia("(pointer: coarse)").matches && (isStoreAction || isInfoAction)) {
+                } else if (!window.matchMedia("(pointer: coarse)").matches && (isStoreAction || isShowsAction || isInfoAction)) {
                     e.preventDefault();
-                    navigateTo(isStoreAction ? 'store' : 'info');
+                    if (isStoreAction) navigateTo('store');
+                    else if (isShowsAction) navigateTo('shows');
+                    else if (isInfoAction) navigateTo('info');
                 }
             });
         });
@@ -1383,6 +1475,9 @@
                 if (destination === '#store') {
                     e.preventDefault();
                     navigateTo('store');
+                } else if (destination === '#shows') {
+                    e.preventDefault();
+                    navigateTo('shows');
                 } else if (destination === '#info') {
                     e.preventDefault();
                     navigateTo('info');
@@ -1428,7 +1523,7 @@
             const originalCoords = [
                 [300,147,100], [120,332,48], [242,332,48], [364,332,48], [486,332,48],  
                 [133,510,58], [300,510,58], [467,510,58], [216,634,58], [384,634,58],  
-                [265,735,335,795], [300,870,35], [445,835,50]   
+                [265,735,335,795], [300,870,35], [445,835,50]    
             ];
 
             for (let i = 0; i < mapAreas.length; i++) {
@@ -1454,9 +1549,11 @@
             
             const homePage = document.getElementById('home-page');
             const storePage = document.getElementById('store-page');
+            const showsPage = document.getElementById('shows-page');
             const infoPage = document.getElementById('info-page');
             homePage.style.display = 'flex';
             storePage.style.display = 'none';
+            showsPage.style.display = 'none';
             infoPage.style.display = 'none';
             window.scrollTo(0, 0);
         });
