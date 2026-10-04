@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> -ANTIFAZ- </title>
+<title> ANTIFAZ </title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -128,7 +128,6 @@
 
     /* STORE FRONT & SHOWS ARCHITECTURE */
     #store-page, #shows-page, #info-page {
-        background-image: url('storebkgr.jpg');
         background-size: 100% auto; 
         background-position: center top;    
         background-repeat: no-repeat;
@@ -137,6 +136,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    #store-page {
+        background-image: url('storebkgr.jpg');
+    }
+
+    #shows-page {
+        background-image: url('tourbkgr.jpg');
     }
 
     #info-page {
@@ -717,7 +724,7 @@
         </div>
     </div>
 
-    <!-- SHOWS SECTION (Shows Modal without arrows) -->
+    <!-- SHOWS SECTION (tourbkgr.jpg background) -->
     <div id="shows-page" class="page-view">
         <div class="shows-container">
             <div class="products-grid">
@@ -1329,7 +1336,7 @@
         /* SHOWS MODAL CONTROLLERS (NO ARROWS) */
         function openShowModal(imageSrc) {
             if (window.matchMedia("(max-width: 767px)").matches) {
-                return; // Disable on mobile if desired, or let it open
+                return;
             }
             const modalImg = document.getElementById('shows-modal-img');
             const modalOverlay = document.getElementById('global-shows-modal');
