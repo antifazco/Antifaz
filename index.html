@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ANTIFAZ</title>
+<title>-ANTIFAZ-</title>
 <link type="image/png" sizes="512x512" rel="icon" href="favicon.png">
 <style>
     /* Sleek Custom Scrollbar */
@@ -83,7 +83,7 @@
     .custom-tooltip {
         position: absolute;
         background-color: #000;      
-        color: #ff0000;             
+        color: #ff0000;                 
         border: 2px solid #fff;     
         border-radius: 12px;        
         padding: 8px 16px;
@@ -815,7 +815,7 @@
     </div>
 </div>
 
-                  <!-- Show 5 -->
+                <!-- Show 5 -->
 <div class="product-card">
     <div class="product-details-col">
         <h2 class="product-name">PUNKINALDO</h2>
@@ -1610,17 +1610,18 @@
         window.addEventListener('resize', resizeMap);
         document.body.onmouseover = function(e){ if(e.target.tagName !== 'AREA' && e.target !== tooltip) hideTooltip(); }; 
         document.getElementById('map-image').addEventListener('load', resizeMap);
+        
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(resizeMap, 300);
             
-            const homePage = document.getElementById('home-page');
-            const storePage = document.getElementById('store-page');
-            const showsPage = document.getElementById('shows-page');
-            const infoPage = document.getElementById('info-page');
-            homePage.style.display = 'flex';
-            storePage.style.display = 'none';
-            showsPage.style.display = 'none';
-            infoPage.style.display = 'none';
+            const hash = window.location.hash.replace('#', '');
+            
+            if (hash === 'store' || hash === 'shows' || hash === 'info') {
+                navigateTo(hash);
+            } else {
+                navigateTo('home');
+            }
+            
             window.scrollTo(0, 0);
         });
     </script>
